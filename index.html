@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="个人学术主页视觉预览，个人资料待补充。">
+  <title>个人学术主页 · 视觉预览</title>
+  <style>
+    :root { color-scheme: light; --paper: #f8f7f3; --ink: #262e2a; --muted: #69736b; --green: #315b48; --line: #dddfd6; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Microsoft YaHei", "PingFang SC", sans-serif; -webkit-font-smoothing: antialiased; }
+    .page { width: min(1120px, calc(100% - 112px)); margin: 0 auto; }
+    header { min-height: 126px; display: flex; align-items: center; justify-content: space-between; gap: 36px; border-bottom: 1px solid var(--line); }
+    .wordmark { font: 500 30px/1.2 Georgia, "Times New Roman", serif; letter-spacing: -.7px; white-space: nowrap; }
+    nav { display: flex; align-items: center; justify-content: flex-end; gap: 31px; }
+    .nav-item { padding: 12px 0; color: #606960; font-size: 14px; white-space: nowrap; position: relative; cursor: default; outline-offset: 5px; }
+    .nav-item::after { position: absolute; content: "待更新"; bottom: -24px; left: 50%; transform: translateX(-50%); padding: 5px 9px; background: #e8ece4; border: 1px solid #d6dfd2; border-radius: 3px; font-size: 11px; opacity: 0; pointer-events: none; }
+    .nav-item:hover::after, .nav-item:focus-visible::after { opacity: 1; }
+    main { display: grid; grid-template-columns: 264px minmax(0, 1fr); column-gap: 112px; padding: 66px 0 64px; }
+    .portrait { width: 248px; height: 278px; background: #e9ece4; border: 1px solid #dfe4d9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; color: #6b7968; }
+    .portrait svg { width: 78px; height: 78px; stroke: #91a08b; fill: none; stroke-width: 1; }
+    .portrait span { font-size: 12px; letter-spacing: 2px; }
+    h1 { margin: 25px 0 9px; font-size: 26px; font-weight: 600; letter-spacing: 1px; }
+    .degree { margin: 0 0 7px; color: #404e43; font-size: 14px; }
+    .affiliation { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.9; }
+    .contacts { list-style: none; padding: 22px 0 0; margin: 23px 0 0; border-top: 1px solid var(--line); display: grid; gap: 12px; }
+    .contacts li { display: grid; grid-template-columns: 82px 1fr; align-items: baseline; gap: 8px; font-size: 12px; line-height: 1.5; }
+    .contact-label { color: #455748; }
+    .contact-value { color: #7e857c; }
+    .introduction { padding-top: 18px; }
+    .eyebrow { margin: 0 0 18px; color: var(--green); font: 12px/1.5 Georgia, "Times New Roman", serif; letter-spacing: 3px; }
+    h2 { margin: 0; font-size: 35px; line-height: 1.5; font-weight: 500; letter-spacing: 3px; }
+    .accent { width: 35px; height: 3px; background: var(--green); margin: 23px 0 33px; }
+    .intro-copy { max-width: 570px; color: #576158; font-size: 16px; line-height: 2.1; }
+    .intro-copy p { margin: 0 0 20px; }
+    .intro-copy .placeholder-note { color: #858b80; font-size: 14px; }
+    .cv-area { margin-top: 37px; }
+    .cv-button { display: inline-flex; align-items: center; gap: 19px; border: 1px solid #b9c6b8; border-radius: 3px; padding: 13px 20px; color: #5c705c; background: #edf0e7; font-family: inherit; font-size: 13px; cursor: not-allowed; }
+    .cv-button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+    .cv-note { margin: 11px 0 0; font-size: 11px; color: #858b80; }
+    @media (max-width: 1000px) { .page { width: calc(100% - 64px); } main { column-gap: 60px; } nav { gap: 22px; } }
+    @media (max-width: 760px) { .page { width: calc(100% - 36px); } header { align-items: flex-start; flex-wrap: wrap; padding: 28px 0 22px; gap: 18px; } nav { width: 100%; justify-content: flex-end; gap: 18px; flex-wrap: wrap; } .nav-item { font-size: 12px; } main { grid-template-columns: 1fr; gap: 48px; padding-top: 38px; } .profile { max-width: 300px; } .introduction { padding-top: 0; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="wordmark" aria-label="英文名待提供">Your Name</div>
+      <nav aria-label="主导航">
+        <span class="nav-item" role="link" aria-disabled="true" aria-label="研究方向，待更新" tabindex="0">研究方向</span>
+        <span class="nav-item" role="link" aria-disabled="true" aria-label="课程作业，待更新" tabindex="0">课程作业</span>
+        <span class="nav-item" role="link" aria-disabled="true" aria-label="爱好，待更新" tabindex="0">爱好</span>
+        <span class="nav-item" role="link" aria-disabled="true" aria-label="活动，待更新" tabindex="0">活动</span>
+        <span class="nav-item" role="link" aria-disabled="true" aria-label="获奖，待更新" tabindex="0">获奖</span>
+      </nav>
+    </header>
+    <main>
+      <aside class="profile" aria-label="个人信息">
+        <div class="portrait" role="img" aria-label="个人照片待提供">
+          <svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="26" r="13"/><path d="M14 69c0-16 11-26 26-26s26 10 26 26"/></svg>
+          <span>个人照片待提供</span>
+        </div>
+        <h1>你的姓名</h1>
+        <p class="degree">目前学历 / 在读阶段</p>
+        <p class="affiliation">学校名称 · 院系名称<br>专业名称</p>
+        <ul class="contacts" aria-label="联系方式，实际资料待补充">
+          <li><span class="contact-label">电话</span><span class="contact-value">待提供</span></li>
+          <li><span class="contact-label">邮箱</span><span class="contact-value">待提供</span></li>
+          <li><span class="contact-label">微信</span><span class="contact-value">待提供</span></li>
+          <li><span class="contact-label">Instagram</span><span class="contact-value">主页待提供</span></li>
+          <li><span class="contact-label">小红书</span><span class="contact-value">主页待提供</span></li>
+          <li><span class="contact-label">B 站</span><span class="contact-value">主页待提供</span></li>
+        </ul>
+      </aside>
+      <section class="introduction" aria-labelledby="about-title">
+        <p class="eyebrow" lang="en">ABOUT ME</p>
+        <h2 id="about-title">关于我</h2>
+        <div class="accent" aria-hidden="true"></div>
+        <div class="intro-copy">
+          <p>这里将展示你的简短自我介绍。</p>
+          <p>你可以介绍自己的学术背景、感兴趣的研究问题，以及希望与访问者分享的个人经历。</p>
+          <p class="placeholder-note">以上为版式占位内容，待补充你的正式介绍。</p>
+        </div>
+        <div class="cv-area">
+          <button class="cv-button" type="button" disabled aria-label="简历待上传，暂不可下载">下载简历<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2v10m-4-4 4 4 4-4M3 13v4h14v-4"/></svg></button>
+          <p class="cv-note">简历待上传 · PDF</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
