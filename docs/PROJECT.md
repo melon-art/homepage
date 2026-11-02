@@ -1,6 +1,6 @@
 # 项目总览
 
-核对日期：2026-11-02（Asia/Shanghai）。文档整理基线：`ab371b8`；本次 EDIT-001 在 `b762b6f` 之后新增姓名／学历的本机编辑能力。
+核对日期：2026-11-02（Asia/Shanghai）。文档整理基线：`ab371b8`；EDIT-001 建立本机编辑；EDIT-002 在 `f906b20` 后扩展主页除 News 外的所有待填字段。
 
 ## 定位与当前阶段
 
@@ -14,9 +14,9 @@
 | --- | --- |
 | 页面 | `index.html` 首页、`settings.html` 设置页，原生 HTML |
 | 样式 | 同文件内嵌 CSS、自定义属性、Grid／Flex 和媒体查询 |
-| 交互 | 首页保留原内联交互；共享 `profile.js` 管理姓名／学历读取、保存和同步 |
+| 交互 | 首页保留原内联交互；共享 `profile.js` 管理资料、联系信息及本地附件的读取、保存和同步 |
 | 图标、字体 | 内联描边 SVG、本地字体栈，无图标包或网络字体依赖 |
-| 数据 | 介绍／News 模板写在 HTML；六个联系方式在 `CONTACTS`；姓名／学历覆盖值存于浏览器 localStorage |
+| 数据 | 默认模板在 HTML；News 保持静态；资料与附件覆盖值存于 localStorage，联系方式加载至原六键 `CONTACTS` |
 | 构建和依赖 | 无 `package.json`、框架、构建步骤或应用依赖清单；目前不是 Astro／React 项目 |
 | 服务端 | 无 API、后台、数据库或登录；只有当前浏览器本地持久化，不能写入仓库或全站发布 |
 | 版本管理 | Git，分支 `main`，已配置 GitHub 远程 `melon-art/homepage` |
@@ -36,7 +36,7 @@ python -m http.server 8765 --bind 127.0.0.1
 academic-homepage/
 ├── index.html                  首页与既有联系交互
 ├── settings.html               基本信息设置页
-├── profile.js                  姓名／学历的本地保存、读取和同步
+├── profile.js                  全资料、联系信息和本地附件的保存与同步
 ├── README.md                   项目和文档入口、预览方法
 ├── AGENTS.md                   开发者／AI 工作约定
 ├── PRODUCT.md                  Impeccable 产品上下文兼容摘要
@@ -63,14 +63,14 @@ academic-homepage/
 
 | 分区／选择器 | 当前内容与行为 |
 | --- | --- |
-| `header`、`.wordmark` | 英文名占位；点击跳至 About 标题 |
+| `header`、`.wordmark` | 英文名可编辑，默认占位；点击跳至 About 标题 |
 | `.nav-current` | About 当前页锚点 |
 | `.settings-link` | 主页右上角“设置”，跳转设置页 |
-| `#profile-form` | 设置页姓名／学历输入框、保存及返回主页 |
+| `#profile-form` | 个人资料、研究与介绍、联系方式、简历四组；保存后返回主页 |
 | `.nav-item` | 五个待开发栏目的按钮，只显示“栏目待更新”，不执行页面跳转 |
-| `.profile`、`.portrait` | 姓名、学历、院系、照片占位；没有真实图片文件 |
+| `.profile`、`.portrait` | 资料文字和照片占位；可显示本机保存的图片，仓库没有真实照片 |
 | `.contacts` | 六个横排图标；名称提示、点击复制及空数据反馈 |
-| `.cv-area`、`.cv-button` | 浅金底、金色字、与照片同宽；原生 `disabled`，没有下载目标 |
+| `.cv-area`、`.cv-button` | 浅金底、金色字、与照片同宽；无 PDF 时 `disabled`；有本机 PDF 时启用并下载该文件 |
 | `.about-block` | 三段自我介绍模板，包含研究兴趣占位文字 |
 | `.news`、`.news-list` | 一条日期、内容均待补充的卡片；无排序或数据加载代码 |
 | `.toast` | 普通复制反馈，礼貌播报，约 2.6 秒收起 |
@@ -80,7 +80,7 @@ academic-homepage/
 
 ## 数据与交互流
 
-`CONTACTS` 的键固定为 `phone`、`email`、`wechat`、`instagram`、`xiaohongshu`、`bilibili`，当前值全部为空字符串。社交图标目前**复制账号或链接，不打开平台页面**，也没有微信二维码功能。
+`CONTACTS` 的键固定为 `phone`、`email`、`wechat`、`instagram`、`xiaohongshu`、`bilibili`，源文件默认值全部为空字符串；本机保存值在页面加载后填入同名键。社交图标目前**复制账号或链接，不打开平台页面**，也没有微信二维码功能。
 
 ```text
 点击联系图标
@@ -91,13 +91,13 @@ academic-homepage/
   → 两种方式均失败：显示持续保留的手动复制面板
 ```
 
-`notify()` 管理普通提示；`copyText()` 管理复制；`closeRecovery()` 管理恢复面板关闭与焦点。名称提示由脚本创建，支持悬停／焦点显示和 Escape 关闭。没有业务网络请求或服务器表单提交。`profile.js` 拦截设置表单，在 localStorage 键 `academic-homepage.profile.v1` 保存 `{name, degree}`；保存成功后返回主页，更新左栏和 About 中对应文字。刷新／返回缓存页会重新读取，同源多个标签页通过 storage 事件同步。空值恢复占位；显示使用 textContent；存储失败保留输入并提示，不假报成功。
+`notify()` 管理普通提示；`copyText()` 管理复制；`closeRecovery()` 管理恢复面板关闭与焦点。名称提示由脚本创建，支持悬停／焦点显示和 Escape 关闭。没有业务网络请求或服务器表单提交。`profile.js` 拦截设置表单，在原 localStorage 键 `academic-homepage.profile.v1` 保存 16 个文字字段及 `photo`／`cv` 附件对象（`{name, data}`，data 为限定 MIME 的 data URL），读取旧 `{name, degree}` 时保留原值、缺失新字段按空值处理；保存成功后返回主页，更新英文名、左栏、About、联系信息和简历状态。照片支持 JPG／PNG／WebP≤1 MB，PDF≤2 MB；选择时验证文件大小、图片解码或 PDF 文件头。未保存草稿不影响主页。整份资料使用一次原子写入，配额失败不覆盖上次记录。刷新／返回缓存页会重新读取，同源多个标签页通过 storage 事件同步。空值恢复占位；显示使用 textContent；存储失败保留输入并提示，不假报成功。
 
-本机 `file://` 预览通过临时 URL 片段传递这两个公开资料字段，读取后移除片段，适配不同文件的存储隔离。推荐固定使用本地 HTTP 地址预览；不同浏览器、端口、设备或清除站点数据后不会共享修改。这不是管理后台，不会修改 HTML 文件、Git 仓库或所有访客看到的内容。英文名、学校、照片、介绍其余内容、联系方式与 News 暂不能在设置页编辑。
+本机 `file://` 预览通过临时 URL 片段传递文字字段，读取后移除片段；不传递图片或 PDF。文件模式禁止新增附件并提供 HTTP 预览入口，避免不同文件的存储隔离和超长 URL。推荐固定使用本地 HTTP 地址预览；不同浏览器、端口、设备或清除站点数据后不会共享修改。这不是管理后台，不会修改 HTML 文件、Git 仓库或所有访客看到的内容。News 不在本次编辑范围，仍是原静态占位卡片。下载通过浏览器 Blob URL 生成，文件名与内容来自用户选择的 PDF，没有上传接口。
 
 ## 已实现与缺失的边界
 
-已经实现的是**展示框架和基础交互**，并不是已填入真实资料的可发布成品。实际简历下载、五个内容页面、真实照片／介绍／联系方式／动态均未完成。News 的倒序是人工维护要求，代码没有自动排序功能。详细状态与测试范围见 [TASKS.md](TASKS.md)。
+已经实现的是**展示框架和基础交互**，并不是已填入真实资料的可发布成品。本地照片／简历选择和 PDF 下载机制已验证；真实公开简历、五个内容页面、真实照片／介绍／联系方式／动态仍未完成。News 的倒序是人工维护要求，代码没有自动排序功能。详细状态与测试范围见 [TASKS.md](TASKS.md)。
 
 ## 文档维护与信息优先级
 

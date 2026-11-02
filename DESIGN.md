@@ -11,6 +11,7 @@ colors:
   card: "#f8f9fa"
   line: "#e4e6e8"
   portrait-ground: "#40564a"
+  error: "#a13c30"
 typography:
   identity:
     fontFamily: 'Georgia, "Songti SC", SimSun, serif'

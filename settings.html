@@ -6,10 +6,12 @@
   <title>设置 · 个人学术主页</title>
   <script src="profile.js" defer></script>
   <style>
-    :root { color-scheme: light; --paper: #fff; --ink: #242b34; --body-ink: #414a54; --muted: #626b75; --gold: #866b35; --gold-soft: #f8f5ed; --line: #e4e6e8; --font-body: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif; --font-heading: Georgia, "Songti SC", SimSun, serif; --radius-control: 6px; --radius-input: 12px; }
+    :root { color-scheme: light; --paper: #fff; --ink: #242b34; --body-ink: #414a54; --muted: #626b75; --gold: #866b35; --gold-soft: #f8f5ed; --line: #e4e6e8; --error: #a13c30; --font-body: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif; --font-heading: Georgia, "Songti SC", SimSun, serif; --radius-control: 6px; --radius-input: 12px; }
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1rem/1.65 var(--font-body); -webkit-font-smoothing: antialiased; }
-    button, input { font: inherit; }
+    button, input, textarea { font: inherit; }
+    html { scrollbar-color: #c5c7cc var(--paper); scrollbar-width: thin; }
+    [hidden] { display: none !important; }
     ::selection { background: #eae2d2; color: var(--ink); }
     :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
     .settings-page { width: min(1480px, calc(100% - 96px)); margin-inline: auto; }
@@ -25,19 +27,35 @@
     h1 { margin: 0 0 13px; font: 700 2rem/1.3 var(--font-heading); text-wrap: balance; }
     .settings-note { margin: 0; color: var(--muted); font-size: .9375rem; }
     form { margin-top: 32px; }
-    .fields { display: grid; gap: 27px; max-width: 820px; }
+    .form-section { min-width: 0; margin: 0; padding: 0; border: 0; }
+    .form-section + .form-section { margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line); }
+    .form-section h2 { margin: 0 0 20px; font-size: 1.125rem; line-height: 1.5; font-weight: 600; }
+    .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 820px; }
+    .field { min-width: 0; }
+    .field-wide { grid-column: 1 / -1; }
     label { display: block; margin-bottom: 10px; font-weight: 600; color: var(--ink); }
-    input { display: block; width: 100%; min-height: 52px; padding: 12px 16px; border: 1px solid var(--line); border-radius: var(--radius-input); background: var(--paper); color: var(--ink); caret-color: var(--gold); }
-    input::placeholder { color: var(--muted); opacity: 1; }
-    input:hover { border-color: var(--muted); }
-    input:focus { border-color: var(--gold); outline: 2px solid var(--gold-soft); outline-offset: 2px; }
+    input, textarea { display: block; width: 100%; min-width: 0; min-height: 52px; padding: 12px 16px; border: 1px solid var(--line); border-radius: var(--radius-input); background: var(--paper); color: var(--ink); caret-color: var(--gold); }
+    textarea { min-height: 136px; resize: vertical; }
+    input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
+    input:hover, textarea:hover { border-color: var(--muted); }
+    input:focus, textarea:focus { border-color: var(--gold); outline: 2px solid var(--gold-soft); outline-offset: 2px; }
+    input[type="file"] { padding: 8px; font-size: .875rem; }
+    input::file-selector-button { margin-right: 12px; padding: 7px 12px; border: 0; border-radius: var(--radius-control); background: var(--gold-soft); color: var(--gold); font: inherit; cursor: pointer; }
+    .photo-editor { display: flex; align-items: flex-start; gap: 20px; }
+    .photo-preview { flex: none; width: 96px; height: 96px; border-radius: var(--radius-input); object-fit: cover; }
+    .asset-controls { flex: 1; min-width: 0; }
+    .asset-state { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; margin-top: 8px; }
+    .asset-name { min-width: 0; margin: 0; color: var(--muted); font-size: .8125rem; overflow-wrap: anywhere; }
+    .remove-button { min-height: 36px; padding: 4px 0; border: 0; background: transparent; color: var(--gold); font-size: .875rem; cursor: pointer; text-decoration: underline; text-underline-offset: .2em; }
+    .asset-error { margin: 8px 0 0; color: var(--error); font-size: .875rem; }
+    .save-button:disabled { opacity: .6; cursor: wait; }
     .field-help { margin: 9px 0 0; color: var(--muted); font-size: .8125rem; }
     .form-actions { display: flex; align-items: center; justify-content: flex-end; gap: 18px; margin-top: 42px; padding-top: 22px; border-top: 1px solid var(--line); }
     .form-status { margin: 0 auto 0 0; min-width: 0; color: var(--gold); font-size: .9375rem; overflow-wrap: anywhere; }
     .save-button { flex: none; min-height: 44px; min-width: 112px; padding: 10px 25px; border: 0; border-radius: var(--radius-control); background: var(--gold-soft); color: var(--gold); cursor: pointer; font-weight: 600; }
     .save-button:hover { box-shadow: inset 0 0 0 1px var(--gold); }
     @media (max-width: 1100px) { .settings-page { width: calc(100% - 56px); } .settings-layout { grid-template-columns: 29% minmax(0, 1fr); gap: 36px; } }
-    @media (max-width: 820px) { .settings-page { width: calc(100% - 40px); } .settings-layout { grid-template-columns: 160px minmax(0, 1fr); gap: 28px; } .settings-sidebar { padding: 0; } }
+    @media (max-width: 820px) { .settings-page { width: calc(100% - 40px); } .settings-layout { grid-template-columns: 160px minmax(0, 1fr); gap: 28px; } .settings-sidebar { padding: 0; } .fields { grid-template-columns: 1fr; } }
     @media (max-width: 620px) { .settings-page { width: calc(100% - 36px); } .settings-header { min-height: 80px; } .settings-layout { grid-template-columns: 1fr; gap: 30px; padding-top: 12px; } .settings-nav { flex-direction: row; } .settings-nav a { padding: 9px 18px; } h1 { font-size: 1.875rem; } form { margin-top: 27px; } .form-actions { margin-top: 32px; align-items: flex-start; } }
   </style>
 </head>
@@ -52,8 +70,10 @@
       </aside>
       <section class="settings-main" id="basic-info" aria-labelledby="settings-title">
         <h1 id="settings-title">基本信息</h1>
-        <p class="settings-note" id="storage-note">保存后返回主页。修改保存在当前浏览器，仅用于本机预览。</p>
+        <p class="settings-note" id="storage-note">保存后返回主页。修改保存在当前浏览器，仅用于本机预览；文字留空恢复占位。</p>
         <form id="profile-form" aria-describedby="storage-note">
+          <section class="form-section" aria-labelledby="identity-title">
+          <h2 id="identity-title">个人资料</h2>
           <div class="fields">
             <div class="field">
               <label for="profile-name">姓名</label>
@@ -61,11 +81,71 @@
               <p class="field-help" id="name-help">同步更新主页姓名和自我介绍中的姓名；留空恢复占位文字。</p>
             </div>
             <div class="field">
+              <label for="profile-english-name">英文名</label>
+              <input id="profile-english-name" name="englishName" type="text" placeholder="显示在页面左上角" maxlength="80" autocomplete="off">
+            </div>
+            <div class="field">
               <label for="profile-degree">学历</label>
               <input id="profile-degree" name="degree" type="text" placeholder="例如：硕士研究生" maxlength="120" autocomplete="off" aria-describedby="degree-help">
               <p class="field-help" id="degree-help">填写学历或在读阶段；留空恢复占位文字。</p>
             </div>
+            <div class="field">
+              <label for="profile-school">学校</label>
+              <input id="profile-school" name="school" type="text" placeholder="请输入学校名称" maxlength="120" autocomplete="organization">
+            </div>
+            <div class="field">
+              <label for="profile-department">院系</label>
+              <input id="profile-department" name="department" type="text" placeholder="请输入院系名称" maxlength="120" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="profile-major">专业</label>
+              <input id="profile-major" name="major" type="text" placeholder="请输入专业名称" maxlength="120" autocomplete="off">
+            </div>
+            <div class="field field-wide">
+              <label for="profile-photo">个人照片</label>
+              <div class="photo-editor">
+                <img class="photo-preview" data-photo-preview alt="已选择的个人照片预览" hidden>
+                <div class="asset-controls">
+                  <input id="profile-photo" name="photoFile" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="photo-help photo-error">
+                  <p class="field-help" id="photo-help">JPG、PNG 或 WebP，不超过 1 MB；主页按正方形居中裁切。</p>
+                  <div class="asset-state"><p class="asset-name" data-asset-name="photo">尚未选择照片</p><button class="remove-button" data-remove-asset="photo" type="button" hidden>移除照片</button></div>
+                  <p class="asset-error" id="photo-error" role="status"></p>
+                </div>
+              </div>
+            </div>
           </div>
+          </section>
+          <section class="form-section" aria-labelledby="about-editor-title">
+            <h2 id="about-editor-title">研究与介绍</h2>
+            <div class="fields">
+              <div class="field"><label for="profile-research-one">研究方向一</label><input id="profile-research-one" name="researchOne" type="text" placeholder="请输入研究方向" maxlength="160"></div>
+              <div class="field"><label for="profile-research-two">研究方向二</label><input id="profile-research-two" name="researchTwo" type="text" placeholder="请输入另一研究方向" maxlength="160"></div>
+              <div class="field field-wide"><label for="profile-research-question">近期关注的问题</label><input id="profile-research-question" name="researchQuestion" type="text" placeholder="请输入具体研究问题" maxlength="300"></div>
+              <div class="field field-wide"><label for="profile-introduction">补充自我介绍</label><textarea id="profile-introduction" name="introduction" placeholder="介绍你的研究记录、学习经历或个人兴趣" maxlength="3000" aria-describedby="introduction-help"></textarea><p class="field-help" id="introduction-help">显示在 About 最后一段；前两段按上方资料自动更新，支持换行。</p></div>
+            </div>
+          </section>
+          <section class="form-section" aria-labelledby="contacts-title">
+            <h2 id="contacts-title">联系方式</h2>
+            <div class="fields">
+              <div class="field"><label for="profile-phone">电话</label><input id="profile-phone" name="phone" type="tel" placeholder="电话号码" maxlength="80" autocomplete="tel"></div>
+              <div class="field"><label for="profile-email">邮箱</label><input id="profile-email" name="email" type="email" placeholder="name@example.com" maxlength="254" autocomplete="email"></div>
+              <div class="field"><label for="profile-wechat">微信</label><input id="profile-wechat" name="wechat" type="text" placeholder="微信号" maxlength="300" autocomplete="off"></div>
+              <div class="field"><label for="profile-instagram">Instagram</label><input id="profile-instagram" name="instagram" type="text" placeholder="账号或完整主页链接" maxlength="500" autocomplete="off"></div>
+              <div class="field"><label for="profile-xiaohongshu">小红书</label><input id="profile-xiaohongshu" name="xiaohongshu" type="text" placeholder="账号或完整主页链接" maxlength="500" autocomplete="off"></div>
+              <div class="field"><label for="profile-bilibili">B 站</label><input id="profile-bilibili" name="bilibili" type="text" placeholder="账号或完整主页链接" maxlength="500" autocomplete="off"></div>
+            </div>
+            <p class="field-help">保存后，点击主页对应图标即可复制；留空时提示资料待提供。</p>
+          </section>
+          <section class="form-section" aria-labelledby="cv-title">
+            <h2 id="cv-title">简历</h2>
+            <div class="fields"><div class="field field-wide">
+              <label for="profile-cv">简历文件</label>
+              <input id="profile-cv" name="cvFile" type="file" accept="application/pdf,.pdf" aria-describedby="cv-help cv-error">
+              <p class="field-help" id="cv-help">PDF，不超过 2 MB。保存后启用主页“下载简历”按钮。</p>
+              <div class="asset-state"><p class="asset-name" data-asset-name="cv">尚未选择简历</p><button class="remove-button" data-remove-asset="cv" type="button" hidden>移除简历</button></div>
+              <p class="asset-error" id="cv-error" role="status"></p>
+            </div></div>
+          </section>
           <div class="form-actions">
             <p class="form-status" role="status" aria-live="polite" aria-atomic="true"></p>
             <button class="save-button" type="submit">保存</button>
