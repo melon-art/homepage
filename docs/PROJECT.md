@@ -1,6 +1,6 @@
 # 项目总览
 
-核对日期：2026-11-02（Asia/Shanghai）。文档整理基线：`ab371b8`；EDIT-001 建立本机编辑；EDIT-002 在 `f906b20` 后扩展主页除 News 外的所有待填字段。
+核对日期：2026-11-02（Asia/Shanghai）。文档整理基线：`ab371b8`；EDIT-001 建立本机编辑；EDIT-002 扩展主页除 News 外的所有待填字段；EDIT-004 在 `39cae46` 后将 About 改为全文自由填写。
 
 ## 定位与当前阶段
 
@@ -66,12 +66,12 @@ academic-homepage/
 | `header`、`.wordmark` | 英文名可编辑，默认占位；点击跳至 About 标题 |
 | `.nav-current` | About 当前页锚点 |
 | `.settings-link` | 主页右上角“设置”，跳转设置页 |
-| `#profile-form` | 个人资料、研究与介绍、联系方式、简历四组；保存后返回主页 |
+| `#profile-form` | 个人资料、About、联系方式、简历四组；保存后返回主页 |
 | `.nav-item` | 五个待开发栏目的按钮，只显示“栏目待更新”，不执行页面跳转 |
 | `.profile`、`.portrait` | 资料文字和照片占位；可显示本机保存的图片，仓库没有真实照片 |
 | `.contacts` | 六个横排图标；名称提示、点击复制及空数据反馈 |
 | `.cv-area`、`.cv-button` | 浅金底、金色字、与照片同宽；无 PDF 时 `disabled`；有本机 PDF 时启用并下载该文件 |
-| `.about-block` | 三段自我介绍模板，包含研究兴趣占位文字 |
+| `.about-block` | 用户填写的 About 全文，保留换行；未填写时明确占位 |
 | `.news`、`.news-list` | 一条日期、内容均待补充的卡片；无排序或数据加载代码 |
 | `.toast` | 普通复制反馈，礼貌播报，约 2.6 秒收起 |
 | `.copy-recovery` | 自动复制失败时显示可选择的只读文本；关闭／Escape 后恢复焦点 |
@@ -91,7 +91,7 @@ academic-homepage/
   → 两种方式均失败：显示持续保留的手动复制面板
 ```
 
-`notify()` 管理普通提示；`copyText()` 管理复制；`closeRecovery()` 管理恢复面板关闭与焦点。名称提示由脚本创建，支持悬停／焦点显示和 Escape 关闭。没有业务网络请求或服务器表单提交。`profile.js` 拦截设置表单，在原 localStorage 键 `academic-homepage.profile.v1` 保存 16 个文字字段及 `photo`／`cv` 附件对象（`{name, data}`，data 为限定 MIME 的 data URL），读取旧 `{name, degree}` 时保留原值、缺失新字段按空值处理；保存成功后返回主页，更新英文名、左栏、About、联系信息和简历状态。照片支持 JPG／PNG／WebP≤1 MB，PDF≤2 MB；选择时验证文件大小、图片解码或 PDF 文件头。未保存草稿不影响主页。整份资料使用一次原子写入，配额失败不覆盖上次记录。刷新／返回缓存页会重新读取，同源多个标签页通过 storage 事件同步。空值恢复占位；显示使用 textContent；存储失败保留输入并提示，不假报成功。
+`notify()` 管理普通提示；`copyText()` 管理复制；`closeRecovery()` 管理恢复面板关闭与焦点。名称提示由脚本创建，支持悬停／焦点显示和 Escape 关闭。没有业务网络请求或服务器表单提交。`profile.js` 拦截设置表单，在原 localStorage 键 `academic-homepage.profile.v1` 保存 13 个文字字段及 `photo`／`cv` 附件对象（`{name, data}`，data 为限定 MIME 的 data URL），读取旧 `{name, degree}` 时保留原值、缺失新字段按空值处理；原 introduction 文本沿用为 About 全文，旧 researchOne／researchTwo／researchQuestion 字段不再参与保存和渲染；保存成功后返回主页，更新英文名、左栏、About、联系信息和简历状态。照片支持 JPG／PNG／WebP≤1 MB，PDF≤2 MB；选择时验证文件大小、图片解码或 PDF 文件头。未保存草稿不影响主页。整份资料使用一次原子写入，配额失败不覆盖上次记录。刷新／返回缓存页会重新读取，同源多个标签页通过 storage 事件同步。About 使用单个 introduction 文本框，最多 10000 字符，不再根据个人资料生成句子；换行和空行保留，空值显示“About 内容待填写。”。其他空值恢复占位；显示使用 textContent；存储失败保留输入并提示，不假报成功。
 
 本机 `file://` 预览通过临时 URL 片段传递文字字段，读取后移除片段；不传递图片或 PDF。文件模式禁止新增附件并提供 HTTP 预览入口，避免不同文件的存储隔离和超长 URL。推荐固定使用本地 HTTP 地址预览；不同浏览器、端口、设备或清除站点数据后不会共享修改。这不是管理后台，不会修改 HTML 文件、Git 仓库或所有访客看到的内容。News 不在本次编辑范围，仍是原静态占位卡片。下载通过浏览器 Blob URL 生成，文件名与内容来自用户选择的 PDF，没有上传接口。
 

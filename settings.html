@@ -35,7 +35,7 @@
     .field-wide { grid-column: 1 / -1; }
     label { display: block; margin-bottom: 10px; font-weight: 600; color: var(--ink); }
     input, textarea { display: block; width: 100%; min-width: 0; min-height: 52px; padding: 12px 16px; border: 1px solid var(--line); border-radius: var(--radius-input); background: var(--paper); color: var(--ink); caret-color: var(--gold); }
-    textarea { min-height: 136px; resize: vertical; }
+    textarea { min-height: 240px; resize: vertical; }
     input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
     input:hover, textarea:hover { border-color: var(--muted); }
     input:focus, textarea:focus { border-color: var(--gold); outline: 2px solid var(--gold-soft); outline-offset: 2px; }
@@ -78,7 +78,7 @@
             <div class="field">
               <label for="profile-name">姓名</label>
               <input id="profile-name" name="name" type="text" placeholder="请输入姓名" maxlength="80" autocomplete="name" aria-describedby="name-help">
-              <p class="field-help" id="name-help">同步更新主页姓名和自我介绍中的姓名；留空恢复占位文字。</p>
+              <p class="field-help" id="name-help">更新主页左侧姓名；About 内容由你单独填写。</p>
             </div>
             <div class="field">
               <label for="profile-english-name">英文名</label>
@@ -116,12 +116,9 @@
           </div>
           </section>
           <section class="form-section" aria-labelledby="about-editor-title">
-            <h2 id="about-editor-title">研究与介绍</h2>
+            <h2 id="about-editor-title">About</h2>
             <div class="fields">
-              <div class="field"><label for="profile-research-one">研究方向一</label><input id="profile-research-one" name="researchOne" type="text" placeholder="请输入研究方向" maxlength="160"></div>
-              <div class="field"><label for="profile-research-two">研究方向二</label><input id="profile-research-two" name="researchTwo" type="text" placeholder="请输入另一研究方向" maxlength="160"></div>
-              <div class="field field-wide"><label for="profile-research-question">近期关注的问题</label><input id="profile-research-question" name="researchQuestion" type="text" placeholder="请输入具体研究问题" maxlength="300"></div>
-              <div class="field field-wide"><label for="profile-introduction">补充自我介绍</label><textarea id="profile-introduction" name="introduction" placeholder="介绍你的研究记录、学习经历或个人兴趣" maxlength="3000" aria-describedby="introduction-help"></textarea><p class="field-help" id="introduction-help">显示在 About 最后一段；前两段按上方资料自动更新，支持换行。</p></div>
+              <div class="field field-wide"><label for="profile-introduction">About 内容</label><textarea id="profile-introduction" name="introduction" rows="10" placeholder="在这里填写主页 About 的全部内容" maxlength="10000" aria-describedby="introduction-help"></textarea><p class="field-help" id="introduction-help">保存后完整显示在主页 About，保留换行和空行。内容由你自由填写，不再自动生成介绍。</p></div>
             </div>
           </section>
           <section class="form-section" aria-labelledby="contacts-title">

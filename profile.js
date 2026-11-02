@@ -5,7 +5,7 @@
   const STORAGE_KEY = 'academic-homepage.profile.v1';
   const limits = {
     name: 80, degree: 120, englishName: 80, school: 120, department: 120, major: 120,
-    researchOne: 160, researchTwo: 160, researchQuestion: 300, introduction: 3000,
+    introduction: 10000,
     phone: 80, email: 254, wechat: 300, instagram: 500, xiaohongshu: 500, bilibili: 500
   };
   const assetLimits = { photo: 1024 * 1024, cv: 2 * 1024 * 1024 };
