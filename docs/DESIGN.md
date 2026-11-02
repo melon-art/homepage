@@ -45,7 +45,7 @@ rounded:
   input: "12px"
 spacing:
   column-gap: "54px"
-  navigation-underline: "48px"
+  navigation-underline: "72px"
 components:
   navigation-current:
     backgroundColor: "transparent"
@@ -183,7 +183,7 @@ components:
 
 ### Navigation
 
-顶部七个导航项均使用透明背景，不显示悬停方框；About 当前项与设置保留金色文字。悬停或键盘聚焦时，在文字下方显示统一 48px 长、2px 高、居中的金色线，以左侧为原点用 scaleX 从 0 展开至 1，时长 260ms，缓动 cubic-bezier(.16, 1, .3, 1)。移开后收起；开启减少动态时取消过渡、直接显示状态，保留键盘焦点轮廓。每项最小宽度 56px，短标签也不影响线长。五个待开发栏目继续只提示待更新，Escape 可关闭提示；窄屏自然换行。
+顶部七个导航项均使用透明背景，不显示悬停方框；About 当前项与设置保留金色文字。悬停或键盘聚焦时，在文字下方显示统一 72px 长、2px 高、起点与文字左边缘对齐的金色线，以左侧为原点用 scaleX 从 0 展开至 1，时长 260ms，缓动 cubic-bezier(.16, 1, .3, 1)。移开后收起；开启减少动态时取消过渡、直接显示状态，保留键盘焦点轮廓。每项最小宽度 56px，线条附着于文字 span 而非按钮容器；短标签也不影响线长。1100px 以下导航末端预留 16px，避免较长线条导致横向溢出。五个待开发栏目继续只提示待更新，Escape 可关闭提示；窄屏自然换行。
 
 ### Settings Editor
 

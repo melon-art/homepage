@@ -45,7 +45,7 @@ rounded:
   input: "12px"
 spacing:
   column-gap: "54px"
-  navigation-underline: "48px"
+  navigation-underline: "72px"
 components:
   navigation-current:
     backgroundColor: "transparent"

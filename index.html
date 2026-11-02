@@ -33,7 +33,7 @@
       --space-unit: 8px;
       --shadow-photo: 0 7px 16px rgba(27, 40, 32, .12);
       --shadow-card: 0 1px 3px rgba(30, 39, 48, .08);
-      --nav-line-width: 48px;
+      --nav-line-width: 72px;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; scrollbar-color: #c5c7cc var(--paper); scrollbar-width: thin; }
@@ -51,8 +51,9 @@
     .nav-current { color: var(--gold); }
     .nav-item { cursor: pointer; }
     .nav-current:hover, .nav-current:focus-visible, .nav-item:hover, .nav-item:focus-visible, .settings-link:hover, .settings-link:focus-visible { color: var(--gold); }
-    .nav-current::after, .nav-item::after, .settings-link::after { content: ""; position: absolute; left: calc(50% - var(--nav-line-width) / 2); bottom: 2px; width: var(--nav-line-width); height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left center; transition: transform .26s cubic-bezier(.16, 1, .3, 1); pointer-events: none; }
-    .nav-current:hover::after, .nav-current:focus-visible::after, .nav-item:hover::after, .nav-item:focus-visible::after, .settings-link:hover::after, .settings-link:focus-visible::after { transform: scaleX(1); }
+    .nav-label { position: relative; display: inline-block; }
+    .nav-label::after { content: ""; position: absolute; left: 0; bottom: -7px; width: var(--nav-line-width); height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left center; transition: transform .26s cubic-bezier(.16, 1, .3, 1); pointer-events: none; }
+    .nav-current:hover .nav-label::after, .nav-current:focus-visible .nav-label::after, .nav-item:hover .nav-label::after, .nav-item:focus-visible .nav-label::after, .settings-link:hover .nav-label::after, .settings-link:focus-visible .nav-label::after { transform: scaleX(1); }
     .navigation-wrap { position: relative; min-width: 0; }
     .settings-link { color: var(--gold); }
     .navigation-note { position: absolute; z-index: 5; top: calc(100% + 7px); right: 0; margin: 0; max-width: 100%; padding: 7px 12px; border-radius: var(--radius-control); background: var(--gold-soft); color: var(--gold); font-size: var(--type-hint); box-shadow: var(--shadow-card); }
@@ -100,6 +101,7 @@
     [hidden] { display: none !important; }
     @media (max-width: 1100px) {
       .page { --profile-width: 29%; --column-gap: 36px; width: calc(100% - 56px); }
+      nav { padding-inline-end: 16px; }
       .nav-current, .nav-item, .settings-link { padding-inline: 8px; font-size: var(--type-meta); }
       .contacts { gap: 5px; }
     }
@@ -140,7 +142,7 @@
       .news-copy { font-size: 1rem; }
     }
     @media (max-width: 360px) { nav { gap: 2px; } .nav-current, .nav-item, .settings-link { padding-inline: 8px; } .contacts { gap: 7px; } }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .toast, .nav-current::after, .nav-item::after, .settings-link::after { transition: none; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .toast, .nav-label::after { transition: none; } }
   </style>
 </head>
 <body>
@@ -149,13 +151,13 @@
       <a class="wordmark" href="#about-title" aria-label="Your Name，英文名待提供">Your Name</a>
       <div class="navigation-wrap">
         <nav aria-label="主导航">
-          <a class="nav-current" href="#about-title" aria-current="page" lang="en">About</a>
-          <button class="nav-item" type="button" aria-disabled="true" aria-label="研究方向，待更新">研究方向</button>
-          <button class="nav-item" type="button" aria-disabled="true" aria-label="课程作业，待更新">课程作业</button>
-          <button class="nav-item" type="button" aria-disabled="true" aria-label="爱好，待更新">爱好</button>
-          <button class="nav-item" type="button" aria-disabled="true" aria-label="活动，待更新">活动</button>
-          <button class="nav-item" type="button" aria-disabled="true" aria-label="获奖，待更新">获奖</button>
-          <a class="settings-link" href="settings.html" data-settings-link>设置</a>
+          <a class="nav-current" href="#about-title" aria-current="page" lang="en"><span class="nav-label">About</span></a>
+          <button class="nav-item" type="button" aria-disabled="true" aria-label="研究方向，待更新"><span class="nav-label">研究方向</span></button>
+          <button class="nav-item" type="button" aria-disabled="true" aria-label="课程作业，待更新"><span class="nav-label">课程作业</span></button>
+          <button class="nav-item" type="button" aria-disabled="true" aria-label="爱好，待更新"><span class="nav-label">爱好</span></button>
+          <button class="nav-item" type="button" aria-disabled="true" aria-label="活动，待更新"><span class="nav-label">活动</span></button>
+          <button class="nav-item" type="button" aria-disabled="true" aria-label="获奖，待更新"><span class="nav-label">获奖</span></button>
+          <a class="settings-link" href="settings.html" data-settings-link><span class="nav-label">设置</span></a>
         </nav>
         <p class="navigation-note" role="status" hidden></p>
       </div>
