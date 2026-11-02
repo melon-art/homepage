@@ -197,6 +197,22 @@
       "description": "浅金底、金色文字；缺少 PDF 时保持禁用。",
       "html": "<button class=\"ds-cv\" disabled>简历待上传</button>",
       "css": ".ds-cv { width:min(290px,100%); display:inline-flex; align-items:center; justify-content:center; min-height:40px; padding:8px 22px; border:0; border-radius:var(--radius-control); background:var(--gold-soft); color:var(--gold); font:400 var(--type-meta)/1.6 var(--font-body); cursor:not-allowed; } .ds-cv:focus-visible { outline:2px solid var(--gold); outline-offset:4px; }"
+    },
+    {
+      "name": "基本信息输入框",
+      "kind": "input",
+      "refersTo": "settings-input",
+      "description": "姓名与学历字段，圆角、清楚的标签和金色焦点。",
+      "html": "<label class=\"ds-label\" for=\"ds-name\">姓名</label><input class=\"ds-editor-input\" id=\"ds-name\" type=\"text\" placeholder=\"请输入姓名\">",
+      "css": ".ds-label { display:block; margin-bottom:10px; color:var(--ink); font:600 1rem/1.65 var(--font-body); } .ds-editor-input { box-sizing:border-box; width:100%; min-height:52px; padding:12px 16px; border:1px solid var(--line); border-radius:12px; background:var(--paper); color:var(--ink); font:400 1rem/1.65 var(--font-body); } .ds-editor-input::placeholder { color:var(--muted); } .ds-editor-input:focus { border-color:var(--gold); outline:2px solid var(--gold-soft); outline-offset:2px; }"
+    },
+    {
+      "name": "保存按钮",
+      "kind": "button",
+      "refersTo": "settings-save",
+      "description": "基本信息编辑后的保存操作。",
+      "html": "<button class=\"ds-save\" type=\"button\">保存</button>",
+      "css": ".ds-save { min-height:44px; min-width:112px; padding:10px 25px; border:0; border-radius:var(--radius-control); background:var(--gold-soft); color:var(--gold); font:600 1rem/1.65 var(--font-body); cursor:pointer; } .ds-save:hover { box-shadow:inset 0 0 0 1px var(--gold); } .ds-save:focus-visible { outline:2px solid var(--gold); outline-offset:4px; }"
     }
   ],
   "narrative": {

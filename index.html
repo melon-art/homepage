@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="个人学术主页视觉预览，个人资料待补充。">
   <title>个人学术主页 · 视觉预览</title>
+  <script src="profile.js" defer></script>
   <style>
 
     :root {
@@ -49,7 +50,10 @@
     .nav-current { color: var(--ink); background: var(--gold-soft); }
     .nav-item { cursor: pointer; }
     .nav-item:hover, .nav-item:focus-visible { color: var(--gold); background: var(--gold-soft); }
-    .navigation-wrap { position: relative; min-width: 0; }
+    .navigation-wrap { position: relative; min-width: 0; display: flex; align-items: center; gap: 16px; }
+    .navigation-wrap nav { flex: 1; min-width: 0; }
+    .settings-link { display: inline-flex; flex: none; align-items: center; justify-content: center; min-height: 42px; padding: 7px 14px; border-radius: var(--radius-control); background: var(--gold-soft); color: var(--gold); font-size: var(--type-meta); text-decoration: none; }
+    .settings-link:hover { box-shadow: inset 0 0 0 1px var(--gold); }
     .navigation-note { position: absolute; z-index: 5; top: calc(100% + 7px); right: 0; margin: 0; max-width: 100%; padding: 7px 12px; border-radius: var(--radius-control); background: var(--gold-soft); color: var(--gold); font-size: var(--type-hint); box-shadow: var(--shadow-card); }
     main { display: grid; grid-template-columns: var(--profile-width) minmax(0, 1fr); align-items: start; column-gap: var(--column-gap); padding: 34px 0 48px; }
     .profile { min-width: 0; text-align: center; }
@@ -102,7 +106,7 @@
       .page { width: calc(100% - 40px); --profile-width: 31%; --column-gap: 28px; }
       header { min-height: 0; display: block; padding: 25px 0 0; }
       .wordmark { display: inline-block; font-size: 1.875rem; }
-      .navigation-wrap { margin-top: 18px; }
+      .navigation-wrap { margin-top: 18px; align-items: flex-start; gap: 12px; }
       nav { justify-content: flex-start; flex-wrap: wrap; gap: 4px 9px; }
       .nav-current, .nav-item { padding-inline: 11px; }
       main { padding-top: 30px; }
@@ -116,6 +120,7 @@
       .page { width: calc(100% - 36px); }
       header { padding-top: 24px; }
       .navigation-wrap { margin-top: 16px; }
+      .settings-link { min-height: 40px; padding-inline: 12px; font-size: .875rem; }
       nav { gap: 3px 5px; }
       .nav-current, .nav-item { min-height: 40px; padding: 6px 10px; font-size: .875rem; }
       main { grid-template-columns: 1fr; gap: 37px; padding-top: 32px; padding-bottom: 36px; }
@@ -151,6 +156,7 @@
           <button class="nav-item" type="button" aria-disabled="true" aria-label="活动，待更新">活动</button>
           <button class="nav-item" type="button" aria-disabled="true" aria-label="获奖，待更新">获奖</button>
         </nav>
+        <a class="settings-link" href="settings.html" data-settings-link>设置</a>
         <p class="navigation-note" role="status" hidden></p>
       </div>
     </header>
@@ -159,8 +165,8 @@
         <div class="portrait" role="img" aria-label="个人照片待提供">
           <div><span class="portrait-label">个人照片</span><span class="portrait-note">待提供</span></div>
         </div>
-        <h1>你的姓名</h1>
-        <p class="degree">目前学历 / 在读阶段</p>
+        <h1 data-profile-field="name">你的姓名</h1>
+        <p class="degree" data-profile-field="degree">目前学历 / 在读阶段</p>
         <p class="affiliation">学校名称 · 院系名称<br>专业名称</p>
         <ul class="contacts" aria-label="点击图标复制联系方式">
           <li><button class="contact-button" type="button" data-contact="phone" data-label="电话" aria-label="复制电话（资料待提供）"><svg viewBox="0 0 22 22" aria-hidden="true"><path d="M6 3 3.5 5.5c-1.5 5 6 12.5 11 11L17 14l-4-3-2 2c-2-1-3-2-4-4l2-2z"/></svg></button></li>
@@ -178,7 +184,7 @@
         <section class="about-block" aria-labelledby="about-title">
         <h2 id="about-title" lang="en">About</h2>
         <div class="intro-copy">
-          <p>你好，我是［姓名］，目前在<span class="inline-accent">［学校］［院系］</span>攻读［学历］，专业为［专业名称］。</p>
+          <p>你好，我是<span data-profile-field="name">［姓名］</span>，目前在<span class="inline-accent">［学校］［院系］</span>攻读<span data-profile-field="degree">［学历］</span>，专业为［专业名称］。</p>
           <p>我的研究兴趣包括<span class="inline-accent">［研究方向一］</span>与<span class="inline-accent">［研究方向二］</span>，近期关注［具体研究问题］。</p>
           <p>这里收录我的研究记录、课程作业，以及个人的兴趣与活动。</p>
         </div>

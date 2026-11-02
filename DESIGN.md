@@ -42,6 +42,7 @@ rounded:
   photo: "18px"
   card: "10px"
   control: "6px"
+  input: "12px"
 spacing:
   column-gap: "54px"
 components:
@@ -68,6 +69,16 @@ components:
     textColor: "{colors.gold}"
     rounded: "{rounded.control}"
     padding: "8px 22px"
+  settings-input:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.input}"
+    padding: "12px 16px"
+  settings-save:
+    backgroundColor: "{colors.gold-soft}"
+    textColor: "{colors.gold}"
+    rounded: "{rounded.control}"
+    padding: "10px 25px"
   news-card:
     backgroundColor: "{colors.card}"
     textColor: "{colors.ink}"

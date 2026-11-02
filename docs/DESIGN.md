@@ -42,6 +42,7 @@ rounded:
   photo: "18px"
   card: "10px"
   control: "6px"
+  input: "12px"
 spacing:
   column-gap: "54px"
 components:
@@ -68,6 +69,16 @@ components:
     textColor: "{colors.gold}"
     rounded: "{rounded.control}"
     padding: "8px 22px"
+  settings-input:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.input}"
+    padding: "12px 16px"
+  settings-save:
+    backgroundColor: "{colors.gold-soft}"
+    textColor: "{colors.gold}"
+    rounded: "{rounded.control}"
+    padding: "10px 25px"
   news-card:
     backgroundColor: "{colors.card}"
     textColor: "{colors.ink}"
@@ -165,13 +176,19 @@ components:
 
 照片为大圆角正方形；卡片使用中等圆角；导航、联系按钮、提示与输入控件使用较小圆角。圆角值见 frontmatter。真实照片填入后以覆盖方式裁切，并继承照片容器圆角。
 
-动态卡片与导航不加外框。细边框仅出现在手动复制输入框；不以粗线条或硬阴影分隔内容。
+动态卡片与导航不加外框。细边框用于手动复制与设置页输入框；不以粗线条或硬阴影分隔内容。
 
 ## Components
 
 ### Navigation
 
 当前 About 项为浅暖底色与深灰文字。其余五个栏目保留按钮形态，悬停或键盘焦点时变为暖金色文字与浅暖底色；激活后显示“栏目待更新”的就地状态提示，不跳转至缺失页面。Escape 隐藏该提示。窄屏允许换行，保持栏目顺序。
+
+### Settings Editor
+
+首页右侧增加“设置”浅金底文字入口，与现有导航在容器内并列。`settings.html` 继承白底、灰字、本地字体、金色焦点与浅金按钮，不添加装饰卡片。左上为返回主页；桌面左栏 220px、栏距 54px，单一“基本信息”导航使用浅金选中背景。右侧标题后为说明、姓名和学历字段；字段组间距 27px、宽度上限 640px。输入框最小高度 52px、12px 圆角、内边距 12px 16px；标签使用 16px 半粗字。保存位于表单下方靠右，最小高度 44px，金色文字、浅金背景，错误／保存提示位于其左侧。保存成功返回主页，失败不跳转且保留输入。
+
+820px 以下编辑侧栏缩为 160px、栏距 28px；620px 以下变为单栏，导航在字段上方。文案明确本机保存范围。设置页是 Operate 型表单，继承现有视觉身份，不进行替代风格探索。
 
 ### Portrait and Profile
 

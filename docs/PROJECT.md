@@ -1,6 +1,6 @@
 # 项目总览
 
-核对日期：2026-11-02（Asia/Shanghai）。业务代码基线：`ab371b8`。本次只建立文档，不修改页面、样式、脚本或数据。
+核对日期：2026-11-02（Asia/Shanghai）。文档整理基线：`ab371b8`；本次 EDIT-001 在 `b762b6f` 之后新增姓名／学历的本机编辑能力。
 
 ## 定位与当前阶段
 
@@ -12,13 +12,13 @@
 
 | 项目 | 当前真实实现 |
 | --- | --- |
-| 页面 | 一个 `index.html`，原生 HTML |
+| 页面 | `index.html` 首页、`settings.html` 设置页，原生 HTML |
 | 样式 | 同文件内嵌 CSS、自定义属性、Grid／Flex 和媒体查询 |
-| 交互 | 同文件内嵌原生 JavaScript；Clipboard API 与兼容复制方式 |
+| 交互 | 首页保留原内联交互；共享 `profile.js` 管理姓名／学历读取、保存和同步 |
 | 图标、字体 | 内联描边 SVG、本地字体栈，无图标包或网络字体依赖 |
-| 数据 | 介绍与 News 写在 HTML；六个联系方式写在 `CONTACTS` 对象 |
+| 数据 | 介绍／News 模板写在 HTML；六个联系方式在 `CONTACTS`；姓名／学历覆盖值存于浏览器 localStorage |
 | 构建和依赖 | 无 `package.json`、框架、构建步骤或应用依赖清单；目前不是 Astro／React 项目 |
-| 服务端 | 无 API、后台、数据库、登录或持久化写入 |
+| 服务端 | 无 API、后台、数据库或登录；只有当前浏览器本地持久化，不能写入仓库或全站发布 |
 | 版本管理 | Git，分支 `main`，已配置 GitHub 远程 `melon-art/homepage` |
 | 部署 | 仓库内未发现部署配置、工作流或线上地址记录；是否已有站外托管待确认 |
 
@@ -34,7 +34,9 @@ python -m http.server 8765 --bind 127.0.0.1
 
 ```text
 academic-homepage/
-├── index.html                  唯一的网站页面与业务源文件
+├── index.html                  首页与既有联系交互
+├── settings.html               基本信息设置页
+├── profile.js                  姓名／学历的本地保存、读取和同步
 ├── README.md                   项目和文档入口、预览方法
 ├── AGENTS.md                   开发者／AI 工作约定
 ├── PRODUCT.md                  Impeccable 产品上下文兼容摘要
@@ -57,12 +59,14 @@ academic-homepage/
 
 ## 页面与逻辑组件
 
-以下是单文件中的**逻辑分区**，不是已经拆分的独立组件文件。
+以下是页面中的逻辑分区，尚未建立组件框架；`profile.js` 为两页共享的原生脚本。
 
 | 分区／选择器 | 当前内容与行为 |
 | --- | --- |
 | `header`、`.wordmark` | 英文名占位；点击跳至 About 标题 |
 | `.nav-current` | About 当前页锚点 |
+| `.settings-link` | 主页右上角“设置”，跳转设置页 |
+| `#profile-form` | 设置页姓名／学历输入框、保存及返回主页 |
 | `.nav-item` | 五个待开发栏目的按钮，只显示“栏目待更新”，不执行页面跳转 |
 | `.profile`、`.portrait` | 姓名、学历、院系、照片占位；没有真实图片文件 |
 | `.contacts` | 六个横排图标；名称提示、点击复制及空数据反馈 |
@@ -87,7 +91,9 @@ Research Interests 独立模块已删除；没有页脚。保留这些用户决�
   → 两种方式均失败：显示持续保留的手动复制面板
 ```
 
-`notify()` 管理普通提示；`copyText()` 管理复制；`closeRecovery()` 管理恢复面板关闭与焦点。名称提示由脚本创建，支持悬停／焦点显示和 Escape 关闭。未使用本地存储、网络请求或表单提交。
+`notify()` 管理普通提示；`copyText()` 管理复制；`closeRecovery()` 管理恢复面板关闭与焦点。名称提示由脚本创建，支持悬停／焦点显示和 Escape 关闭。没有业务网络请求或服务器表单提交。`profile.js` 拦截设置表单，在 localStorage 键 `academic-homepage.profile.v1` 保存 `{name, degree}`；保存成功后返回主页，更新左栏和 About 中对应文字。刷新／返回缓存页会重新读取，同源多个标签页通过 storage 事件同步。空值恢复占位；显示使用 textContent；存储失败保留输入并提示，不假报成功。
+
+本机 `file://` 预览通过临时 URL 片段传递这两个公开资料字段，读取后移除片段，适配不同文件的存储隔离。推荐固定使用本地 HTTP 地址预览；不同浏览器、端口、设备或清除站点数据后不会共享修改。这不是管理后台，不会修改 HTML 文件、Git 仓库或所有访客看到的内容。英文名、学校、照片、介绍其余内容、联系方式与 News 暂不能在设置页编辑。
 
 ## 已实现与缺失的边界
 
