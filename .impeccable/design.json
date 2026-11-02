@@ -112,6 +112,11 @@
         "name": "reduced-motion",
         "value": "scroll-behavior: auto; transition: none",
         "purpose": "prefers-reduced-motion: reduce 时禁用平滑滚动和状态提示过渡。"
+      },
+      {
+        "name": "navigation-underline",
+        "value": "transform .26s cubic-bezier(.16,1,.3,1)",
+        "purpose": "48px 等长金线从左向右展开；减少动态时直接显示。"
       }
     ],
     "breakpoints": [
@@ -146,9 +151,9 @@
       "name": "顶部七项导航",
       "kind": "nav",
       "refersTo": "navigation-current",
-      "description": "设置与 About 及五个栏目同组等距排布；窄屏换行。",
+      "description": "七项透明背景导航；悬停与聚焦以等长金线从左向右展开，窄屏换行。",
       "html": "<nav class=\"ds-navigation\" aria-label=\"主导航\"><a class=\"ds-nav-current\" href=\"#about-title\" aria-current=\"page\" lang=\"en\">About</a><button class=\"ds-nav-item\" type=\"button\" aria-disabled=\"true\" aria-label=\"研究方向，待更新\">研究方向</button><button class=\"ds-nav-item\" type=\"button\" aria-disabled=\"true\" aria-label=\"课程作业，待更新\">课程作业</button><button class=\"ds-nav-item\" type=\"button\" aria-disabled=\"true\" aria-label=\"爱好，待更新\">爱好</button><button class=\"ds-nav-item\" type=\"button\" aria-disabled=\"true\" aria-label=\"活动，待更新\">活动</button><button class=\"ds-nav-item\" type=\"button\" aria-disabled=\"true\" aria-label=\"获奖，待更新\">获奖</button><a class=\"ds-settings\" href=\"settings.html\">设置</a></nav>",
-      "css": ".ds-navigation{display:flex;align-items:center;justify-content:space-between;gap:8px;font-family:var(--font-body)}.ds-nav-current,.ds-nav-item,.ds-settings{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:7px 13px;border:0;border-radius:var(--radius-control);background:transparent;color:var(--body-ink);font-family:var(--font-body);font-size:var(--type-label);line-height:1.5;white-space:nowrap;text-decoration:none}.ds-nav-current{color:var(--ink);background:var(--gold-soft)}.ds-nav-item{cursor:pointer}.ds-nav-item:hover,.ds-nav-item:focus-visible{color:var(--gold);background:var(--gold-soft)}.ds-nav-current:focus-visible,.ds-nav-item:focus-visible{outline:2px solid var(--gold);outline-offset:4px}@media(max-width:1100px){.ds-nav-current,.ds-nav-item,.ds-settings{padding-inline:8px;font-size:var(--type-meta)}}@media(max-width:820px){.ds-navigation{justify-content:flex-start;flex-wrap:wrap;gap:4px 9px}.ds-nav-current,.ds-nav-item,.ds-settings{padding-inline:11px}}@media(max-width:620px){.ds-navigation{gap:3px 5px}.ds-nav-current,.ds-nav-item,.ds-settings{min-height:40px;padding:6px 10px;font-size:.875rem}}@media(max-width:360px){.ds-navigation{gap:2px}.ds-nav-current,.ds-nav-item,.ds-settings{padding-inline:8px}}.ds-settings{background:var(--gold-soft);color:var(--gold)}.ds-settings:hover{box-shadow:inset 0 0 0 1px var(--gold)}.ds-settings:focus-visible{outline:2px solid var(--gold);outline-offset:4px}"
+      "css": ".ds-navigation{display:flex;align-items:center;justify-content:space-between;gap:8px;font-family:var(--font-body)}.ds-nav-current,.ds-nav-item,.ds-settings{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:56px;min-height:42px;padding:7px 13px;border:0;border-radius:var(--radius-control);background:transparent;color:var(--body-ink);font:inherit;line-height:1.5;white-space:nowrap;text-decoration:none;cursor:pointer}.ds-nav-current,.ds-settings{color:var(--gold)}.ds-navigation>*::after{content:\"\";position:absolute;left:calc(50% - 24px);bottom:2px;width:48px;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left center;transition:transform .26s cubic-bezier(.16,1,.3,1);pointer-events:none}.ds-navigation>*:hover,.ds-navigation>*:focus-visible{color:var(--gold)}.ds-navigation>*:hover::after,.ds-navigation>*:focus-visible::after{transform:scaleX(1)}.ds-navigation>*:focus-visible{outline:2px solid var(--gold);outline-offset:4px}@media(max-width:820px){.ds-navigation{justify-content:flex-start;flex-wrap:wrap;gap:4px 9px}}@media(max-width:620px){.ds-navigation{gap:3px 5px}.ds-navigation>*{padding:6px 10px;font-size:.875rem}}@media(prefers-reduced-motion:reduce){.ds-navigation>*::after{transition:none}}"
     },
     {
       "name": "照片占位区域",

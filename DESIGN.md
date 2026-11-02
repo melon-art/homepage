@@ -45,10 +45,11 @@ rounded:
   input: "12px"
 spacing:
   column-gap: "54px"
+  navigation-underline: "48px"
 components:
   navigation-current:
-    backgroundColor: "{colors.gold-soft}"
-    textColor: "{colors.ink}"
+    backgroundColor: "transparent"
+    textColor: "{colors.gold}"
     typography: "{typography.label}"
     rounded: "{rounded.control}"
     padding: "7px 13px"
