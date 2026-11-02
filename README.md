@@ -19,4 +19,4 @@
 
 ## 版本管理
 
-此目录已初始化为本地 Git 仓库。GitHub 远程仓库已连接至 `https://github.com/melon-art/homepage`；首次上传等待账号授权及远程内容检查。初始自动保存由 AI Assistant 署名，不使用用户身份。
+此目录已初始化为本地 Git 仓库。GitHub 远程仓库为 `https://github.com/melon-art/homepage`，开发分支为 `main`。初始自动保存由 AI Assistant 署名，不使用用户身份。
