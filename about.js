@@ -192,6 +192,7 @@
       }
       render(target, preview, runs);
       button.textContent = label;
+      ellipsis.hidden = expanded;
       button.setAttribute('aria-expanded', String(expanded));
       button.setAttribute('aria-label', label + ' About');
       target.appendChild(ending);

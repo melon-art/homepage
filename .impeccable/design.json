@@ -249,7 +249,7 @@
       "name": "About 展开与收起",
       "kind": "button",
       "refersTo": "about-toggle",
-      "description": "正文段末同行 ...展开／...收起，透明底金字。收起预览与照片底边对齐并渐隐，手机六行。",
+      "description": "正文段末同行 ...展开／收起（展开后无省略号），透明底金字。收起预览与照片底边对齐并渐隐，手机六行。",
       "html": "<span class=\"ds-about-ending\"><span aria-hidden=\"true\">...</span><button class=\"ds-about-toggle\" type=\"button\" aria-expanded=\"false\" aria-controls=\"ds-about-copy\">展开</button></span>",
       "css": ".ds-about-ending{position:relative;z-index:1;display:inline-block;white-space:nowrap;background:var(--paper)}.ds-about-toggle{margin:0 0 0 4px;padding:0;border:0;background:transparent;color:var(--gold);font:inherit;line-height:inherit;cursor:pointer;text-underline-offset:.2em}.ds-about-toggle:hover{text-decoration:underline}.ds-about-toggle:focus-visible{outline:2px solid var(--gold);outline-offset:4px}"
     }
