@@ -11,7 +11,8 @@
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1rem/1.65 var(--font-body); -webkit-font-smoothing: antialiased; }
     button, input, textarea { font: inherit; }
-    html { scrollbar-color: #c5c7cc var(--paper); scrollbar-width: thin; }
+    html { scrollbar-color: #c5c7cc var(--paper); scrollbar-width: thin; scrollbar-gutter: stable; }
+    @supports not (scrollbar-gutter: stable) { html { overflow-y: scroll; } }
     [hidden] { display: none !important; }
     ::selection { background: #eae2d2; color: var(--ink); }
     :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }

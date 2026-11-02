@@ -37,7 +37,8 @@
       --nav-line-width: 72px;
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scrollbar-color: #c5c7cc var(--paper); scrollbar-width: thin; }
+    html { scroll-behavior: smooth; scrollbar-color: #c5c7cc var(--paper); scrollbar-width: thin; scrollbar-gutter: stable; }
+    @supports not (scrollbar-gutter: stable) { html { overflow-y: scroll; } }
     body { margin: 0; background: var(--paper); color: var(--ink); font: 400 var(--type-body)/1.65 var(--font-body); -webkit-font-smoothing: antialiased; }
     button, input { font: inherit; }
     button, a { -webkit-tap-highlight-color: transparent; }

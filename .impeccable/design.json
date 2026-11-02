@@ -149,7 +149,12 @@
         "query": "(max-width: 360px)",
         "purpose": "进一步收紧导航和联系图标的水平间距。"
       }
-    ]
+    ],
+    "scrollbar": {
+      "gutter": "stable",
+      "fallback": "@supports not (scrollbar-gutter: stable) { html { overflow-y: scroll; } }",
+      "purpose": "首页和设置页预留一致滚动条空间，About 展开／收起时导航不横移。"
+    }
   },
   "components": [
     {
