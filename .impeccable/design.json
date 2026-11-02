@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-02T08:52:05.263Z",
+  "title": "Design System: 个人学术主页",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "白色画布"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "深灰主墨色"
+      },
+      "body-ink": {
+        "role": "neutral",
+        "displayName": "正文灰"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "次级灰"
+      },
+      "gold": {
+        "role": "primary",
+        "displayName": "暖金色"
+      },
+      "gold-soft": {
+        "role": "primary",
+        "displayName": "浅暖底色"
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "淡紫灰兴趣面层"
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "浅冷灰动态面层"
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "浅输入边线"
+      },
+      "portrait-ground": {
+        "role": "neutral",
+        "displayName": "照片占位深绿",
+        "purpose": "仅为缺失照片保留视觉区域，不作为全站强调色。"
+      }
+    },
+    "typographyMeta": {
+      "identity": {
+        "displayName": "个人姓名",
+        "purpose": "左栏居中的衬线身份标题。"
+      },
+      "section": {
+        "displayName": "章节标题",
+        "purpose": "About、News 的衬线标题；不用于兴趣面板的小标题。"
+      },
+      "body": {
+        "displayName": "正文",
+        "purpose": "介绍正文的基础样式；学历和动态标题共用基础字号但使用各自行高或字重。"
+      },
+      "label": {
+        "displayName": "标签",
+        "purpose": "导航与兴趣面板标题等中间层级。"
+      },
+      "meta": {
+        "displayName": "元信息",
+        "purpose": "日期、兴趣条目、简历和反馈文案；行高随组件定义。"
+      },
+      "hint": {
+        "displayName": "提示",
+        "purpose": "图标名称、照片缺失说明与待更新提示。"
+      }
+    },
+    "shadows": [
+      {
+        "name": "photo",
+        "value": "0 7px 16px rgba(27, 40, 32, .12)",
+        "cssVariable": "--shadow-photo",
+        "purpose": "照片区域的柔和向下阴影。"
+      },
+      {
+        "name": "card",
+        "value": "0 1px 3px rgba(30, 39, 48, .08)",
+        "cssVariable": "--shadow-card",
+        "purpose": "动态卡片、图标名称气泡和待更新提示。"
+      },
+      {
+        "name": "copy-recovery",
+        "value": "0 5px 28px rgba(30, 39, 48, .22)",
+        "purpose": "固定在底部的手动复制恢复面板。"
+      }
+    ],
+    "motion": [
+      {
+        "name": "toast-transition",
+        "value": "opacity .16s ease-out, transform .16s ease-out",
+        "purpose": "普通状态提示的透明度与纵向位移过渡。"
+      },
+      {
+        "name": "toast-offset",
+        "value": "8px",
+        "purpose": "普通状态提示隐藏时的向下位移；可见时回到原位。"
+      },
+      {
+        "name": "toast-duration",
+        "value": "2600ms",
+        "purpose": "普通反馈的显示时长；不应用于手动复制恢复面板。"
+      },
+      {
+        "name": "scroll",
+        "value": "smooth",
+        "purpose": "页内锚点平滑滚动。"
+      },
+      {
+        "name": "reduced-motion",
+        "value": "scroll-behavior: auto; transition: none",
+        "purpose": "prefers-reduced-motion: reduce 时禁用平滑滚动和状态提示过渡。"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1100px",
+        "query": "(max-width: 1100px)",
+        "purpose": "壳宽改为视窗减 56px，左栏 29%、栏间距 36px，导航和图标间距收紧。"
+      },
+      {
+        "name": "tablet",
+        "value": "820px",
+        "query": "(max-width: 820px)",
+        "purpose": "页眉上下排列并允许导航换行；内容仍双栏，左栏 31%、栏间距 28px。"
+      },
+      {
+        "name": "phone",
+        "value": "620px",
+        "query": "(max-width: 620px)",
+        "purpose": "主内容单栏，照片最大 250px 且不超过容器 80%，正文收紧，六个联系图标仍为一行。"
+      },
+      {
+        "name": "narrow-phone",
+        "value": "360px",
+        "query": "(max-width: 360px)",
+        "purpose": "进一步收紧导航和联系图标的水平间距。"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "当前导航与待更新栏目",
+      "kind": "nav",
+      "refersTo": "navigation-current",
+      "description": "实际导航的当前项与未来栏目按钮；窄屏换行，待更新反馈由页面脚本提供。",
+      "html": "<nav class=\"ds-navigation\" aria-label=\"主导航\"><a class=\"ds-nav-current\" href=\"#about-title\" aria-current=\"page\" lang=\"en\">About</a><button class=\"ds-nav-item\" type=\"button\" aria-disabled=\"true\" aria-label=\"研究方向，待更新\">研究方向</button><button class=\"ds-nav-item\" type=\"button\" aria-disabled=\"true\" aria-label=\"课程作业，待更新\">课程作业</button><button class=\"ds-nav-item\" type=\"button\" aria-disabled=\"true\" aria-label=\"爱好，待更新\">爱好</button><button class=\"ds-nav-item\" type=\"button\" aria-disabled=\"true\" aria-label=\"活动，待更新\">活动</button><button class=\"ds-nav-item\" type=\"button\" aria-disabled=\"true\" aria-label=\"获奖，待更新\">获奖</button></nav>",
+      "css": ".ds-navigation{display:flex;align-items:center;justify-content:space-between;gap:8px;font-family:var(--font-body)}.ds-nav-current,.ds-nav-item{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:7px 13px;border:0;border-radius:var(--radius-control);background:transparent;color:var(--body-ink);font-family:var(--font-body);font-size:var(--type-label);line-height:1.5;white-space:nowrap;text-decoration:none}.ds-nav-current{color:var(--ink);background:var(--gold-soft)}.ds-nav-item{cursor:pointer}.ds-nav-item:hover,.ds-nav-item:focus-visible{color:var(--gold);background:var(--gold-soft)}.ds-nav-current:focus-visible,.ds-nav-item:focus-visible{outline:2px solid var(--gold);outline-offset:4px}@media(max-width:1100px){.ds-nav-current,.ds-nav-item{padding-inline:8px;font-size:var(--type-meta)}}@media(max-width:820px){.ds-navigation{justify-content:flex-start;flex-wrap:wrap;gap:4px 9px}.ds-nav-current,.ds-nav-item{padding-inline:11px}}@media(max-width:620px){.ds-navigation{gap:3px 5px}.ds-nav-current,.ds-nav-item{min-height:40px;padding:6px 10px;font-size:.875rem}}@media(max-width:360px){.ds-navigation{gap:2px}.ds-nav-current,.ds-nav-item{padding-inline:8px}}"
+    },
+    {
+      "name": "照片占位区域",
+      "kind": "custom",
+      "refersTo": "portrait-placeholder",
+      "description": "照片缺失时的明确占位，保留大幅正方形与实际照片将继承的圆角。",
+      "html": "<div class=\"ds-portrait\" role=\"img\" aria-label=\"个人照片待提供\"><div><span class=\"ds-portrait-label\">个人照片</span><span class=\"ds-portrait-note\">待提供</span></div></div>",
+      "css": ".ds-portrait{width:min(290px,100%);aspect-ratio:1;margin:0 auto;border-radius:var(--radius-photo);background:var(--portrait-ground);box-shadow:var(--shadow-photo);display:grid;place-content:center;color:#ffffff;text-align:center;font-family:var(--font-body);line-height:1.65}.ds-portrait-label{display:block;font-size:1rem}.ds-portrait-note{display:block;margin-top:4px;color:#e2e8e4;font-size:var(--type-hint)}.ds-portrait img{display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}@media(max-width:620px){.ds-portrait{width:min(250px,80%)}}"
+    },
+    {
+      "name": "联系图标与名称提示",
+      "kind": "button",
+      "refersTo": "contact-icon",
+      "description": "六个联系入口共用的按钮；示例展示邮箱。悬停或聚焦显示名称，Escape 处理与复制动作由页面脚本提供。",
+      "html": "<ul class=\"ds-contacts\" aria-label=\"点击图标复制联系方式\"><li class=\"ds-contact-item\"><button class=\"ds-contact-button\" type=\"button\" data-contact=\"email\" data-label=\"邮箱\" aria-label=\"复制邮箱（资料待提供）\" aria-describedby=\"ds-email-tooltip\"><svg viewBox=\"0 0 22 22\" aria-hidden=\"true\"><rect x=\"2\" y=\"4\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"m3 6 8 6 8-6\"/></svg></button><span class=\"ds-contact-tooltip\" id=\"ds-email-tooltip\" role=\"tooltip\"><span>邮箱</span></span></li></ul>",
+      "css": ".ds-contacts{list-style:none;padding:0;margin:22px 0 0;display:flex;justify-content:center;align-items:center;gap:10px;font-family:var(--font-body)}.ds-contact-item{position:relative}.ds-contact-button{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:var(--radius-control);background:transparent;color:#53606d;cursor:pointer}.ds-contact-button:hover,.ds-contact-button:focus-visible{color:var(--gold);background:var(--gold-soft)}.ds-contact-button:focus-visible{outline:2px solid var(--gold);outline-offset:4px}.ds-contact-button svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.ds-contact-tooltip{position:absolute;z-index:6;top:100%;left:50%;transform:translateX(-50%);padding-top:5px;color:var(--gold);font-size:var(--type-hint);line-height:1.5;white-space:nowrap;visibility:hidden}.ds-contact-tooltip span{display:block;padding:5px 9px;border-radius:var(--radius-control);background:var(--gold-soft);box-shadow:var(--shadow-card)}.ds-contact-item:not(.ds-tooltip-dismissed):hover .ds-contact-tooltip,.ds-contact-item:not(.ds-tooltip-dismissed):focus-within .ds-contact-tooltip{visibility:visible}@media(max-width:1100px){.ds-contacts{gap:5px}}@media(max-width:820px){.ds-contacts{gap:0}.ds-contact-button{width:32px}}@media(max-width:620px){.ds-contacts{gap:10px;margin-top:18px}.ds-contact-button{width:36px}}@media(max-width:360px){.ds-contacts{gap:7px}}"
+    },
+    {
+      "name": "研究兴趣面板",
+      "kind": "card",
+      "refersTo": "interest-panel",
+      "description": "淡紫灰底的无阴影信息面板；手机端条目横向排列并换行。",
+      "html": "<section class=\"ds-interest-panel\" aria-labelledby=\"ds-research-title\"><h2 id=\"ds-research-title\" lang=\"en\">Research Interests</h2><ul><li>［研究方向一］</li><li>［研究方向二］</li><li>［具体研究问题］</li></ul></section>",
+      "css": ".ds-interest-panel{margin-top:30px;padding:17px 18px 19px;background:var(--panel);border-radius:var(--radius-card);text-align:left;font-family:var(--font-body)}.ds-interest-panel h2{margin:0 0 9px;font:600 var(--type-label)/1.5 var(--font-body);color:var(--ink)}.ds-interest-panel ul{list-style:none;margin:0;padding:0;color:var(--body-ink);font-size:var(--type-meta);line-height:1.9;overflow-wrap:anywhere}@media(max-width:820px){.ds-interest-panel{padding:15px}}@media(max-width:620px){.ds-interest-panel{margin-top:25px;padding:17px 18px}.ds-interest-panel ul{display:flex;flex-wrap:wrap;gap:2px 18px}}"
+    },
+    {
+      "name": "动态卡片",
+      "kind": "card",
+      "refersTo": "news-card",
+      "description": "日期、较重标题与次级说明组成的浅灰卡片；真实动态未提供时保留现有占位内容。",
+      "html": "<article class=\"ds-news-card\"><span class=\"ds-news-date\">日期待补充</span><p class=\"ds-news-copy\">动态内容待补充</p><p class=\"ds-news-detail\">补充真实日期与内容后，将按时间倒序展示。</p></article>",
+      "css": ".ds-news-card{padding:19px 20px 20px;border-radius:var(--radius-card);background:var(--card);box-shadow:var(--shadow-card);overflow-wrap:anywhere;font-family:var(--font-body)}.ds-news-date{display:block;margin-bottom:7px;color:var(--gold);font-size:var(--type-meta);line-height:1.5;font-variant-numeric:lining-nums tabular-nums}.ds-news-copy{margin:0;color:var(--ink);font-size:var(--type-body);font-weight:600;line-height:1.6;text-wrap:pretty}.ds-news-detail{margin:7px 0 0;color:var(--muted);font-size:var(--type-meta);line-height:1.7}@media(max-width:620px){.ds-news-card{padding:17px 18px}.ds-news-copy{font-size:1rem}}"
+    },
+    {
+      "name": "手动复制恢复面板",
+      "kind": "input",
+      "refersTo": "copy-recovery",
+      "description": "复制失败后的常驻恢复界面；片段展示面板内部。页面负责底部固定定位、填入实际值、全选及关闭后恢复焦点。",
+      "html": "<div class=\"ds-copy-recovery\" role=\"region\" aria-labelledby=\"ds-copy-recovery-label\"><label id=\"ds-copy-recovery-label\" for=\"ds-copy-value\">无法自动复制，请选择内容后手动复制</label><div class=\"ds-recovery-row\"><input id=\"ds-copy-value\" type=\"text\" readonly><button class=\"ds-recovery-close\" type=\"button\">关闭</button></div></div>",
+      "css": ".ds-copy-recovery{width:min(440px,calc(100% - 32px));padding:18px;border-radius:var(--radius-card);background:var(--paper);box-shadow:0 5px 28px rgba(30,39,48,.22);font-family:var(--font-body);font-size:var(--type-meta);line-height:1.65}.ds-copy-recovery label{display:block;margin-bottom:10px;color:var(--ink);font-weight:600}.ds-recovery-row{display:flex;gap:8px}.ds-copy-recovery input{min-width:0;width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:var(--radius-control);color:var(--body-ink);caret-color:var(--gold);font:inherit}.ds-recovery-close{flex:none;padding:8px 12px;border:0;border-radius:var(--radius-control);background:var(--gold-soft);color:var(--gold);cursor:pointer;font:inherit}.ds-copy-recovery input:focus-visible,.ds-recovery-close:focus-visible{outline:2px solid var(--gold);outline-offset:4px}"
+    },
+    {
+      "name": "普通状态提示",
+      "kind": "custom",
+      "refersTo": "status-toast",
+      "description": "底部短时状态反馈的可见状态；片段保留内容样式，页面负责视窗居中、显示时长与进出状态。",
+      "html": "<div class=\"ds-status-toast\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\">邮箱待提供</div>",
+      "css": ".ds-status-toast{width:max-content;max-width:calc(100% - 32px);padding:11px 18px;border-radius:var(--radius-control);background:var(--ink);color:var(--paper);font-family:var(--font-body);font-size:var(--type-meta);line-height:1.6;overflow-wrap:anywhere;opacity:1;pointer-events:none;transition:opacity .16s ease-out,transform .16s ease-out}@media(prefers-reduced-motion:reduce){.ds-status-toast{transition:none}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "用户提供的学术主页参考图",
+    "overview": "页面以白色画布承载个人信息与学术阅读内容。大幅方形照片区域和居中的身份信息形成左侧锚点，右侧使用衬线章节标题、简短正文和浅色动态卡片。暖金色只承担文字强调、当前导航与交互反馈；页面没有页脚。\n\n本规范记录 `index.html` 中已经使用的设计，不生成新的视觉方向。个人照片和资料仍待提供，因此照片区域保留明确的占位说明；占位底色不构成照片内容或新增品牌色承诺。字体全部来自本地字体栈，不下载外部字体。",
+    "keyCharacteristics": [
+      "白色阅读背景、深灰文字与克制的暖金色强调。",
+      "衬线身份及章节标题，搭配本地无衬线正文。",
+      "大幅方形照片、双栏桌面布局与单栏手机布局。",
+      "淡紫灰研究兴趣面板、浅灰动态卡片与轻阴影。",
+      "六个联系图标支持键盘提示和明确的复制反馈。"
+    ],
+    "rules": [
+      {
+        "name": "The Quiet Accent Rule",
+        "body": "使用暖金色标记重点与交互状态；保持主体阅读区域为白底和灰阶文字。",
+        "section": "colors"
+      },
+      {
+        "name": "The Local Font Rule",
+        "body": "继承当前本地字体栈；身份与章节保持衬线，正文保持无衬线。",
+        "section": "typography"
+      },
+      {
+        "name": "The Persistent Recovery Rule",
+        "body": "手动复制恢复面板持续保留，直至用户选择“关闭”或按 Escape；关闭后焦点回到触发复制的图标。不能套用普通通知的自动消失时间。",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "**Do** 延续用户参考图中的白底、衬线身份与章节标题、暖金色强调和浅色面层。",
+      "**Do** 复用已有 CSS 自定义属性和组件规则，响应式变化按现有断点处理。",
+      "**Do** 为图标保留可见焦点、文字名称提示和键盘可达的复制反馈。",
+      "**Do** 保留真实缺失状态，并让手动复制内容可选择、可关闭且持续可见。"
+    ],
+    "donts": [
+      "**Don't** 引入外部字体下载、额外页脚或与参考图无关的装饰框。",
+      "**Don't** 把照片占位深绿扩展成全站强调色，或用虚构照片、身份及经历填充空缺。",
+      "**Don't** 为普通内容卡片添加当前实现没有的粗边框、硬阴影或悬停位移。",
+      "**Don't** 让复制失败反馈自动消失，或将未提供的联系方式占位文案作为可复制值。"
+    ]
+  }
+}
