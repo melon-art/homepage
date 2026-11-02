@@ -42,17 +42,16 @@
     ::selection { background: #eae2d2; color: var(--ink); }
     :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
     a { color: var(--gold); text-underline-offset: .2em; }
-    .page { --profile-width: 30.3%; --column-gap: 54px; width: min(1208px, calc(100% - 72px)); margin-inline: auto; }
+    .page { --profile-width: 320px; --column-gap: 54px; width: min(1480px, calc(100% - 96px)); margin-inline: auto; }
     header { min-height: 92px; display: grid; grid-template-columns: var(--profile-width) minmax(0, 1fr); align-items: center; column-gap: var(--column-gap); }
     .wordmark { width: fit-content; color: var(--ink); text-decoration: none; font: 700 2rem/1.2 var(--font-heading); letter-spacing: -.02em; overflow-wrap: anywhere; }
     nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .nav-current, .nav-item { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 7px 13px; border: 0; border-radius: var(--radius-control); background: transparent; color: var(--body-ink); font-size: var(--type-label); line-height: 1.5; white-space: nowrap; text-decoration: none; }
+    .nav-current, .nav-item, .settings-link { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 7px 13px; border: 0; border-radius: var(--radius-control); background: transparent; color: var(--body-ink); font-size: var(--type-label); line-height: 1.5; white-space: nowrap; text-decoration: none; }
     .nav-current { color: var(--ink); background: var(--gold-soft); }
     .nav-item { cursor: pointer; }
     .nav-item:hover, .nav-item:focus-visible { color: var(--gold); background: var(--gold-soft); }
-    .navigation-wrap { position: relative; min-width: 0; display: flex; align-items: center; gap: 16px; }
-    .navigation-wrap nav { flex: 1; min-width: 0; }
-    .settings-link { display: inline-flex; flex: none; align-items: center; justify-content: center; min-height: 42px; padding: 7px 14px; border-radius: var(--radius-control); background: var(--gold-soft); color: var(--gold); font-size: var(--type-meta); text-decoration: none; }
+    .navigation-wrap { position: relative; min-width: 0; }
+    .settings-link { background: var(--gold-soft); color: var(--gold); }
     .settings-link:hover { box-shadow: inset 0 0 0 1px var(--gold); }
     .navigation-note { position: absolute; z-index: 5; top: calc(100% + 7px); right: 0; margin: 0; max-width: 100%; padding: 7px 12px; border-radius: var(--radius-control); background: var(--gold-soft); color: var(--gold); font-size: var(--type-hint); box-shadow: var(--shadow-card); }
     main { display: grid; grid-template-columns: var(--profile-width) minmax(0, 1fr); align-items: start; column-gap: var(--column-gap); padding: 34px 0 48px; }
@@ -99,16 +98,16 @@
     [hidden] { display: none !important; }
     @media (max-width: 1100px) {
       .page { --profile-width: 29%; --column-gap: 36px; width: calc(100% - 56px); }
-      .nav-current, .nav-item { padding-inline: 8px; font-size: var(--type-meta); }
+      .nav-current, .nav-item, .settings-link { padding-inline: 8px; font-size: var(--type-meta); }
       .contacts { gap: 5px; }
     }
     @media (max-width: 820px) {
       .page { width: calc(100% - 40px); --profile-width: 31%; --column-gap: 28px; }
       header { min-height: 0; display: block; padding: 25px 0 0; }
       .wordmark { display: inline-block; font-size: 1.875rem; }
-      .navigation-wrap { margin-top: 18px; align-items: flex-start; gap: 12px; }
+      .navigation-wrap { margin-top: 18px; }
       nav { justify-content: flex-start; flex-wrap: wrap; gap: 4px 9px; }
-      .nav-current, .nav-item { padding-inline: 11px; }
+      .nav-current, .nav-item, .settings-link { padding-inline: 11px; }
       main { padding-top: 30px; }
       .contacts { gap: 0; }
       .contact-button { width: 32px; }
@@ -120,9 +119,8 @@
       .page { width: calc(100% - 36px); }
       header { padding-top: 24px; }
       .navigation-wrap { margin-top: 16px; }
-      .settings-link { min-height: 40px; padding-inline: 12px; font-size: .875rem; }
       nav { gap: 3px 5px; }
-      .nav-current, .nav-item { min-height: 40px; padding: 6px 10px; font-size: .875rem; }
+      .nav-current, .nav-item, .settings-link { min-height: 40px; padding: 6px 10px; font-size: .875rem; }
       main { grid-template-columns: 1fr; gap: 37px; padding-top: 32px; padding-bottom: 36px; }
       .profile { width: min(100%, 366px); margin-inline: auto; }
       .portrait, .cv-button { width: min(250px, 80%); }
@@ -139,7 +137,7 @@
       .news-item { padding: 17px 18px; }
       .news-copy { font-size: 1rem; }
     }
-    @media (max-width: 360px) { nav { gap: 2px; } .nav-current, .nav-item { padding-inline: 8px; } .contacts { gap: 7px; } }
+    @media (max-width: 360px) { nav { gap: 2px; } .nav-current, .nav-item, .settings-link { padding-inline: 8px; } .contacts { gap: 7px; } }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .toast { transition: none; } }
   </style>
 </head>
@@ -155,8 +153,8 @@
           <button class="nav-item" type="button" aria-disabled="true" aria-label="爱好，待更新">爱好</button>
           <button class="nav-item" type="button" aria-disabled="true" aria-label="活动，待更新">活动</button>
           <button class="nav-item" type="button" aria-disabled="true" aria-label="获奖，待更新">获奖</button>
+          <a class="settings-link" href="settings.html" data-settings-link>设置</a>
         </nav>
-        <a class="settings-link" href="settings.html" data-settings-link>设置</a>
         <p class="navigation-note" role="status" hidden></p>
       </div>
     </header>
