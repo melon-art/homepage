@@ -76,6 +76,12 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.input}"
     padding: "12px 16px"
+  about-editor:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.body-ink}"
+    rounded: "{rounded.input}"
+    padding: "14px 16px"
+    minHeight: "280px"
   settings-save:
     backgroundColor: "{colors.gold-soft}"
     textColor: "{colors.gold}"

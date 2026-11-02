@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>设置 · 个人学术主页</title>
+  <script src="about.js" defer></script>
   <script src="profile.js" defer></script>
   <style>
     :root { color-scheme: light; --paper: #fff; --ink: #242b34; --body-ink: #414a54; --muted: #626b75; --gold: #866b35; --gold-soft: #f8f5ed; --line: #e4e6e8; --error: #a13c30; --font-body: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif; --font-heading: Georgia, "Songti SC", SimSun, serif; --radius-control: 6px; --radius-input: 12px; }
@@ -39,6 +40,22 @@
     input::placeholder, textarea::placeholder { color: var(--muted); opacity: 1; }
     input:hover, textarea:hover { border-color: var(--muted); }
     input:focus, textarea:focus { border-color: var(--gold); outline: 2px solid var(--gold-soft); outline-offset: 2px; }
+    .about-field { max-width: none; }
+    .about-editor-shell { border: 1px solid var(--line); border-radius: var(--radius-input); overflow: hidden; }
+    .about-editor-shell:focus-within { border-color: var(--gold); }
+    .about-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+    .format-button { min-height: 36px; padding: 5px 10px; border: 0; border-radius: var(--radius-control); background: transparent; color: var(--body-ink); cursor: pointer; font-size: .875rem; }
+    .format-button:hover, .format-button[aria-pressed="true"] { background: var(--gold-soft); color: var(--gold); }
+    .format-button[data-about-bold] { font-weight: 700; }
+    .format-button[data-about-gold] { color: var(--gold); }
+    .color-control { display: inline-flex; align-items: center; gap: 8px; margin: 0; padding: 2px 4px; color: var(--body-ink); font-size: .875rem; font-weight: 400; }
+    .color-control input { width: 32px; min-height: 32px; height: 32px; padding: 3px; border-radius: var(--radius-control); cursor: pointer; }
+    .about-editor { min-height: 280px; padding: 14px 16px; color: var(--body-ink); caret-color: var(--gold); white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.8; }
+    .about-editor:empty::before { content: attr(data-placeholder); color: var(--muted); pointer-events: none; }
+    .about-editor:focus { outline: 2px solid var(--gold-soft); outline-offset: -2px; }
+    .about-editor p, .about-editor div { margin: 0; }
+    .editor-feedback { margin: 8px 0 0; color: var(--muted); font-size: .8125rem; }
+    .editor-feedback.has-error { color: var(--error); }
     input[type="file"] { padding: 8px; font-size: .875rem; }
     input::file-selector-button { margin-right: 12px; padding: 7px 12px; border: 0; border-radius: var(--radius-control); background: var(--gold-soft); color: var(--gold); font: inherit; cursor: pointer; }
     .photo-editor { display: flex; align-items: flex-start; gap: 20px; }
@@ -117,8 +134,22 @@
           </section>
           <section class="form-section" aria-labelledby="about-editor-title">
             <h2 id="about-editor-title">About</h2>
-            <div class="fields">
-              <div class="field field-wide"><label for="profile-introduction">About 内容</label><textarea id="profile-introduction" name="introduction" rows="10" placeholder="在这里填写主页 About 的全部内容" maxlength="10000" aria-describedby="introduction-help"></textarea><p class="field-help" id="introduction-help">保存后完整显示在主页 About，保留换行和空行。内容由你自由填写，不再自动生成介绍。</p></div>
+            <div class="fields about-field">
+              <div class="field field-wide">
+                <label id="introduction-label" for="profile-introduction">About 内容</label>
+                <div class="about-editor-shell">
+                  <div class="about-toolbar" role="group" aria-label="About 文字格式">
+                    <button class="format-button" type="button" data-about-bold aria-pressed="false" title="加粗（Ctrl+B / ⌘B）">加粗</button>
+                    <button class="format-button" type="button" data-about-gold>金色</button>
+                    <label class="color-control" for="about-color">文字颜色<input id="about-color" type="color" value="#866b35" aria-label="文字颜色"></label>
+                    <button class="format-button" type="button" data-about-clear>清除格式</button>
+                  </div>
+                  <div id="profile-introduction" class="about-editor" contenteditable="true" role="textbox" aria-multiline="true" aria-labelledby="introduction-label" aria-describedby="introduction-help about-feedback" data-placeholder="在这里填写主页 About 的全部内容"></div>
+                </div>
+                <input type="hidden" name="introduction">
+                <p class="field-help" id="introduction-help">选中文字后加粗或更换颜色。支持 Ctrl+B / ⌘B、换行和空行，最多 10000 字符；保存后同步主页。</p>
+                <p class="editor-feedback" id="about-feedback" role="status" aria-live="polite"></p>
+              </div>
             </div>
           </section>
           <section class="form-section" aria-labelledby="contacts-title">

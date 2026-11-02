@@ -30,6 +30,7 @@
       if (value[key] !== undefined && typeof value[key] !== 'string') throw new Error('Invalid field');
       result[key] = (value[key] || '').trim().slice(0, limit);
     }
+    result.introductionRuns = AboutContent.normalize(value.introductionRuns, result.introduction);
     for (const key of Object.keys(assetLimits)) result[key] = normalizeAsset(value[key], key);
     return result;
   }
@@ -63,6 +64,7 @@
 
   function fileLink(href, profile) {
     const text = Object.fromEntries(Object.keys(limits).map(key => [key, profile[key]]));
+    text.introductionRuns = profile.introductionRuns;
     return href.split('#')[0] + '#profile-edit=' + encodeURIComponent(JSON.stringify(text));
   }
 
@@ -73,6 +75,7 @@
     try { profile = fileProfile || read(); }
     catch (_) { status.textContent = '已保存资料暂时无法读取，可重新填写后保存。'; }
     for (const key of Object.keys(limits)) form.elements.namedItem(key).value = profile[key];
+    const aboutEditor = AboutContent.createEditor(form, profile);
     if (isLocalFile) homeLink.href = fileLink(homeLink.getAttribute('href'), profile);
     const draftAssets = { photo: profile.photo, cv: profile.cv };
     const pending = new Set();
@@ -181,9 +184,11 @@
     form.addEventListener('submit', event => {
       event.preventDefault();
       if (pending.size || !form.reportValidity()) return;
+      let about;
+      try { about = aboutEditor.snapshot(); } catch (_) { return; }
       const values = Object.fromEntries(Object.keys(limits).map(key => [key, form.elements.namedItem(key).value]));
       try {
-        const saved = write({ ...values, ...draftAssets });
+        const saved = write({ ...values, ...draftAssets, ...about });
         status.textContent = '已保存，正在返回主页。';
         location.assign(isLocalFile ? fileLink(homeLink.getAttribute('href'), saved) : homeLink.href);
       } catch (_) {
@@ -201,6 +206,7 @@
       let profile;
       try { profile = fileProfile || read(); } catch (_) { profile = normalize({}); }
       for (const [element, fallback] of defaults) element.textContent = profile[element.dataset.profileField] || fallback;
+      if (profile.introduction) AboutContent.render(document.querySelector('[data-profile-field="introduction"]'), profile.introduction, profile.introductionRuns);
       const wordmark = document.querySelector('.wordmark');
       wordmark.setAttribute('aria-label', profile.englishName || 'Your Name，英文名待提供');
       portrait.classList.toggle('has-photo', Boolean(profile.photo));
