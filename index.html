@@ -6,50 +6,68 @@
   <meta name="description" content="个人学术主页视觉预览，个人资料待补充。">
   <title>个人学术主页 · 视觉预览</title>
   <style>
-    :root { color-scheme: light; --paper: #fff; --ink: #2c333b; --muted: #707780; --gold: #927942; --gold-soft: #f8f5ee; --line: #e9eaec; }
+    :root {
+      color-scheme: light;
+      --paper: #ffffff;
+      --ink: #2c333b;
+      --muted: #626b75;
+      --gold: #846d3e;
+      --gold-soft: #f8f5ee;
+      --line: #e9eaec;
+      --font-body: "Microsoft YaHei", "PingFang SC", sans-serif;
+      --font-heading: Georgia, "Songti SC", SimSun, serif;
+      --type-identity: 1.625rem;
+      --type-section: 1.5rem;
+      --type-body: 1rem;
+      --type-label: 0.875rem;
+      --type-meta: 0.8125rem;
+      --type-hint: 0.75rem;
+    }
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Microsoft YaHei", "PingFang SC", sans-serif; -webkit-font-smoothing: antialiased; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 400 var(--type-body)/1.75 var(--font-body); -webkit-font-smoothing: antialiased; }
+    button { font: inherit; }
+    ::selection { background: #eae2d2; color: var(--ink); }
     .page { --profile-width: 218px; --column-gap: 52px; width: min(1040px, calc(100% - 88px)); margin: 0 auto; }
     header { min-height: 80px; display: grid; grid-template-columns: var(--profile-width) minmax(0, 1fr); align-items: center; column-gap: var(--column-gap); }
-    .wordmark { font: 600 25px/1.2 Georgia, "Times New Roman", serif; letter-spacing: -.5px; white-space: nowrap; }
-    nav { display: flex; align-items: center; justify-content: flex-start; gap: 29px; }
-    .nav-item { padding: 8px 0; color: #51575e; font-size: 13px; white-space: nowrap; position: relative; cursor: default; outline-offset: 5px; }
-    .nav-item::after { position: absolute; content: "待更新"; bottom: -18px; left: 50%; transform: translateX(-50%); padding: 4px 8px; background: var(--gold-soft); border-radius: 3px; font-size: 11px; opacity: 0; pointer-events: none; }
+    .wordmark { font: 700 var(--type-identity)/1.25 var(--font-heading); letter-spacing: -0.02em; text-wrap: balance; overflow-wrap: anywhere; }
+    nav { display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; column-gap: 28px; row-gap: 0; }
+    .nav-item { padding: 8px 0; color: #51575e; font-size: var(--type-label); line-height: 1.5; white-space: nowrap; position: relative; cursor: default; outline-offset: 5px; }
+    .nav-item::after { position: absolute; content: "待更新"; bottom: -21px; left: 50%; transform: translateX(-50%); padding: 4px 8px; background: var(--gold-soft); border-radius: 3px; font-size: var(--type-hint); line-height: 1.5; opacity: 0; pointer-events: none; }
     .nav-item:hover::after, .nav-item:focus-visible::after { opacity: 1; }
     main { display: grid; grid-template-columns: var(--profile-width) minmax(0, 1fr); column-gap: var(--column-gap); padding: 29px 0 36px; }
-    .profile { text-align: center; }
-    .portrait { width: 196px; height: 224px; margin: 0 auto; border-radius: 2px; background: #f4f4f2; border: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #78818a; }
-    .portrait span { font-size: 11px; letter-spacing: .5px; }
-    h1 { margin: 15px 0 7px; font-family: Georgia, "Songti SC", SimSun, serif; font-size: 24px; font-weight: 700; letter-spacing: 0; }
-    .degree { margin: 0 0 6px; color: var(--gold); font-size: 13px; }
-    .affiliation { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
-    .contacts { list-style: none; padding: 0; margin: 10px 0 0; display: flex; justify-content: center; align-items: center; gap: 3px; }
+    .profile { min-width: 0; text-align: center; }
+    .portrait { width: 196px; height: 224px; margin: 0 auto; border-radius: 2px; background: #f4f4f2; display: flex; align-items: center; justify-content: center; color: #66717c; }
+    .portrait span { padding: 12px; font-size: var(--type-hint); line-height: 1.5; }
+    h1 { margin: 15px 0 9px; font: 700 var(--type-identity)/1.4 var(--font-heading); letter-spacing: 0; text-wrap: balance; overflow-wrap: anywhere; }
+    .degree { margin: 0 0 5px; color: var(--gold); font-size: var(--type-label); line-height: 1.65; text-wrap: balance; }
+    .affiliation { margin: 0; color: var(--muted); font-size: var(--type-meta); line-height: 1.8; text-wrap: balance; overflow-wrap: anywhere; }
+    .contacts { list-style: none; padding: 0; margin: 12px 0 0; display: flex; justify-content: center; align-items: center; gap: 3px; }
     .contact-button { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 0; background: transparent; color: #5c6570; cursor: pointer; position: relative; }
-    .contact-button:hover, .contact-button:focus-visible { color: var(--gold); background: transparent; }
+    .contact-button:hover, .contact-button:focus-visible { color: var(--gold); }
     .contact-button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
     .contact-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; }
-    .contact-button::after { content: attr(data-label); position: absolute; top: 35px; left: 50%; transform: translateX(-50%); background: var(--gold-soft); color: #675632; padding: 5px 8px; border-radius: 4px; font-size: 11px; white-space: nowrap; pointer-events: none; opacity: 0; }
+    .contact-button::after { content: attr(data-label); position: absolute; top: 35px; left: 50%; transform: translateX(-50%); background: var(--gold-soft); color: #675632; padding: 5px 8px; border-radius: 4px; font-size: var(--type-hint); line-height: 1.5; white-space: nowrap; pointer-events: none; opacity: 0; }
     .contact-button:hover::after, .contact-button:focus-visible::after { opacity: 1; }
-    .introduction { padding-top: 0; }
+    .introduction { min-width: 0; max-inline-size: 72ch; }
     .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
-    h2 { margin: 0 0 15px; font-family: Georgia, "Songti SC", SimSun, serif; font-size: 27px; line-height: 1.35; font-weight: 700; }
-    .intro-copy { color: #404953; font-size: 14px; line-height: 1.9; }
-    .intro-copy p { margin: 0 0 14px; }
-    .cv-area { margin: 14px 0 0; }
-    .cv-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 0; border-bottom: 1px solid #d6c8aa; border-radius: 0; padding: 2px 0 3px; color: var(--gold); background: transparent; font-family: inherit; font-size: 13px; cursor: not-allowed; }
+    h2 { margin: 0 0 14px; font: 700 var(--type-section)/1.4 var(--font-heading); text-wrap: balance; overflow-wrap: anywhere; }
+    .intro-copy { color: #404953; font-size: var(--type-body); line-height: 1.8; overflow-wrap: anywhere; }
+    .intro-copy p { margin: 0 0 0.9em; text-wrap: pretty; }
+    .intro-copy p:last-child { margin-bottom: 0; }
+    .cv-area { margin: 16px 0 0; }
+    .cv-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 0; border-bottom: 1px solid #c8b795; border-radius: 0; padding: 2px 0 3px; color: var(--gold); background: transparent; font-size: var(--type-label); line-height: 1.5; cursor: not-allowed; }
     .cv-button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; }
-
-    .news { margin-top: 26px; }
-    .news-heading { margin-bottom: 6px; }
-    .news-heading h2 { margin: 0; color: var(--ink); font-family: Georgia, "Times New Roman", serif; font-size: 22px; font-weight: 700; letter-spacing: 0; }
+    .news { margin-top: 28px; }
+    .news-heading { margin-bottom: 5px; }
+    .news-heading h2 { margin: 0; }
     .news-list { padding: 0; margin: 0; list-style: none; }
-    .news-item { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 16px; padding: 10px 0; border-bottom: 1px dotted #e2e3e4; font-size: 13px; line-height: 1.8; }
-    .news-date { color: #8b7851; font-size: 12px; }
-    .news-copy { margin: 0; color: #555e68; }
-    .toast { position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, 10px); padding: 11px 19px; border-radius: 7px; background: #343c45; color: white; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .15s, transform .15s; }
+    .news-item { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: baseline; gap: 16px; padding: 11px 0; border-bottom: 1px dotted #e2e3e4; font-size: var(--type-label); line-height: 1.8; }
+    .news-date { color: var(--gold); font-size: var(--type-meta); line-height: inherit; font-variant-numeric: lining-nums tabular-nums; overflow-wrap: anywhere; }
+    .news-copy { margin: 0; color: #555e68; text-wrap: pretty; overflow-wrap: anywhere; }
+    .toast { position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, 10px); max-width: calc(100% - 32px); padding: 11px 19px; border-radius: 7px; background: #343c45; color: white; font-size: var(--type-meta); line-height: 1.65; overflow-wrap: anywhere; opacity: 0; pointer-events: none; transition: opacity .15s, transform .15s; }
     .toast.visible { opacity: 1; transform: translate(-50%, 0); }
-    @media (max-width: 1000px) { .page { --column-gap: 36px; width: calc(100% - 56px); } nav { gap: 23px; } }
-    @media (max-width: 760px) { .page { width: calc(100% - 36px); } header { display: flex; flex-wrap: wrap; padding: 20px 0; gap: 14px; } nav { width: 100%; justify-content: flex-start; gap: 18px; flex-wrap: wrap; } .nav-item { font-size: 12px; } main { grid-template-columns: 1fr; gap: 40px; padding-top: 28px; } .profile { width: 260px; margin: auto; } }
+    @media (max-width: 1000px) { .page { --column-gap: 36px; width: calc(100% - 56px); } nav { column-gap: 23px; } }
+    @media (max-width: 760px) { .page { width: calc(100% - 36px); } header { display: flex; flex-wrap: wrap; padding: 20px 0; gap: 14px; } nav { width: 100%; column-gap: 18px; justify-content: flex-start; } main { grid-template-columns: 1fr; gap: 36px; padding-top: 28px; } .profile { width: 260px; max-width: 100%; margin: auto; } }
     @media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
   </style>
 </head>
