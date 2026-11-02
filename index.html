@@ -9,50 +9,47 @@
     :root { color-scheme: light; --paper: #fff; --ink: #2c333b; --muted: #707780; --gold: #927942; --gold-soft: #f8f5ee; --line: #e9eaec; }
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Microsoft YaHei", "PingFang SC", sans-serif; -webkit-font-smoothing: antialiased; }
-    .page { width: min(1120px, calc(100% - 88px)); margin: 0 auto; }
-    header { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 28px; border-bottom: 1px solid var(--line); }
-    .wordmark { font: 600 28px/1.2 Georgia, "Times New Roman", serif; letter-spacing: -.5px; white-space: nowrap; }
-    nav { display: flex; align-items: center; justify-content: flex-end; gap: 32px; }
-    .nav-item { padding: 12px 0; color: #444c55; font-size: 14px; white-space: nowrap; position: relative; cursor: default; outline-offset: 5px; }
+    .page { --profile-width: 218px; --column-gap: 52px; width: min(1040px, calc(100% - 88px)); margin: 0 auto; }
+    header { min-height: 80px; display: grid; grid-template-columns: var(--profile-width) minmax(0, 1fr); align-items: center; column-gap: var(--column-gap); }
+    .wordmark { font: 600 25px/1.2 Georgia, "Times New Roman", serif; letter-spacing: -.5px; white-space: nowrap; }
+    nav { display: flex; align-items: center; justify-content: flex-start; gap: 29px; }
+    .nav-item { padding: 8px 0; color: #51575e; font-size: 13px; white-space: nowrap; position: relative; cursor: default; outline-offset: 5px; }
     .nav-item::after { position: absolute; content: "待更新"; bottom: -18px; left: 50%; transform: translateX(-50%); padding: 4px 8px; background: var(--gold-soft); border-radius: 3px; font-size: 11px; opacity: 0; pointer-events: none; }
     .nav-item:hover::after, .nav-item:focus-visible::after { opacity: 1; }
-    main { display: grid; grid-template-columns: 236px minmax(0, 1fr); column-gap: 58px; padding: 32px 0; }
+    main { display: grid; grid-template-columns: var(--profile-width) minmax(0, 1fr); column-gap: var(--column-gap); padding: 29px 0 36px; }
     .profile { text-align: center; }
-    .portrait { width: 224px; height: 238px; margin: 0 auto; border-radius: 10px; background: #f1f2f2; border: 1px solid #e5e7e8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #78818a; }
-    .portrait svg { width: 76px; height: 76px; stroke: #a2a9af; fill: none; stroke-width: 1; }
-    .portrait span { font-size: 12px; letter-spacing: 1px; }
-    h1 { margin: 16px 0 8px; font-family: Georgia, "Songti SC", SimSun, serif; font-size: 27px; font-weight: 700; letter-spacing: .5px; }
-    .degree { margin: 0 0 6px; color: var(--gold); font-size: 14px; }
-    .affiliation { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
-    .contacts { list-style: none; padding: 0; margin: 14px 0 0; display: flex; justify-content: center; align-items: center; gap: 3px; }
-    .contact-button { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 6px; background: transparent; color: #5c6570; cursor: pointer; position: relative; }
-    .contact-button:hover, .contact-button:focus-visible { color: var(--gold); background: var(--gold-soft); }
+    .portrait { width: 196px; height: 224px; margin: 0 auto; border-radius: 2px; background: #f4f4f2; border: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #78818a; }
+    .portrait span { font-size: 11px; letter-spacing: .5px; }
+    h1 { margin: 15px 0 7px; font-family: Georgia, "Songti SC", SimSun, serif; font-size: 24px; font-weight: 700; letter-spacing: 0; }
+    .degree { margin: 0 0 6px; color: var(--gold); font-size: 13px; }
+    .affiliation { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .contacts { list-style: none; padding: 0; margin: 10px 0 0; display: flex; justify-content: center; align-items: center; gap: 3px; }
+    .contact-button { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 0; background: transparent; color: #5c6570; cursor: pointer; position: relative; }
+    .contact-button:hover, .contact-button:focus-visible { color: var(--gold); background: transparent; }
     .contact-button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-    .contact-button svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; }
-    .contact-button::after { content: attr(data-label); position: absolute; top: 41px; left: 50%; transform: translateX(-50%); background: var(--gold-soft); color: #675632; padding: 5px 8px; border-radius: 4px; font-size: 11px; white-space: nowrap; pointer-events: none; opacity: 0; }
+    .contact-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; }
+    .contact-button::after { content: attr(data-label); position: absolute; top: 35px; left: 50%; transform: translateX(-50%); background: var(--gold-soft); color: #675632; padding: 5px 8px; border-radius: 4px; font-size: 11px; white-space: nowrap; pointer-events: none; opacity: 0; }
     .contact-button:hover::after, .contact-button:focus-visible::after { opacity: 1; }
     .introduction { padding-top: 0; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
     h2 { margin: 0 0 15px; font-family: Georgia, "Songti SC", SimSun, serif; font-size: 27px; line-height: 1.35; font-weight: 700; }
-    .intro-copy { color: #404953; font-size: 15px; line-height: 1.9; }
+    .intro-copy { color: #404953; font-size: 14px; line-height: 1.9; }
     .intro-copy p { margin: 0 0 14px; }
-    .intro-copy .placeholder-note { color: #7d848b; font-size: 12px; }
-    .cv-area { margin: 17px 7px 0; }
-    .cv-button { display: inline-flex; align-items: center; justify-content: center; width: 100%; gap: 10px; border: 1px solid #eee7d8; border-radius: 4px; padding: 9px 14px; color: var(--gold); background: var(--gold-soft); font-family: inherit; font-size: 13px; cursor: not-allowed; }
+    .cv-area { margin: 14px 0 0; }
+    .cv-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 0; border-bottom: 1px solid #d6c8aa; border-radius: 0; padding: 2px 0 3px; color: var(--gold); background: transparent; font-family: inherit; font-size: 13px; cursor: not-allowed; }
     .cv-button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; }
-    .cv-note { margin: 6px 0 0; font-size: 10px; color: #8a8e94; }
-    .news { margin-top: 30px; }
-    .news-heading { display: flex; align-items: baseline; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
-    .news-heading h2 { margin: 0; color: var(--gold); font-family: "Microsoft YaHei", "PingFang SC", sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 1.5px; }
-    .news-heading span { color: #858a90; font-size: 11px; }
+
+    .news { margin-top: 26px; }
+    .news-heading { margin-bottom: 6px; }
+    .news-heading h2 { margin: 0; color: var(--ink); font-family: Georgia, "Times New Roman", serif; font-size: 22px; font-weight: 700; letter-spacing: 0; }
     .news-list { padding: 0; margin: 0; list-style: none; }
-    .news-item { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 18px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 13px; line-height: 1.8; }
+    .news-item { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 16px; padding: 10px 0; border-bottom: 1px dotted #e2e3e4; font-size: 13px; line-height: 1.8; }
     .news-date { color: #8b7851; font-size: 12px; }
     .news-copy { margin: 0; color: #555e68; }
-    .news-copy small { display: block; margin-top: 3px; color: #858b92; font-size: 12px; }
     .toast { position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, 10px); padding: 11px 19px; border-radius: 7px; background: #343c45; color: white; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .15s, transform .15s; }
     .toast.visible { opacity: 1; transform: translate(-50%, 0); }
-    @media (max-width: 1000px) { .page { width: calc(100% - 56px); } main { column-gap: 36px; } nav { gap: 23px; } }
-    @media (max-width: 760px) { .page { width: calc(100% - 36px); } header { flex-wrap: wrap; padding: 20px 0; gap: 14px; } nav { width: 100%; justify-content: flex-end; gap: 18px; flex-wrap: wrap; } .nav-item { font-size: 12px; } main { grid-template-columns: 1fr; gap: 40px; padding-top: 28px; } .profile { width: 260px; margin: auto; } }
+    @media (max-width: 1000px) { .page { --column-gap: 36px; width: calc(100% - 56px); } nav { gap: 23px; } }
+    @media (max-width: 760px) { .page { width: calc(100% - 36px); } header { display: flex; flex-wrap: wrap; padding: 20px 0; gap: 14px; } nav { width: 100%; justify-content: flex-start; gap: 18px; flex-wrap: wrap; } .nav-item { font-size: 12px; } main { grid-template-columns: 1fr; gap: 40px; padding-top: 28px; } .profile { width: 260px; margin: auto; } }
     @media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
   </style>
 </head>
@@ -71,7 +68,6 @@
     <main>
       <aside class="profile" aria-label="个人信息">
         <div class="portrait" role="img" aria-label="个人照片待提供">
-          <svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="26" r="13"/><path d="M14 69c0-16 11-26 26-26s26 10 26 26"/></svg>
           <span>个人照片待提供</span>
         </div>
         <h1>你的姓名</h1>
@@ -79,7 +75,6 @@
         <p class="affiliation">学校名称 · 院系名称<br>专业名称</p>
         <div class="cv-area">
           <button class="cv-button" type="button" disabled aria-label="简历待上传，暂不可下载">下载简历<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2v10m-4-4 4 4 4-4M3 13v4h14v-4"/></svg></button>
-          <p class="cv-note">简历待上传 · PDF</p>
         </div>
         <ul class="contacts" aria-label="点击图标复制联系方式">
           <li><button class="contact-button" type="button" data-contact="phone" data-label="电话" aria-label="复制电话（资料待提供）"><svg viewBox="0 0 22 22" aria-hidden="true"><path d="M6 3 3.5 5.5c-1.5 5 6 12.5 11 11L17 14l-4-3-2 2c-2-1-3-2-4-4l2-2z"/></svg></button></li>
@@ -92,24 +87,23 @@
       </aside>
       <div class="introduction">
         <section class="about-block" aria-labelledby="about-title">
-        <h2 id="about-title">关于我</h2>
+        <h2 id="about-title" class="visually-hidden">关于我</h2>
         <div class="intro-copy">
-          <p>这里将展示你的简短自我介绍。</p>
-          <p>你可以介绍自己的学术背景、感兴趣的研究问题，以及希望与访问者分享的个人经历。</p>
-          <p class="placeholder-note">以上为版式占位内容，待补充你的正式介绍。</p>
+          <p>你好，我是［姓名］，目前在［学校］［院系］攻读［学历］，专业为［专业名称］。</p>
+          <p>我的研究兴趣包括［研究方向一］与［研究方向二］，近期关注［具体研究问题］。</p>
+          <p>这里收录我的研究记录、课程作业，以及个人的兴趣与活动。</p>
         </div>
 
         </section>
         <section class="news" aria-labelledby="news-title">
           <div class="news-heading">
-            <h2 id="news-title" lang="en">NEWS</h2>
-            <span>近期动态</span>
+            <h2 id="news-title" lang="en">News</h2>
           </div>
           <ul class="news-list">
             <!-- 添加真实动态时，日期使用 time 元素和有效 datetime，按时间倒序排列。 -->
             <li class="news-item">
               <span class="news-date">日期待补充</span>
-              <p class="news-copy">动态内容待补充。<small>这里将记录你的学术进展、项目与活动。</small></p>
+              <p class="news-copy">动态内容待补充。</p>
             </li>
           </ul>
         </section>
