@@ -161,5 +161,112 @@
     };
   }
 
-  window.AboutContent = Object.freeze({ normalize, render, createEditor });
+  function createDisclosure(target) {
+    const container = target.parentElement;
+    const portrait = document.querySelector('.portrait');
+    const ending = document.createElement('span');
+    ending.className = 'about-ending';
+    const ellipsis = document.createElement('span');
+    ellipsis.textContent = '...';
+    ellipsis.setAttribute('aria-hidden', 'true');
+    const button = document.createElement('button');
+    button.className = 'about-toggle';
+    button.type = 'button';
+    button.setAttribute('aria-controls', target.id);
+    ending.append(ellipsis, button);
+
+    let text = '';
+    let formatting = [];
+    let expanded = false;
+    let frame;
+
+    function showPrefix(count, label) {
+      const preview = text.slice(0, count).trimEnd();
+      const runs = [];
+      let remaining = preview.length;
+      for (const run of formatting) {
+        if (!remaining) break;
+        const part = run.text.slice(0, remaining);
+        append(runs, part, run.bold, run.color);
+        remaining -= part.length;
+      }
+      render(target, preview, runs);
+      button.textContent = label;
+      button.setAttribute('aria-expanded', String(expanded));
+      button.setAttribute('aria-label', label + ' About');
+      target.appendChild(ending);
+    }
+
+    function refresh() {
+      container.classList.remove('is-collapsed');
+      container.style.removeProperty('--about-preview-height');
+      render(target, text, formatting);
+      const lineHeight = parseFloat(getComputedStyle(target).lineHeight);
+      // The two columns share a top edge on desktop. Once stacked, use a six-line
+      // preview instead of comparing the About position to a photo above it.
+      const height = matchMedia('(max-width: 620px)').matches ? lineHeight * 6 :
+        Math.max(lineHeight * 2, portrait.getBoundingClientRect().bottom - container.getBoundingClientRect().top);
+      if (target.getBoundingClientRect().height <= height + .5) { expanded = false; return; }
+      if (expanded) { showPrefix(text.length, '收起'); return; }
+
+      container.classList.add('is-collapsed');
+      container.style.setProperty('--about-preview-height', height + 'px');
+      // Search grapheme boundaries so truncation preserves emoji and combined
+      // characters, as well as the saved bold/color runs on the visible prefix.
+      const characters = typeof Intl.Segmenter === 'function' ?
+        [...new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(text)].map(part => part.segment) : Array.from(text);
+      const boundaries = [0];
+      for (const character of characters) boundaries.push(boundaries[boundaries.length - 1] + character.length);
+      let low = 0;
+      let high = characters.length;
+      while (low < high) {
+        const middle = Math.ceil((low + high) / 2);
+        showPrefix(boundaries[middle], '展开');
+        if (target.getBoundingClientRect().height <= height + .5) low = middle;
+        else high = middle - 1;
+      }
+      showPrefix(boundaries[low], '展开');
+    }
+
+    function schedule() {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(refresh);
+    }
+
+    button.addEventListener('click', () => {
+      expanded = !expanded;
+      refresh();
+      button.focus({ preventScroll: true });
+      const rect = button.getBoundingClientRect();
+      if (rect.top < 0 || rect.bottom > innerHeight) button.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    });
+    let width = -1;
+    let portraitHeight = -1;
+    if (typeof ResizeObserver === 'function') {
+      const observer = new ResizeObserver(() => {
+        const nextWidth = container.getBoundingClientRect().width;
+        const nextPortraitHeight = portrait.getBoundingClientRect().height;
+        if (width !== nextWidth || portraitHeight !== nextPortraitHeight) {
+          width = nextWidth;
+          portraitHeight = nextPortraitHeight;
+          schedule();
+        }
+      });
+      observer.observe(container);
+      observer.observe(portrait);
+    }
+    window.addEventListener('resize', schedule);
+    if (document.fonts) document.fonts.ready.then(schedule);
+
+    return {
+      update(value, runs) {
+        if (value !== text) expanded = false;
+        text = value;
+        formatting = normalize(runs, text);
+        refresh();
+      }
+    };
+  }
+
+  window.AboutContent = Object.freeze({ normalize, render, createEditor, createDisclosure });
 })();

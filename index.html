@@ -87,6 +87,11 @@
     .intro-copy { width: 100%; color: var(--body-ink); overflow-wrap: anywhere; }
     .intro-copy p { margin: 0 0 19px; text-wrap: pretty; }
     .intro-copy p:last-child { margin-bottom: 0; }
+    .intro-copy.is-collapsed { position: relative; height: var(--about-preview-height); }
+    .intro-copy.is-collapsed::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: min(72px, 45%); background: linear-gradient(to bottom, rgb(255 255 255 / 0), var(--paper)); pointer-events: none; }
+    .about-ending { position: relative; z-index: 1; display: inline-block; white-space: nowrap; background: var(--paper); }
+    .about-toggle { margin: 0 0 0 4px; padding: 0; border: 0; background: transparent; color: var(--gold); font: inherit; line-height: inherit; cursor: pointer; text-underline-offset: .2em; }
+    .about-toggle:hover { text-decoration: underline; }
     .inline-accent { color: var(--gold); }
     .news { margin-top: 38px; }
     .news-heading { margin-bottom: 20px; }
@@ -191,7 +196,7 @@
         <section class="about-block" aria-labelledby="about-title">
         <h2 id="about-title" lang="en">About</h2>
         <div class="intro-copy">
-          <p data-profile-field="introduction">About 内容待填写。</p>
+          <p id="about-copy" data-profile-field="introduction">About 内容待填写。</p>
         </div>
 
         </section>

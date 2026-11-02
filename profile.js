@@ -199,6 +199,8 @@
     const portrait = document.querySelector('.portrait');
     const placeholder = portrait.firstElementChild.cloneNode(true);
     const cvButton = document.querySelector('.cv-button');
+    const aboutTarget = document.querySelector('[data-profile-field="introduction"]');
+    const aboutDisclosure = AboutContent.createDisclosure(aboutTarget);
     const contactDefaults = typeof CONTACTS === 'undefined' ? {} : { ...CONTACTS };
     let currentCv = null;
 
@@ -206,7 +208,6 @@
       let profile;
       try { profile = fileProfile || read(); } catch (_) { profile = normalize({}); }
       for (const [element, fallback] of defaults) element.textContent = profile[element.dataset.profileField] || fallback;
-      if (profile.introduction) AboutContent.render(document.querySelector('[data-profile-field="introduction"]'), profile.introduction, profile.introductionRuns);
       const wordmark = document.querySelector('.wordmark');
       wordmark.setAttribute('aria-label', profile.englishName || 'Your Name，英文名待提供');
       portrait.classList.toggle('has-photo', Boolean(profile.photo));
@@ -231,6 +232,7 @@
       cvButton.disabled = !currentCv;
       cvButton.querySelector('[data-cv-label]').textContent = currentCv ? '下载简历' : '简历待上传';
       cvButton.setAttribute('aria-label', currentCv ? '下载简历 PDF' : '简历待上传，暂不可下载');
+      aboutDisclosure.update(profile.introduction || defaults.get(aboutTarget), profile.introductionRuns);
       if (isLocalFile) {
         const link = document.querySelector('[data-settings-link]');
         if (link) link.href = fileLink(link.getAttribute('href'), profile);

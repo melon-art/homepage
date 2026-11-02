@@ -76,6 +76,11 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.input}"
     padding: "12px 16px"
+  about-toggle:
+    backgroundColor: "transparent"
+    textColor: "{colors.gold}"
+    typography: "{typography.body}"
+    padding: "0"
   about-editor:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.body-ink}"
@@ -191,6 +196,12 @@ components:
 ### Navigation
 
 顶部七个导航项均使用透明背景，不显示悬停方框；About 当前项与设置保留金色文字。悬停或键盘聚焦时，在文字下方显示统一 72px 长、2px 高、起点与文字左边缘对齐的金色线，以左侧为原点用 scaleX 从 0 展开至 1，时长 260ms，缓动 cubic-bezier(.16, 1, .3, 1)。移开后收起；开启减少动态时取消过渡、直接显示状态，保留键盘焦点轮廓。每项最小宽度 56px，线条附着于文字 span 而非按钮容器；短标签也不影响线长。1100px 以下导航末端预留 16px，避免较长线条导致横向溢出。五个待开发栏目继续只提示待更新，Escape 可关闭提示；窄屏自然换行。
+
+### About Disclosure
+
+长 About 默认收起：双栏布局中预览容器下边缘与左侧照片下边缘对齐；620px 以下为六行预览。底部以 72px（最多容器高度 45%）的透明到 paper 渐变淡出，按钮与省略号位于渐变上方，保持可读。预览按字素边界截断，保留文字原有粗体／颜色，不改变源资料。短内容自然展示，不强制限高、渐隐或显示开关。
+
+段末使用无边框、无填色的行内金色文字按钮，前为“...”，4px 字间距，字形／字号／行高继承正文；省略号与按钮不可拆行。收起态为“...展开”，展开态为全文末尾“...收起”；悬停仅下划线，键盘保留通用焦点轮廓及 aria-expanded。News 保持原间距并随内容流自然换位，不预留展开空间。不新增高度动画，切换后焦点仍在按钮，需要时把新位置滚动到可见范围。
 
 ### Settings Editor
 

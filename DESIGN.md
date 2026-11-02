@@ -76,6 +76,11 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.input}"
     padding: "12px 16px"
+  about-toggle:
+    backgroundColor: "transparent"
+    textColor: "{colors.gold}"
+    typography: "{typography.body}"
+    padding: "0"
   about-editor:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.body-ink}"

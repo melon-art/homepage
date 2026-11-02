@@ -239,6 +239,14 @@
       "description": "About 全宽编辑区；选词加粗、金色、自选文字颜色和清除格式，保留旧文字与换行。",
       "html": "<div class=\"ds-rich-shell\"><div class=\"ds-rich-toolbar\" role=\"group\" aria-label=\"About 文字格式\"><button type=\"button\" aria-pressed=\"false\">加粗</button><button type=\"button\">金色</button><label>文字颜色 <input type=\"color\" value=\"#866b35\"></label><button type=\"button\">清除格式</button></div><div class=\"ds-rich-editor\" role=\"textbox\" aria-label=\"About 内容\" aria-multiline=\"true\" contenteditable=\"true\">在这里填写 About 全文。</div></div>",
       "css": ".ds-rich-shell{border:1px solid var(--line);border-radius:12px;overflow:hidden}.ds-rich-shell:focus-within{border-color:var(--gold)}.ds-rich-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;padding:8px 12px;border-bottom:1px solid var(--line)}.ds-rich-toolbar button{min-height:36px;padding:5px 10px;border:0;border-radius:var(--radius-control);background:transparent;color:var(--body-ink);font:inherit;cursor:pointer}.ds-rich-toolbar button:hover,.ds-rich-toolbar button[aria-pressed=true]{background:var(--gold-soft);color:var(--gold)}.ds-rich-editor{min-height:280px;padding:14px 16px;color:var(--body-ink);caret-color:var(--gold);white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;font-family:var(--font-body)}.ds-rich-editor:focus{outline:2px solid var(--gold-soft);outline-offset:-2px}"
+    },
+    {
+      "name": "About 展开与收起",
+      "kind": "button",
+      "refersTo": "about-toggle",
+      "description": "正文段末同行 ...展开／...收起，透明底金字。收起预览与照片底边对齐并渐隐，手机六行。",
+      "html": "<span class=\"ds-about-ending\"><span aria-hidden=\"true\">...</span><button class=\"ds-about-toggle\" type=\"button\" aria-expanded=\"false\" aria-controls=\"ds-about-copy\">展开</button></span>",
+      "css": ".ds-about-ending{position:relative;z-index:1;display:inline-block;white-space:nowrap;background:var(--paper)}.ds-about-toggle{margin:0 0 0 4px;padding:0;border:0;background:transparent;color:var(--gold);font:inherit;line-height:inherit;cursor:pointer;text-underline-offset:.2em}.ds-about-toggle:hover{text-decoration:underline}.ds-about-toggle:focus-visible{outline:2px solid var(--gold);outline-offset:4px}"
     }
   ],
   "narrative": {
