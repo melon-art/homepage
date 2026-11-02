@@ -196,7 +196,7 @@
       "refersTo": "cv-button",
       "description": "浅金底、金色文字；缺少 PDF 时保持禁用。",
       "html": "<button class=\"ds-cv\" disabled>简历待上传</button>",
-      "css": ".ds-cv { display:inline-flex; align-items:center; justify-content:center; min-height:40px; padding:8px 22px; border:0; border-radius:var(--radius-control); background:var(--gold-soft); color:var(--gold); font:400 var(--type-meta)/1.6 var(--font-body); cursor:not-allowed; } .ds-cv:focus-visible { outline:2px solid var(--gold); outline-offset:4px; }"
+      "css": ".ds-cv { width:min(290px,100%); display:inline-flex; align-items:center; justify-content:center; min-height:40px; padding:8px 22px; border:0; border-radius:var(--radius-control); background:var(--gold-soft); color:var(--gold); font:400 var(--type-meta)/1.6 var(--font-body); cursor:not-allowed; } .ds-cv:focus-visible { outline:2px solid var(--gold); outline-offset:4px; }"
     }
   ],
   "narrative": {

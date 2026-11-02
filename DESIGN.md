@@ -63,6 +63,7 @@ components:
     width: "36px"
     height: "36px"
   cv-button:
+    width: "min(290px, 100%)"
     backgroundColor: "{colors.gold-soft}"
     textColor: "{colors.gold}"
     rounded: "{rounded.control}"
@@ -170,7 +171,7 @@ components:
 
 ### Portrait and Profile
 
-大幅照片区域、姓名、学历与院系依次居中排列。照片缺失时显示“个人照片／待提供”，不得用参考图人物或其他照片代替。学历使用暖金色，院系使用次级灰。简历入口使用 gold-soft 填充、gold 文字及下载图标，6px 圆角，最小高度 40px，内边距 8px 22px；未提供文件时保留禁用与“简历待上传”状态。联系图标上间距与简历按钮上间距均为 16px。删除研究兴趣面板后不保留占位高度。
+大幅照片区域、姓名、学历与院系依次居中排列。照片缺失时显示“个人照片／待提供”，不得用参考图人物或其他照片代替。学历使用暖金色，院系使用次级灰。简历入口使用 gold-soft 填充、gold 文字及下载图标，6px 圆角，最小高度 40px，内边距 8px 22px；宽度始终与上方照片一致（桌面最大 290px、手机最大 250px）；未提供文件时保留禁用与“简历待上传”状态。联系图标上间距与简历按钮上间距均为 16px。删除研究兴趣面板后不保留占位高度。
 
 ### Contact Icons and Tooltips
 
