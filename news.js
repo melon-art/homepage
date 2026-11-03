@@ -48,6 +48,26 @@
     });
   }
 
+  // Read and replace in one transaction: editing a deleted/stale entry must not recreate it.
+  async function replaceExisting(entry, original) {
+    const db = await connect();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction('entries', 'readwrite');
+      const store = tx.objectStore('entries');
+      const request = store.get(entry.id);
+      let reason;
+      request.onsuccess = () => {
+        const current = request.result;
+        if (!current) reason = 'missing';
+        else if ((current.updatedAt || current.createdAt) !== (original.updatedAt || original.createdAt)) reason = 'conflict';
+        if (reason) { tx.abort(); return; }
+        store.put(entry);
+      };
+      tx.oncomplete = resolve;
+      tx.onabort = tx.onerror = () => reject(reason ? new Error(reason) : tx.error || new Error('Storage failed'));
+    });
+  }
+
   function attachment(value, kind) {
     if (!value || !(value.blob instanceof Blob) || !value.blob.size || value.blob.size > LIMITS[kind]) return null;
     if (kind === 'image' && !IMAGE_TYPES.includes(value.blob.type)) return null;
@@ -57,7 +77,7 @@
   function notifySaved(id) {
     try {
       if (channel) channel.postMessage('changed');
-      else localStorage.setItem(REVISION_KEY, id);
+      else localStorage.setItem(REVISION_KEY, id + ':' + crypto.randomUUID());
     } catch (_) { /* Returning home / pageshow still reloads the saved entries. */ }
   }
 
@@ -68,6 +88,10 @@
     const date = form.elements.namedItem('date');
     const body = form.elements.namedItem('body');
     const assets = { image: null, file: null };
+    const parameters = new URLSearchParams(location.search);
+    const editing = parameters.has('id');
+    const editId = parameters.get('id');
+    let original;
     const assetErrors = { image: false, file: false };
     const revisions = { image: 0, file: 0 };
     let previewURL;
@@ -76,6 +100,11 @@
     let ready = false;
     const now = new Date();
     date.value = [String(now.getFullYear()).padStart(4, '0'), String(now.getMonth() + 1).padStart(2, '0'), String(now.getDate()).padStart(2, '0')].join('-');
+    if (editing) {
+      document.querySelector('#news-edit-title').textContent = '编辑 News';
+      document.title = '编辑 News · 个人学术主页';
+      fields.disabled = true;
+    }
 
     function message(text, error = false) {
       status.textContent = text;
@@ -167,13 +196,19 @@
       fields.disabled = true;
       updateBusy();
       message('正在保存…');
-      const entry = { id: crypto.randomUUID(), date: date.value, body: body.value.trim(), createdAt: Date.now(), image: assets.image, file: assets.file };
+      const entry = { id: editing ? original.id : crypto.randomUUID(), date: date.value, body: body.value.trim(), createdAt: editing ? original.createdAt : Date.now(), image: assets.image, file: assets.file };
+      if (editing) entry.updatedAt = Math.max(Date.now(), Number(original.updatedAt || original.createdAt || 0) + 1);
       try {
-        await transact('readwrite', store => store.add(entry));
+        if (editing) await replaceExisting(entry, original);
+        else await transact('readwrite', store => store.add(entry));
         notifySaved(entry.id);
         location.assign('index.html#news-title');
-      } catch (_) {
-        message('保存失败，可能是浏览器存储空间不足或被禁用。内容和附件已保留在此页，请重试。', true);
+      } catch (failure) {
+        const reasons = {
+          missing: '这条 News 已被删除，无法保存修改。当前草稿保留在此页，可复制正文后返回主页。',
+          conflict: '这条 News 已在其他页面修改。当前草稿保留在此页，请复制后重新打开最新记录。'
+        };
+        message(reasons[failure.message] || '保存失败，可能是浏览器存储空间不足或被禁用。内容和附件已保留在此页，请重试。', true);
         saving = false;
         fields.disabled = false;
         updateBusy();
@@ -183,7 +218,28 @@
     if (location.protocol === 'file:') {
       message('请通过 http://127.0.0.1:8765/news-edit.html 打开此页，再添加 News。', true);
     } else {
-      connect().then(() => { ready = true; updateBusy(); }).catch(() => {
+      (async () => {
+        await connect();
+        if (editing) {
+          message('正在读取 News…');
+          const entry = editId ? await transact('readonly', store => store.get(editId)) : null;
+          if (!entry || !validDate(entry.date) || typeof entry.body !== 'string') {
+            message('找不到这条 News，可能已被删除。请返回主页查看。', true);
+            return;
+          }
+          original = entry;
+          date.value = entry.date;
+          body.value = entry.body;
+          assets.image = attachment(entry.image, 'image');
+          assets.file = attachment(entry.file, 'file');
+          showAsset('image');
+          showAsset('file');
+          message('');
+        }
+        fields.disabled = false;
+        ready = true;
+        updateBusy();
+      })().catch(() => {
         message('无法打开 News 本地存储，请允许浏览器存储后刷新。当前输入会保留在此页。', true);
       });
     }
@@ -194,6 +250,7 @@
     const emptyMarkup = list.firstElementChild.cloneNode(true);
     let version = 0;
     let urls = [];
+    const deleting = new Set();
 
     function node(tag, className, text) {
       const element = document.createElement(tag);
@@ -212,10 +269,43 @@
         const nextURLs = [];
         const items = entries.map(entry => {
           const item = node('li', 'news-item');
+          item.dataset.newsId = entry.id;
           const text = node('div', 'news-text');
           const time = node('time', 'news-date', entry.date);
           time.dateTime = entry.date;
-          text.append(time, node('p', 'news-copy', entry.body));
+          const meta = node('div', 'news-meta');
+          const actions = node('div', 'news-actions');
+          const edit = node('a', 'news-action news-edit', '编辑');
+          edit.href = 'news-edit.html?id=' + encodeURIComponent(entry.id);
+          edit.setAttribute('aria-label', '编辑 ' + entry.date + ' 的 News');
+          const remove = node('button', 'news-action news-delete', '删除');
+          remove.type = 'button';
+          remove.disabled = deleting.has(entry.id);
+          remove.setAttribute('aria-label', '删除 ' + entry.date + ' 的 News');
+          remove.addEventListener('click', async () => {
+            if (deleting.has(entry.id) || !window.confirm('删除这条 News？删除后无法恢复。\n\n' + entry.date + '\n' + entry.body.slice(0, 100))) return;
+            deleting.add(entry.id);
+            remove.disabled = true;
+            try {
+              await transact('readwrite', store => store.delete(entry.id));
+              notifySaved(entry.id);
+              await render();
+              status.textContent = 'News 已删除。';
+              status.classList.add('is-success');
+              status.hidden = false;
+              (list.querySelector('.news-edit') || document.querySelector('.news-add')).focus({ preventScroll: true });
+            } catch (_) {
+              status.textContent = '删除失败，News 未删除。请允许浏览器存储后重试。';
+              status.classList.remove('is-success');
+              status.hidden = false;
+            } finally {
+              deleting.delete(entry.id);
+              remove.disabled = false;
+            }
+          });
+          actions.append(edit, remove);
+          meta.append(time, actions);
+          text.append(meta, node('p', 'news-copy', entry.body));
           const file = attachment(entry.file, 'file');
           if (file) {
             const link = node('a', 'news-file');
@@ -248,6 +338,7 @@
         if (current !== version) return;
         if (!urls.length && !list.querySelector('time')) list.replaceChildren();
         status.textContent = '暂时无法读取本机 News。请使用本地预览地址并允许浏览器存储，然后刷新。';
+        status.classList.remove('is-success');
         status.hidden = false;
       }
     }

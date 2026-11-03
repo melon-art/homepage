@@ -7,7 +7,7 @@
   <title>个人学术主页 · 视觉预览</title>
   <script src="about.js?v=4efae92768a9" defer></script>
   <script src="profile.js" defer></script>
-  <script src="news.js?v=fbfc409229ee" defer></script>
+  <script src="news.js?v=2bf2931dbfb4" defer></script>
   <style>
 
     :root {
@@ -104,6 +104,15 @@
     .news-list { padding: 0; margin: 0; list-style: none; display: grid; gap: 16px; }
     .news-item { display: flex; align-items: flex-start; gap: 24px; padding: 19px 20px 20px; border-radius: var(--radius-card); background: var(--card); box-shadow: var(--shadow-card); overflow-wrap: anywhere; }
     .news-text { flex: 1; min-width: 0; }
+    .news-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 7px; }
+    .news-meta .news-date { margin: 0; }
+    .news-actions { display: flex; align-items: center; gap: 4px; opacity: 0; pointer-events: none; }
+    .news-item:hover .news-actions, .news-item:focus-within .news-actions { opacity: 1; pointer-events: auto; }
+    .news-action { display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 3px 8px; border: 0; border-radius: var(--radius-control); background: transparent; color: var(--gold); font-size: var(--type-meta); line-height: 1.5; text-decoration: none; cursor: pointer; }
+    .news-action:hover, .news-action:focus-visible { background: var(--gold-soft); }
+    .news-delete { color: #a13c30; }
+    .news-action:disabled { opacity: .6; cursor: wait; }
+    @media (hover: none), (pointer: coarse) { .news-actions { opacity: 1; pointer-events: auto; } .news-action { min-height: 40px; } }
     .news-date { display: block; margin-bottom: 7px; color: var(--gold); font-size: var(--type-meta); line-height: 1.5; font-variant-numeric: lining-nums tabular-nums; }
     .news-copy { margin: 0; color: var(--body-ink); font-size: var(--type-body); line-height: 1.7; white-space: pre-wrap; text-wrap: pretty; }
     .news-image { flex: none; width: 144px; max-width: 32%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; border-radius: var(--radius-control); }
@@ -111,6 +120,7 @@
     .news-file:hover { text-decoration: underline; }
     .news-file span { min-width: 0; overflow-wrap: anywhere; }
     .news-status { margin: 12px 0 0; color: #a13c30; font-size: var(--type-meta); }
+    .news-status.is-success { color: var(--gold); }
     .toast { position: fixed; z-index: 20; left: 50%; bottom: 26px; transform: translate(-50%, 8px); width: max-content; max-width: calc(100% - 32px); padding: 11px 18px; border-radius: var(--radius-control); background: var(--ink); color: var(--paper); font-size: var(--type-meta); line-height: 1.6; overflow-wrap: anywhere; opacity: 0; pointer-events: none; transition: opacity .16s ease-out, transform .16s ease-out; }
     .toast.visible { opacity: 1; transform: translate(-50%, 0); }
     .copy-recovery { position: fixed; z-index: 21; left: 50%; bottom: 24px; transform: translateX(-50%); width: min(440px, calc(100% - 32px)); padding: 18px; border-radius: var(--radius-card); background: var(--paper); box-shadow: 0 5px 28px rgba(30, 39, 48, .22); font-size: var(--type-meta); }

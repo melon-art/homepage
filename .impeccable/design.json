@@ -260,6 +260,14 @@
       "description": "正文段末同行 ...展开／收起（展开后无省略号），透明底金字。收起预览与照片底边对齐并渐隐，手机六行。",
       "html": "<span class=\"ds-about-ending\"><span aria-hidden=\"true\">...</span><button class=\"ds-about-toggle\" type=\"button\" aria-expanded=\"false\" aria-controls=\"ds-about-copy\">展开</button></span>",
       "css": ".ds-about-ending{position:relative;z-index:1;display:inline-block;white-space:nowrap;background:var(--paper)}.ds-about-toggle{margin:0 0 0 4px;padding:0;border:0;background:transparent;color:var(--gold);font:inherit;line-height:inherit;cursor:pointer;text-underline-offset:.2em}.ds-about-toggle:hover{text-decoration:underline}.ds-about-toggle:focus-visible{outline:2px solid var(--gold);outline-offset:4px}"
+    },
+    {
+      "name": "News 编辑与删除",
+      "kind": "button",
+      "refersTo": "news-action",
+      "description": "日期行右侧的文字操作；卡片悬停／聚焦显示，触屏常显，编辑复用原表单、删除先确认。",
+      "html": "<div class=\"ds-news-actions\"><a class=\"ds-news-action\" href=\"news-edit.html?id=example\">编辑</a><button class=\"ds-news-action ds-news-delete\" type=\"button\">删除</button></div>",
+      "css": ".ds-news-actions{display:flex;align-items:center;gap:4px;opacity:0;pointer-events:none}.ds-news-card:hover .ds-news-actions,.ds-news-card:focus-within .ds-news-actions{opacity:1;pointer-events:auto}.ds-news-action{display:inline-flex;align-items:center;justify-content:center;min-height:32px;padding:3px 8px;border:0;border-radius:var(--radius-control);background:transparent;color:var(--gold);font-size:var(--type-meta);line-height:1.5;text-decoration:none;cursor:pointer}.ds-news-action:hover,.ds-news-action:focus-visible{background:var(--gold-soft)}.ds-news-action:focus-visible{outline:2px solid var(--gold);outline-offset:4px}.ds-news-delete{color:var(--error)}@media(hover:none),(pointer:coarse){.ds-news-actions{opacity:1;pointer-events:auto}.ds-news-action{min-height:40px}}"
     }
   ],
   "narrative": {
