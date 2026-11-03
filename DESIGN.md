@@ -55,11 +55,11 @@ components:
     rounded: "{rounded.control}"
     padding: "7px 13px"
   home-dropdown:
-    backgroundColor: "rgba(248, 245, 237, 0.9)"
+    backgroundColor: "rgba(248, 245, 237, 0.98)"
     textColor: "{colors.body-ink}"
     rounded: "{rounded.control}"
     width: "156px"
-    padding: "6px"
+    padding: "0"
   portrait-placeholder:
     backgroundColor: "{colors.portrait-ground}"
     textColor: "{colors.paper}"
