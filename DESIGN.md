@@ -97,6 +97,12 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.card}"
     padding: "19px 20px 20px"
+  news-add:
+    backgroundColor: "transparent"
+    textColor: "{colors.gold}"
+    rounded: "{rounded.control}"
+    width: "40px"
+    height: "40px"
   copy-recovery:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"

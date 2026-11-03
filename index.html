@@ -95,8 +95,11 @@
     .about-toggle:hover { text-decoration: underline; }
     .inline-accent { color: var(--gold); }
     .news { margin-top: 38px; }
-    .news-heading { margin-bottom: 20px; }
+    .news-heading { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
     .news-heading h2 { margin: 0; }
+    .news-add { flex: none; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border-radius: var(--radius-control); color: var(--gold); text-decoration: none; }
+    .news-add:hover, .news-add:focus-visible { background: var(--gold-soft); }
+    .news-add svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
     .news-list { padding: 0; margin: 0; list-style: none; display: grid; gap: 16px; }
     .news-item { padding: 19px 20px 20px; border-radius: var(--radius-card); background: var(--card); box-shadow: var(--shadow-card); overflow-wrap: anywhere; }
     .news-date { display: block; margin-bottom: 7px; color: var(--gold); font-size: var(--type-meta); line-height: 1.5; font-variant-numeric: lining-nums tabular-nums; }
@@ -204,6 +207,7 @@
         <section class="news" aria-labelledby="news-title">
           <div class="news-heading">
             <h2 id="news-title" lang="en">News</h2>
+            <a class="news-add" href="news-edit.html" aria-label="新增 News" title="新增 News"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg></a>
           </div>
           <ul class="news-list">
             <!-- 添加真实动态时，日期使用 time 元素和有效 datetime，按时间倒序排列。 -->

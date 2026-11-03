@@ -12,7 +12,7 @@
 
 | 项目 | 当前真实实现 |
 | --- | --- |
-| 页面 | `index.html` 首页、`settings.html` 设置页，原生 HTML |
+| 页面 | `index.html` 首页、`settings.html` 设置页、`news-edit.html` 独立 News 编辑空白页，原生 HTML |
 | 样式 | 同文件内嵌 CSS、自定义属性、Grid／Flex 和媒体查询 |
 | 交互 | 首页保留原内联交互；共享 `profile.js` 管理资料、联系信息及本地附件的读取、保存和同步；`about.js` 处理 About 格式编辑、安全渲染与首页收起／展开 |
 | 图标、字体 | 内联描边 SVG、本地字体栈，无图标包或网络字体依赖 |
@@ -34,6 +34,7 @@ python -m http.server 8765 --bind 127.0.0.1
 
 ```text
 academic-homepage/
+├── news-edit.html              独立 News 编辑入口页，仅标题与返回链接，主体留空
 ├── index.html                  首页与既有联系交互
 ├── settings.html               基本信息设置页
 ├── profile.js                  全资料、联系信息和本地附件的保存与同步
@@ -74,6 +75,7 @@ academic-homepage/
 | `.cv-area`、`.cv-button` | 浅金底、金色字、与照片同宽；无 PDF 时 `disabled`；有本机 PDF 时启用并下载该文件 |
 | `.about-block` | 用户填写的 About 全文，保留换行／加粗／文字颜色；与 News 同宽，长内容默认收起、段末展开／收起，未填写时明确占位 |
 | `.news`、`.news-list` | 一条日期、内容均待补充的卡片；无排序或数据加载代码 |
+| `.news-add`、`news-edit.html` | News 标题旁的加号跳转独立页面；仅标题和返回主页，无表单、保存或新增数据逻辑 |
 | `.toast` | 普通复制反馈，礼貌播报，约 2.6 秒收起 |
 | `.copy-recovery` | 自动复制失败时显示可选择的只读文本；关闭／Escape 后恢复焦点 |
 

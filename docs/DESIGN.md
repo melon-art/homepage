@@ -97,6 +97,12 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.card}"
     padding: "19px 20px 20px"
+  news-add:
+    backgroundColor: "transparent"
+    textColor: "{colors.gold}"
+    rounded: "{rounded.control}"
+    width: "40px"
+    height: "40px"
   copy-recovery:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.ink}"
@@ -226,6 +232,12 @@ About 内容使用铺满编辑页主体的富文本区域，不受其他字段�
 ### News Cards
 
 动态卡片使用浅冷灰底、轻阴影和清楚的日期／标题／说明层级；标题字重较正文更重。动态列表间隔（16px）；卡片既不整块可点击，也没有悬停变形。
+
+News 标题旁以 8px 间距放置金色描边加号，垂直居中，透明底、40px 点击区域、21px 图标、1.6px 圆端描边。悬停／键盘聚焦沿用 gold-soft 底色和通用金色焦点；名称为“新增 News”。入口使用真实链接至独立 `news-edit.html`。
+
+### News Editor Shell
+
+独立 News 页沿用现有白底、本地字体、衬线标题、统一页面宽度及 1100／820／620px 边距断点、稳定滚动条占位。左上是与设置页相同样式的“返回主页”，回到首页 News；标题为“新增 News”。这是 Operate 型编辑页的预留壳，主体按用户要求保持空白；不添加表单、保存按钮、侧栏或占位卡片，后续内容尚待开发。
 
 ### Status Toast and Copy Recovery
 
