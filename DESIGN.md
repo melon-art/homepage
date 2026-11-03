@@ -98,10 +98,10 @@ components:
     rounded: "{rounded.card}"
     padding: "19px 20px 20px"
   news-action:
-    backgroundColor: "transparent"
+    backgroundColor: "rgba(248, 245, 237, 0.88)"
     textColor: "{colors.gold}"
-    rounded: "{rounded.control}"
-    padding: "3px 8px"
+    rounded: "0"
+    padding: "12px 8px"
   news-add:
     backgroundColor: "transparent"
     textColor: "{colors.gold}"

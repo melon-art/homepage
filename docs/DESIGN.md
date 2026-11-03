@@ -98,10 +98,10 @@ components:
     rounded: "{rounded.card}"
     padding: "19px 20px 20px"
   news-action:
-    backgroundColor: "transparent"
+    backgroundColor: "rgba(248, 245, 237, 0.88)"
     textColor: "{colors.gold}"
-    rounded: "{rounded.control}"
-    padding: "3px 8px"
+    rounded: "0"
+    padding: "12px 8px"
   news-add:
     backgroundColor: "transparent"
     textColor: "{colors.gold}"
@@ -240,7 +240,9 @@ About 内容使用铺满编辑页主体的富文本区域，不受其他字段�
 
 News 标题旁以 8px 间距放置金色描边加号，垂直居中，透明底、40px 点击区域、21px 图标、1.6px 圆端描边。悬停／键盘聚焦沿用 gold-soft 底色和通用金色焦点；名称为“新增 News”。入口使用真实链接至独立 `news-edit.html`。
 
-每条动态日期行右侧增加“编辑”“删除”，预留位置避免悬停跳动。透明背景、6px 圆角，字号继承 meta；编辑为 gold、删除为 error，悬停／聚焦沿用 gold-soft 底与通用焦点。桌面平时透明且不接收鼠标，卡片悬停或内部聚焦后显现；键盘仍可进入。无悬停／粗指针设备常显，最小高度 40px，普通鼠标设备最小高度 32px。日期与操作在窄文字栏内自然换行，不覆盖正文／附图。删除使用原生确认框。
+每条动态的编辑／删除改为右侧两块并排的半透明操作面板。组合宽度为卡片宽度的 46%，最多 224px，两块等宽，高度随卡片填满，外缘沿用卡片圆角裁切。编辑使用 gold 文字与 rgba(248,245,237,.88) 底色，删除为 error 文字与 rgba(250,242,240,.88) 底色；悬停单项时底色透明度升至 .97。文字 20px、700 字重、居中；键盘轮廓偏移 -6px，防止裁切。面板覆盖卡片右部，不挤动正文或改变卡片高度。
+
+桌面默认面板 translateX(100%)／opacity 0、不接收鼠标；卡片悬停或内部聚焦后，向左滑到 translateX(0)／opacity 1，进入 300ms、离开 180ms，缓动 cubic-bezier(.16,1,.3,1)。不新增模糊、循环或依赖。减少动态时立即切换，保留状态反馈。无悬停／粗指针设备将两块操作放到内容下方常显，至少 48px 高、16px 字，无滑动，不遮挡文字或图片。删除仍使用原生确认框。
 
 ### News Editor
 

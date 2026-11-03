@@ -304,7 +304,7 @@
             }
           });
           actions.append(edit, remove);
-          meta.append(time, actions);
+          meta.append(time);
           text.append(meta, node('p', 'news-copy', entry.body));
           const file = attachment(entry.file, 'file');
           if (file) {
@@ -328,6 +328,7 @@
             thumbnail.height = 108;
             item.append(thumbnail);
           }
+          item.append(actions);
           return item;
         });
         list.replaceChildren(...(items.length ? items : [emptyMarkup.cloneNode(true)]));
