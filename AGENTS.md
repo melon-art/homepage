@@ -6,7 +6,7 @@
 
 1. 先读 [PROJECT.md](docs/PROJECT.md) 和 [TASKS.md](docs/TASKS.md)，再读 [ROADMAP.md](docs/ROADMAP.md) 的当前阶段和 [CHANGELOG.md](docs/CHANGELOG.md) 的最近记录。按任务读取相关段落，避免无目的全量重读。
 2. UI 任务再读完整 [DESIGN.md](docs/DESIGN.md) 与相关需求。需求、计划和历史评审都不是功能完成证据。
-3. 检查 Git 状态，定位真实实现。本仓库根 `index.html`、`settings.html`、`profile.js`、`about.js`、`news-edit.html`、`news.js` 是业务源；仓库外的独立预览副本、截图与临时脚本不作为实现依据。
+3. 检查 Git 状态，定位真实实现。本仓库根 `index.html`、`settings.html`、`profile.js`、`about.js`、`news-edit.html`、`news.html`、`news.js`、`news.css` 是业务源；仓库外的独立预览副本、截图与临时脚本不作为实现依据。
 4. 明确本次任务 ID、范围与完成标准。已有用户决定无需重复询问；遇到会改变结果的未知事实，记入 TASKS 的“待确认”，不要猜测。
 
 ## 实现和范围控制
@@ -19,7 +19,7 @@
 - 不编造姓名、学历、论文、奖项、动态、联系方式或线上部署地址。保留“待资料／待确认”状态。
 - 维持白底、暖金色、衬线标题和参考图风格；无页脚，不自动恢复已删除的 Research Interests 独立面板。简历按钮与照片同宽，gold-soft 底、gold 字。
 - PDF 缺失时简历继续禁用；本地选择 PDF 后可下载，不等于真实简历已公开。个人资料附件限照片 1 MB、PDF 2 MB，超限／存储失败必须明确提示并保留已保存资料。
-- News 在独立 news-edit.html 新增／编辑，不并入设置页；编辑使用 id 查询参数，保留原 id、createdAt 及未改附件，缺失／过期记录不得覆盖或复活。删除需确认、事务成功再移除，触屏／键盘也可达；日期与纯文本正文必填，不增加标题。可选一张图片（JPG／PNG／WebP≤5 MB）和一个文件（≤10 MB），本地 IndexedDB 与个人资料存储分离。首页日期倒序、左文右图、附件仅下载；不把本机保存解释为公开发布。
+- News 在独立 news-edit.html 新增／编辑，不并入设置页；编辑使用 id 查询参数，保留原 id、createdAt 及未改附件，缺失／过期记录不得覆盖或复活。删除需确认、事务成功再移除，触屏／键盘也可达；日期与纯文本正文必填，不增加标题。可选一张图片（JPG／PNG／WebP≤5 MB）和一个文件（≤10 MB），本地 IndexedDB 与个人资料存储分离。首页只展示日期倒序的最新三条，View All 进入 news.html 展示全部；两页共享 news.css／news.js，不删除隐藏记录。左文右图、附件仅下载；不把本机保存解释为公开发布。
 - 纯文档任务仅修改 Markdown；不得顺带调整业务代码、配置或视觉参数。
 
 ## 验证与完成状态

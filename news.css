@@ -1,0 +1,42 @@
+    .news { margin-top: 38px; }
+    .news-heading { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+    .news-heading h2 { margin: 0; }
+    .news-add { flex: none; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border-radius: var(--radius-control); color: var(--gold); text-decoration: none; }
+    .news-add:hover, .news-add:focus-visible { background: var(--gold-soft); }
+    .news-add svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+    .news-list { padding: 0; margin: 0; list-style: none; display: grid; gap: 16px; }
+    .news-item { position: relative; overflow: hidden; display: flex; align-items: flex-start; gap: 24px; padding: 19px 20px 20px; border-radius: var(--radius-card); background: var(--card); box-shadow: var(--shadow-card); overflow-wrap: anywhere; }
+    .news-text { flex: 1; min-width: 0; }
+    .news-meta { margin-bottom: 7px; }
+    .news-meta .news-date { margin: 0; }
+    .news-actions { position: absolute; z-index: 2; inset-block: 0; right: 0; width: min(46%, 224px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); opacity: 0; transform: translateX(100%); pointer-events: none; transition: transform .18s cubic-bezier(.16, 1, .3, 1), opacity .18s ease-out; }
+    .news-item:hover .news-actions, .news-item:focus-within .news-actions { opacity: 1; transform: translateX(0); pointer-events: auto; transition-duration: .3s; }
+    .news-action { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 44px; padding: 12px 8px; border: 0; border-radius: 0; background: rgb(248 245 237 / .88); color: var(--gold); font-size: 1.25rem; font-weight: 700; line-height: 1.5; text-decoration: none; cursor: pointer; }
+    .news-action:hover { background: rgb(248 245 237 / .97); }
+    .news-action:focus-visible { outline-offset: -6px; }
+    .news-delete { background: rgb(250 242 240 / .88); color: #a13c30; }
+    .news-delete:hover { background: rgb(250 242 240 / .97); }
+    .news-action:disabled { opacity: .6; cursor: wait; }
+    @media (hover: none), (pointer: coarse) { .news-item { flex-wrap: wrap; } .news-actions { position: static; flex: 0 0 100%; width: 100%; min-height: 48px; border-radius: var(--radius-control); overflow: hidden; opacity: 1; transform: none; pointer-events: auto; transition: none; } .news-action { font-size: 1rem; padding: 10px 8px; } }
+    .news-date { display: block; margin-bottom: 7px; color: var(--gold); font-size: var(--type-meta); line-height: 1.5; font-variant-numeric: lining-nums tabular-nums; }
+    .news-copy { margin: 0; color: var(--body-ink); font-size: var(--type-body); line-height: 1.7; white-space: pre-wrap; text-wrap: pretty; }
+    .news-image { flex: none; width: 144px; max-width: 32%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; border-radius: var(--radius-control); }
+    .news-file { display: inline-flex; align-items: center; min-height: 28px; max-width: 100%; margin-top: 10px; color: var(--gold); font-size: var(--type-meta); text-decoration: none; }
+    .news-file:hover { text-decoration: underline; }
+    .news-file span { min-width: 0; overflow-wrap: anywhere; }
+    .news-status { margin: 12px 0 0; color: #a13c30; font-size: var(--type-meta); }
+    .news-status.is-success { color: var(--gold); }
+
+    .news-view-all { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; color: var(--gold); font-size: 1rem; text-decoration: none; }
+    .news-view-label { position: relative; display: inline-block; }
+    .news-view-label::after { content: ""; position: absolute; left: 0; bottom: -7px; width: 72px; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left center; transition: transform .26s cubic-bezier(.16, 1, .3, 1); pointer-events: none; }
+    .news-view-all:hover .news-view-label::after, .news-view-all:focus-visible .news-view-label::after { transform: scaleX(1); }
+    .news-view-all svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    @media (max-width: 620px) {
+      .news { margin-top: 30px; }
+      .news-heading { margin-bottom: 16px; }
+      .news-item { gap: 14px; padding: 17px 18px; }
+      .news-image { width: 96px; }
+      .news-copy { font-size: 1rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { .news-actions, .news-item:hover .news-actions, .news-item:focus-within .news-actions, .news-view-label::after { transition: none; } }

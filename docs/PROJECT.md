@@ -12,8 +12,8 @@
 
 | 项目 | 当前真实实现 |
 | --- | --- |
-| 页面 | `index.html` 首页、`settings.html` 设置页、`news-edit.html` 独立 News 新增／编辑页，原生 HTML |
-| 样式 | 同文件内嵌 CSS、自定义属性、Grid／Flex 和媒体查询 |
+| 页面 | `index.html` 首页、`settings.html` 设置页、`news-edit.html` 独立 News 新增／编辑页、`news.html` 全部新闻页，原生 HTML |
+| 样式 | 页面内嵌 CSS 与共享 news.css、自定义属性、Grid／Flex 和媒体查询 |
 | 交互 | 首页保留原内联交互；共享 `profile.js` 管理资料、联系信息及本地附件的读取、保存和同步；`about.js` 处理 About 格式编辑、安全渲染与首页收起／展开 |
 | 图标、字体 | 内联描边 SVG、本地字体栈，无图标包或网络字体依赖 |
 | 数据 | 默认模板在 HTML；资料／个人附件覆盖值在 localStorage；News 与附件在浏览器 IndexedDB，按日期倒序加载；联系方式仍为原六键 CONTACTS |
@@ -35,7 +35,9 @@ python -m http.server 8765 --bind 127.0.0.1
 ```text
 academic-homepage/
 ├── news-edit.html              日期、正文及可选图片／文件的独立新增／编辑页
-├── news.js                     News 本地 IndexedDB、附件、首页展示与同步
+├── news.html                   全部 News 列表，日期倒序、保留新增／编辑／删除
+├── news.css                    首页与列表页共用的 News 卡片、动画和响应式样式
+├── news.js                     News 本地 IndexedDB、附件、首页／列表展示与同步
 ├── index.html                  首页与既有联系交互
 ├── settings.html               基本信息设置页
 ├── profile.js                  全资料、联系信息和本地附件的保存与同步
@@ -75,7 +77,8 @@ academic-homepage/
 | `.contacts` | 六个横排图标；名称提示、点击复制及空数据反馈 |
 | `.cv-area`、`.cv-button` | 浅金底、金色字、与照片同宽；无 PDF 时 `disabled`；有本机 PDF 时启用并下载该文件 |
 | `.about-block` | 用户填写的 About 全文，保留换行／加粗／文字颜色；与 News 同宽，长内容默认收起、段末展开／收起，未填写时明确占位 |
-| `.news`、`.news-list` | 从本地 IndexedDB 加载，日期倒序；每条日期与正文，无标题；可选右侧缩略图及文件下载 |
+| `.news`、`.news-list` | 从本地 IndexedDB 加载，日期倒序；主页 data-news-limit=3 仅显示最新三条，news.html 展示全部；每条日期与正文，无标题，可选右侧缩略图及文件下载 |
+| `.news-view-all` | 主页 News 标题栏右侧 View All →，左到右金色下划线，跳至 news.html |
 | `.news-add`、`news-edit.html` | 加号新增；每条悬停／聚焦显示编辑、删除，触屏常显；编辑以 id 参数复用同一表单、预填原记录，保存成功返回首页 News |
 | `.toast` | 普通复制反馈，礼貌播报，约 2.6 秒收起 |
 | `.copy-recovery` | 自动复制失败时显示可选择的只读文本；关闭／Escape 后恢复焦点 |
@@ -108,6 +111,8 @@ News 保持文档流，随 About 高度自然上下移动，不预留展开高�
 ## News 数据与附件
 
 news.js 使用浏览器 IndexedDB 数据库 academic-homepage.news.v1、entries 对象仓库。每条为 `{id, date, body, createdAt, image, file}`，编辑后另带 updatedAt，没有 title；附件是 `{name, blob}`，不经 base64 或个人资料 localStorage。正文按纯文本渲染，保留换行，最多 2000 字；日期使用有效 YYYY-MM-DD 和 time／datetime。按日期降序、同日创建时间降序排列。图片最多一张，JPG／PNG／WebP≤5 MB，解码成功才接收；文件最多一个、≤10 MB，以 Blob URL 下载。可同时添加图片和文件；保存前可更换／移除附件。
+
+首页限制只影响显示，不删除或截断数据库记录；news.html 全量展示并复用相同卡片、附件和操作。新增／编辑入口可携带 from=news；仅接受这一固定值决定返回 news.html，其他情况仍返回首页 News。列表页含返回主页及新增入口。
 
 新增事务提交成功才返回；重复提交受阻，附件读取期间保存禁用；非法附件需重新选择或移除。失败保留本页草稿和已存记录。BroadcastChannel（不可用时回退到独立 localStorage 修订标记）、pageshow 与可见状态变化更新首页。原个人资料键及格式保持不变。编辑使用 news-edit.html?id=记录ID，与新增共用表单；保留原 id、createdAt 及未改附件，保存后重新按日期排序。单个读写事务核对原记录存在和更新时间后覆盖，缺失或其他页面已修改则保留草稿并报错，不能复活已删记录或覆盖新版本。删除使用浏览器原生确认；成功才移除并同步，失败保留记录并提示，删除后焦点落到下一可用入口。无真实记录的占位卡片不提供编辑／删除。News 功能需 HTTP 预览；不提供 file:// 保存、跨浏览器同步或公开发布。
 

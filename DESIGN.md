@@ -102,6 +102,11 @@ components:
     textColor: "{colors.gold}"
     rounded: "0"
     padding: "12px 8px"
+  news-view-all:
+    backgroundColor: "transparent"
+    textColor: "{colors.gold}"
+    typography: "{typography.label}"
+    minHeight: "40px"
   news-add:
     backgroundColor: "transparent"
     textColor: "{colors.gold}"

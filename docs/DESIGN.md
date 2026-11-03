@@ -102,6 +102,11 @@ components:
     textColor: "{colors.gold}"
     rounded: "0"
     padding: "12px 8px"
+  news-view-all:
+    backgroundColor: "transparent"
+    textColor: "{colors.gold}"
+    typography: "{typography.label}"
+    minHeight: "40px"
   news-add:
     backgroundColor: "transparent"
     textColor: "{colors.gold}"
@@ -243,6 +248,12 @@ News 标题旁以 8px 间距放置金色描边加号，垂直居中，透明底�
 每条动态的编辑／删除改为右侧两块并排的半透明操作面板。组合宽度为卡片宽度的 46%，最多 224px，两块等宽，高度随卡片填满，外缘沿用卡片圆角裁切。编辑使用 gold 文字与 rgba(248,245,237,.88) 底色，删除为 error 文字与 rgba(250,242,240,.88) 底色；悬停单项时底色透明度升至 .97。文字 20px、700 字重、居中；键盘轮廓偏移 -6px，防止裁切。面板覆盖卡片右部，不挤动正文或改变卡片高度。
 
 桌面默认面板 translateX(100%)／opacity 0、不接收鼠标；卡片悬停或内部聚焦后，向左滑到 translateX(0)／opacity 1，进入 300ms、离开 180ms，缓动 cubic-bezier(.16,1,.3,1)。不新增模糊、循环或依赖。减少动态时立即切换，保留状态反馈。无悬停／粗指针设备将两块操作放到内容下方常显，至少 48px 高、16px 字，无滑动，不遮挡文字或图片。删除仍使用原生确认框。
+
+### Latest News and Full List
+
+主页最多显示日期倒序的最新三条，少于三条自然显示；标题与加号在左，View All → 通过 margin-left:auto 放在标题栏最右。文字 16px、金色、无边框无填色，与箭头间距 8px；箭头是 18px、1.6px 圆端描边 SVG。最小点击高度 40px。文字下方金线 72×2px，距文字下沿 7px，以左侧为原点 scaleX(0→1)，260ms cubic-bezier(.16,1,.3,1)，鼠标悬停和键盘聚焦均触发。减少动态时直接显示状态。
+
+news.html 沿用白底、页面宽度／边距、衬线 News 标题、返回主页入口与标题旁加号；新闻完整倒序显示，卡片、图片、附件、滑出操作与首页复用 news.css，不建立第二套组件样式。不同屏幕沿用既有 1100／820／620px 断点。
 
 ### News Editor
 

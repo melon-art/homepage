@@ -91,6 +91,13 @@
     const parameters = new URLSearchParams(location.search);
     const editing = parameters.has('id');
     const editId = parameters.get('id');
+    const returnTarget = parameters.get('from') === 'news' ? 'news.html' : 'index.html#news-title';
+    if (returnTarget === 'news.html') {
+      const back = document.querySelector('.back-link');
+      back.href = returnTarget;
+      back.lastChild.textContent = '返回新闻列表';
+      document.querySelector('#news-storage-note').textContent = '保存后返回新闻列表。News 与附件仅保存在当前浏览器，不会自动公开发布。';
+    }
     let original;
     const assetErrors = { image: false, file: false };
     const revisions = { image: 0, file: 0 };
@@ -202,7 +209,7 @@
         if (editing) await replaceExisting(entry, original);
         else await transact('readwrite', store => store.add(entry));
         notifySaved(entry.id);
-        location.assign('index.html#news-title');
+        location.assign(returnTarget);
       } catch (failure) {
         const reasons = {
           missing: '这条 News 已被删除，无法保存修改。当前草稿保留在此页，可复制正文后返回主页。',
@@ -266,8 +273,10 @@
         if (current !== version) return;
         const entries = stored.filter(entry => entry && typeof entry.id === 'string' && validDate(entry.date) && typeof entry.body === 'string' && entry.body.trim() && entry.body.length <= 2000);
         entries.sort((a, b) => b.date.localeCompare(a.date) || (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0) || a.id.localeCompare(b.id));
+        const limit = Number(list.dataset.newsLimit);
+        const visibleEntries = Number.isInteger(limit) && limit > 0 ? entries.slice(0, limit) : entries;
         const nextURLs = [];
-        const items = entries.map(entry => {
+        const items = visibleEntries.map(entry => {
           const item = node('li', 'news-item');
           item.dataset.newsId = entry.id;
           const text = node('div', 'news-text');
@@ -276,7 +285,7 @@
           const meta = node('div', 'news-meta');
           const actions = node('div', 'news-actions');
           const edit = node('a', 'news-action news-edit', '编辑');
-          edit.href = 'news-edit.html?id=' + encodeURIComponent(entry.id);
+          edit.href = 'news-edit.html?id=' + encodeURIComponent(entry.id) + (list.dataset.newsScope === 'all' ? '&from=news' : '');
           edit.setAttribute('aria-label', '编辑 ' + entry.date + ' 的 News');
           const remove = node('button', 'news-action news-delete', '删除');
           remove.type = 'button';
