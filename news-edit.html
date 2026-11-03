@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>新增 News · 个人学术主页</title>
+  <script src="news.js?v=fbfc409229ee" defer></script>
   <style>
-    :root { color-scheme: light; --paper: #fff; --ink: #242b34; --body-ink: #414a54; --gold: #866b35; --font-body: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif; --font-heading: Georgia, "Songti SC", SimSun, serif; }
+    :root { color-scheme: light; --paper: #fff; --ink: #242b34; --body-ink: #414a54; --muted: #626b75; --gold: #866b35; --gold-soft: #f8f5ed; --line: #e4e6e8; --error: #a13c30; --radius-control: 6px; --font-body: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif; --font-heading: Georgia, "Songti SC", SimSun, serif; }
     * { box-sizing: border-box; }
     html { scrollbar-color: #c5c7cc var(--paper); scrollbar-width: thin; scrollbar-gutter: stable; }
     @supports not (scrollbar-gutter: stable) { html { overflow-y: scroll; } }
@@ -19,9 +20,36 @@
     .back-link svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
     .news-editor-main { padding: 34px 0 48px; }
     h1 { margin: 0; font: 700 2rem/1.3 var(--font-heading); text-wrap: balance; overflow-wrap: anywhere; }
+    [hidden] { display: none !important; }
+    button, input, textarea { font: inherit; }
+    .editor-note { margin: 13px 0 0; color: var(--muted); font-size: .9375rem; }
+    form { margin-top: 32px; }
+    fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+    .field { min-width: 0; margin-bottom: 26px; }
+    .date-field { max-width: 280px; }
+    label { display: block; margin-bottom: 10px; font-weight: 600; }
+    .optional { margin-left: 5px; color: var(--muted); font-size: .875rem; font-weight: 400; }
+    input, textarea { display: block; width: 100%; min-width: 0; min-height: 52px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink); caret-color: var(--gold); }
+    input[type="date"] { font-variant-numeric: tabular-nums; }
+    textarea { min-height: 180px; resize: vertical; line-height: 1.8; }
+    input:focus, textarea:focus { border-color: var(--gold); outline: 2px solid var(--gold-soft); outline-offset: 2px; }
+    textarea::placeholder { color: var(--muted); opacity: 1; }
+    .field-help, .asset-name { margin: 8px 0 0; color: var(--muted); font-size: .8125rem; overflow-wrap: anywhere; }
+    .attachments { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    input[type="file"] { padding: 8px; font-size: .875rem; }
+    input::file-selector-button { margin-right: 12px; padding: 7px 12px; border: 0; border-radius: var(--radius-control); background: var(--gold-soft); color: var(--gold); font: inherit; cursor: pointer; }
+    .asset-preview { display: block; width: 144px; height: 108px; margin-top: 12px; object-fit: contain; border-radius: var(--radius-control); }
+    .remove-button { min-height: 36px; padding: 4px 0; border: 0; background: transparent; color: var(--gold); font-size: .875rem; cursor: pointer; text-decoration: underline; text-underline-offset: .2em; }
+    .asset-error { margin: 8px 0 0; color: var(--error); font-size: .875rem; }
+    .form-actions { display: flex; align-items: center; justify-content: flex-end; gap: 18px; margin-top: 16px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .form-status { margin: 0 auto 0 0; color: var(--gold); font-size: .9375rem; overflow-wrap: anywhere; }
+    .form-status.is-error { color: var(--error); }
+    .save-button { flex: none; min-height: 44px; min-width: 112px; padding: 10px 25px; border: 0; border-radius: var(--radius-control); background: var(--gold-soft); color: var(--gold); cursor: pointer; font-weight: 600; }
+    .save-button:hover { box-shadow: inset 0 0 0 1px var(--gold); }
+    .save-button:disabled { opacity: .6; cursor: wait; }
     @media (max-width: 1100px) { .news-editor-page { width: calc(100% - 56px); } }
     @media (max-width: 820px) { .news-editor-page { width: calc(100% - 40px); } }
-    @media (max-width: 620px) { .news-editor-page { width: calc(100% - 36px); } .news-editor-header { min-height: 80px; } .news-editor-main { padding-top: 12px; } h1 { font-size: 1.875rem; } }
+    @media (max-width: 620px) { .news-editor-page { width: calc(100% - 36px); } .news-editor-header { min-height: 80px; } .news-editor-main { padding-top: 12px; } h1 { font-size: 1.875rem; } .attachments { grid-template-columns: 1fr; gap: 0; } .form-actions { align-items: flex-start; } }
   </style>
 </head>
 <body>
@@ -31,7 +59,43 @@
     </header>
     <main class="news-editor-main" aria-labelledby="news-edit-title">
       <h1 id="news-edit-title">新增 News</h1>
-      <!-- 按当前需求保留空白，后续再加入 News 编辑内容。 -->
+      <p class="editor-note" id="news-storage-note">保存后返回主页。News 与附件仅保存在当前浏览器，不会自动公开发布。</p>
+      <form id="news-form" aria-describedby="news-storage-note">
+        <fieldset id="news-fields">
+          <div class="field date-field">
+            <label for="news-date">日期</label>
+            <input id="news-date" name="date" type="date" min="0001-01-01" max="9999-12-31" required>
+          </div>
+          <div class="field">
+            <label for="news-body">正文</label>
+            <textarea id="news-body" name="body" placeholder="写下这条动态的内容" maxlength="2000" required aria-describedby="news-body-help"></textarea>
+            <p class="field-help" id="news-body-help">最多 2000 字，保留换行，无需填写标题。</p>
+          </div>
+          <div class="attachments">
+            <div class="field">
+              <label for="news-image">图片<span class="optional">可选</span></label>
+              <input id="news-image" name="image" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="news-image-help news-image-error">
+              <p class="field-help" id="news-image-help">一张 JPG、PNG 或 WebP，最大 5 MB。主页显示在文字右侧。</p>
+              <img class="asset-preview" data-image-preview alt="待添加的 News 图片预览" hidden>
+              <p class="asset-name" data-asset-name="image">尚未选择图片</p>
+              <button class="remove-button" type="button" data-remove="image" hidden>移除图片</button>
+              <p class="asset-error" id="news-image-error" role="status" hidden></p>
+            </div>
+            <div class="field">
+              <label for="news-file">文件<span class="optional">可选</span></label>
+              <input id="news-file" name="file" type="file" aria-describedby="news-file-help news-file-error">
+              <p class="field-help" id="news-file-help">一个文件，最大 10 MB。主页提供文件下载。</p>
+              <p class="asset-name" data-asset-name="file">尚未选择文件</p>
+              <button class="remove-button" type="button" data-remove="file" hidden>移除文件</button>
+              <p class="asset-error" id="news-file-error" role="status" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+        <div class="form-actions">
+          <p class="form-status" id="news-form-status" role="status" aria-live="polite"></p>
+          <button class="save-button" type="submit" disabled>保存</button>
+        </div>
+      </form>
     </main>
   </div>
 </body>

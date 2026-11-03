@@ -94,7 +94,7 @@ components:
     padding: "10px 25px"
   news-card:
     backgroundColor: "{colors.card}"
-    textColor: "{colors.ink}"
+    textColor: "{colors.body-ink}"
     rounded: "{rounded.card}"
     padding: "19px 20px 20px"
   news-add:

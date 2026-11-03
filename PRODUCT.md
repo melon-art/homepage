@@ -10,7 +10,7 @@ web
 
 ## Stack
 
-原生 HTML 首页与设置页、内嵌 CSS、共享资料 JavaScript 与轻量 About 格式编辑脚本，无框架、构建、后台或数据库。
+原生 HTML 首页、设置页与独立 News 编辑页，内嵌 CSS、资料／About／News 脚本，无框架、构建、后台或服务端数据库。资料在 localStorage，News 与二进制附件在浏览器 IndexedDB。
 
 ## Product Purpose
 
@@ -18,7 +18,7 @@ web
 
 ## Capabilities and Constraints
 
-- News 标题旁的加号进入独立 `news-edit.html`；仅有标题与返回主页，主体按要求留空，尚无 News 填写或保存功能。
+- News 标题旁的加号进入独立 news-edit.html；日期、正文必填，可选一张图片（JPG／PNG／WebP≤5 MB）和一个文件（≤10 MB）。保存后回主页，按日期倒序展示日期／正文，无标题，左文右缩略图，文件可下载。仅当前浏览器本地保存；已有动态的再编辑、删除和公开发布尚未实现。
 
 - 个人资料、About 和 News 展示；源文件默认值仍为明确占位，六个 CONTACTS 默认值为空。设置值可覆盖当前浏览器的资料展示。
 - 六个横排图标复制资料，保留空值提示、兼容复制及失败后手动复制。复制机制已用模拟值验证，不代表真实账号已填入。

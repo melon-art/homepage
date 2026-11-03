@@ -7,6 +7,7 @@
   <title>个人学术主页 · 视觉预览</title>
   <script src="about.js?v=4efae92768a9" defer></script>
   <script src="profile.js" defer></script>
+  <script src="news.js?v=fbfc409229ee" defer></script>
   <style>
 
     :root {
@@ -101,10 +102,15 @@
     .news-add:hover, .news-add:focus-visible { background: var(--gold-soft); }
     .news-add svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
     .news-list { padding: 0; margin: 0; list-style: none; display: grid; gap: 16px; }
-    .news-item { padding: 19px 20px 20px; border-radius: var(--radius-card); background: var(--card); box-shadow: var(--shadow-card); overflow-wrap: anywhere; }
+    .news-item { display: flex; align-items: flex-start; gap: 24px; padding: 19px 20px 20px; border-radius: var(--radius-card); background: var(--card); box-shadow: var(--shadow-card); overflow-wrap: anywhere; }
+    .news-text { flex: 1; min-width: 0; }
     .news-date { display: block; margin-bottom: 7px; color: var(--gold); font-size: var(--type-meta); line-height: 1.5; font-variant-numeric: lining-nums tabular-nums; }
-    .news-copy { margin: 0; color: var(--ink); font-size: var(--type-body); font-weight: 600; line-height: 1.6; text-wrap: pretty; }
-    .news-detail { margin: 7px 0 0; color: var(--muted); font-size: var(--type-meta); line-height: 1.7; }
+    .news-copy { margin: 0; color: var(--body-ink); font-size: var(--type-body); line-height: 1.7; white-space: pre-wrap; text-wrap: pretty; }
+    .news-image { flex: none; width: 144px; max-width: 32%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; border-radius: var(--radius-control); }
+    .news-file { display: inline-flex; align-items: center; min-height: 28px; max-width: 100%; margin-top: 10px; color: var(--gold); font-size: var(--type-meta); text-decoration: none; }
+    .news-file:hover { text-decoration: underline; }
+    .news-file span { min-width: 0; overflow-wrap: anywhere; }
+    .news-status { margin: 12px 0 0; color: #a13c30; font-size: var(--type-meta); }
     .toast { position: fixed; z-index: 20; left: 50%; bottom: 26px; transform: translate(-50%, 8px); width: max-content; max-width: calc(100% - 32px); padding: 11px 18px; border-radius: var(--radius-control); background: var(--ink); color: var(--paper); font-size: var(--type-meta); line-height: 1.6; overflow-wrap: anywhere; opacity: 0; pointer-events: none; transition: opacity .16s ease-out, transform .16s ease-out; }
     .toast.visible { opacity: 1; transform: translate(-50%, 0); }
     .copy-recovery { position: fixed; z-index: 21; left: 50%; bottom: 24px; transform: translateX(-50%); width: min(440px, calc(100% - 32px)); padding: 18px; border-radius: var(--radius-card); background: var(--paper); box-shadow: 0 5px 28px rgba(30, 39, 48, .22); font-size: var(--type-meta); }
@@ -152,7 +158,8 @@
       .intro-copy p { margin-bottom: 16px; }
       .news { margin-top: 30px; }
       .news-heading { margin-bottom: 16px; }
-      .news-item { padding: 17px 18px; }
+      .news-item { gap: 14px; padding: 17px 18px; }
+      .news-image { width: 96px; }
       .news-copy { font-size: 1rem; }
     }
     @media (max-width: 360px) { nav { gap: 2px; } .nav-current, .nav-item, .settings-link { padding-inline: 8px; } .contacts { gap: 7px; } }
@@ -210,13 +217,11 @@
             <a class="news-add" href="news-edit.html" aria-label="新增 News" title="新增 News"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg></a>
           </div>
           <ul class="news-list">
-            <!-- 添加真实动态时，日期使用 time 元素和有效 datetime，按时间倒序排列。 -->
             <li class="news-item">
-              <span class="news-date">日期待补充</span>
-              <p class="news-copy">动态内容待补充</p>
-              <p class="news-detail">补充真实日期与内容后，将按时间倒序展示。</p>
+              <div class="news-text"><span class="news-date">日期待补充</span><p class="news-copy">动态内容待补充</p></div>
             </li>
           </ul>
+          <p class="news-status" role="status" aria-live="polite" hidden></p>
         </section>
       </div>
     </main>

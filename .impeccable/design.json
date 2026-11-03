@@ -185,7 +185,7 @@
       "name": "新增 News 入口",
       "kind": "button",
       "refersTo": "news-add",
-      "description": "紧邻 News 标题的 40px 金色加号链接，进入独立空白 News 编辑页。",
+      "description": "紧邻 News 标题的 40px 金色加号链接，进入独立 News 新增页。",
       "html": "<a class=\"ds-news-add\" href=\"news-edit.html\" aria-label=\"新增 News\" title=\"新增 News\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 5v14M5 12h14\"/></svg></a>",
       "css": ".ds-news-add{flex:none;width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:var(--radius-control);color:var(--gold);text-decoration:none}.ds-news-add:hover,.ds-news-add:focus-visible{background:var(--gold-soft)}.ds-news-add:focus-visible{outline:2px solid var(--gold);outline-offset:4px}.ds-news-add svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}"
     },
@@ -193,9 +193,9 @@
       "name": "动态卡片",
       "kind": "card",
       "refersTo": "news-card",
-      "description": "日期、较重标题与次级说明组成的浅灰卡片；真实动态未提供时保留现有占位内容。",
-      "html": "<article class=\"ds-news-card\"><span class=\"ds-news-date\">日期待补充</span><p class=\"ds-news-copy\">动态内容待补充</p><p class=\"ds-news-detail\">补充真实日期与内容后，将按时间倒序展示。</p></article>",
-      "css": ".ds-news-card{padding:19px 20px 20px;border-radius:var(--radius-card);background:var(--card);box-shadow:var(--shadow-card);overflow-wrap:anywhere;font-family:var(--font-body)}.ds-news-date{display:block;margin-bottom:7px;color:var(--gold);font-size:var(--type-meta);line-height:1.5;font-variant-numeric:lining-nums tabular-nums}.ds-news-copy{margin:0;color:var(--ink);font-size:var(--type-body);font-weight:600;line-height:1.6;text-wrap:pretty}.ds-news-detail{margin:7px 0 0;color:var(--muted);font-size:var(--type-meta);line-height:1.7}@media(max-width:620px){.ds-news-card{padding:17px 18px}.ds-news-copy{font-size:1rem}}"
+      "description": "日期与普通字重正文，无标题；可选右侧缩略图与正文下的文件下载链接。",
+      "html": "<article class=\"ds-news-card\"><div class=\"ds-news-text\"><span class=\"ds-news-date\">日期待补充</span><p class=\"ds-news-copy\">动态内容待补充</p></div></article>",
+      "css": ".ds-news-card{display:flex;align-items:flex-start;gap:24px;padding:19px 20px 20px;border-radius:var(--radius-card);background:var(--card);box-shadow:var(--shadow-card);overflow-wrap:anywhere;font-family:var(--font-body)}.ds-news-text{flex:1;min-width:0}.ds-news-date{display:block;margin-bottom:7px;color:var(--gold);font-size:var(--type-meta);line-height:1.5;font-variant-numeric:lining-nums tabular-nums}.ds-news-copy{margin:0;color:var(--body-ink);font-size:var(--type-body);line-height:1.7;white-space:pre-wrap;text-wrap:pretty}.ds-news-image{flex:none;width:144px;max-width:32%;height:auto;aspect-ratio:4/3;object-fit:contain;border-radius:var(--radius-control)}.ds-news-file{display:inline-flex;min-height:28px;max-width:100%;margin-top:10px;color:var(--gold);font-size:var(--type-meta);text-decoration:none}.ds-news-file:hover{text-decoration:underline}@media(max-width:620px){.ds-news-card{gap:14px;padding:17px 18px}.ds-news-copy{font-size:1rem}.ds-news-image{width:96px}}"
     },
     {
       "name": "手动复制恢复面板",
