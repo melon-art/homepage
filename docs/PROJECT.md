@@ -69,7 +69,7 @@ academic-homepage/
 | 分区／选择器 | 当前内容与行为 |
 | --- | --- |
 | `header`、`.wordmark` | 英文名可编辑，默认占位；点击跳至 About 标题 |
-| `.nav-current` | About 当前页锚点 |
+| `.home-menu`、`.home-trigger` | 顶部 Home 悬停下拉；About 跳转 index.html，News 跳转 news.html，移出关闭；支持键盘与触屏 |
 | `.settings-link` | 主页右上角“设置”，跳转设置页 |
 | `#profile-form` | 个人资料、About、联系方式、简历四组；保存后返回主页 |
 | `.nav-item` | 五个待开发栏目的按钮，只显示“栏目待更新”，不执行页面跳转 |

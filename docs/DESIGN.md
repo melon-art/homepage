@@ -54,6 +54,12 @@ components:
     typography: "{typography.label}"
     rounded: "{rounded.control}"
     padding: "7px 13px"
+  home-dropdown:
+    backgroundColor: "rgba(248, 245, 237, 0.9)"
+    textColor: "{colors.body-ink}"
+    rounded: "{rounded.control}"
+    width: "156px"
+    padding: "6px"
   portrait-placeholder:
     backgroundColor: "{colors.portrait-ground}"
     textColor: "{colors.paper}"
@@ -213,7 +219,9 @@ components:
 
 ### Navigation
 
-顶部七个导航项均使用透明背景，不显示悬停方框；About 当前项与设置保留金色文字。悬停或键盘聚焦时，在文字下方显示统一 72px 长、2px 高、起点与文字左边缘对齐的金色线，以左侧为原点用 scaleX 从 0 展开至 1，时长 260ms，缓动 cubic-bezier(.16, 1, .3, 1)。移开后收起；开启减少动态时取消过渡、直接显示状态，保留键盘焦点轮廓。每项最小宽度 56px，线条附着于文字 span 而非按钮容器；短标签也不影响线长。1100px 以下导航末端预留 16px，避免较长线条导致横向溢出。五个待开发栏目继续只提示待更新，Escape 可关闭提示；窄屏自然换行。
+顶部七个导航项均使用透明背景，不显示悬停方框；Home 当前项与设置保留金色文字。悬停或键盘聚焦时，在文字下方显示统一 72px 长、2px 高、起点与文字左边缘对齐的金色线，以左侧为原点用 scaleX 从 0 展开至 1，时长 260ms，缓动 cubic-bezier(.16, 1, .3, 1)。移开后收起；开启减少动态时取消过渡、直接显示状态，保留键盘焦点轮廓。每项最小宽度 56px，线条附着于文字 span 而非按钮容器；短标签也不影响线长。1100px 以下导航末端预留 16px，避免较长线条导致横向溢出。五个待开发栏目继续只提示待更新，Escape 可关闭提示；窄屏自然换行。
+
+Home 使用 disclosure 按钮（aria-expanded／aria-controls），下方 156px 宽半透明 gold-soft 面板，6px 圆角、6px 内边距及现有轻阴影，不添加模糊或装饰。按钮与面板之间用 10px 填充区域连接，鼠标可连续移入；面板在普通文档流之上，不推挤内容。两项 About、News 使用 16px 字、最小高 42px、9px 12px 内边距；常态为正文灰，悬停／键盘焦点为 gold 字与 rgba(134,107,53,.16) 加深背景。About 链接主页 index.html，News 链接全部新闻 news.html。鼠标移出整个 Home／下拉区后收起；Enter 点击开关、方向下键进入首项、Tab 导航、Escape 关闭并恢复按钮焦点，焦点离开后关闭；触屏点击切换及外部点击关闭。保留原金色导航下划线，展开时继续显示。
 
 ### About Disclosure
 

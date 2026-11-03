@@ -53,6 +53,14 @@
     nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .nav-current, .nav-item, .settings-link { position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 56px; min-height: 42px; padding: 7px 13px; border: 0; border-radius: var(--radius-control); background: transparent; color: var(--body-ink); font-size: var(--type-label); line-height: 1.5; white-space: nowrap; text-decoration: none; }
     .nav-current { color: var(--gold); }
+    .home-menu { position: relative; flex: none; }
+    .home-trigger { cursor: pointer; }
+    .home-menu.is-open .nav-label::after { transform: scaleX(1); }
+    .home-submenu { position: absolute; z-index: 10; top: 100%; left: 0; width: 156px; padding-top: 10px; }
+    .home-dropdown { display: grid; gap: 3px; padding: 6px; border-radius: var(--radius-control); background: rgb(248 245 237 / .9); box-shadow: var(--shadow-card); }
+    .home-dropdown a { display: flex; align-items: center; min-height: 42px; padding: 9px 12px; border-radius: var(--radius-control); color: var(--body-ink); font-size: var(--type-label); line-height: 1.5; text-decoration: none; }
+    .home-dropdown a:hover, .home-dropdown a:focus-visible { background: rgb(134 107 53 / .16); color: var(--gold); }
+    .home-dropdown a:focus-visible { outline-offset: -2px; }
     .nav-item { cursor: pointer; }
     .nav-current:hover, .nav-current:focus-visible, .nav-item:hover, .nav-item:focus-visible, .settings-link:hover, .settings-link:focus-visible { color: var(--gold); }
     .nav-label { position: relative; display: inline-block; }
@@ -152,7 +160,15 @@
       <a class="wordmark" href="#about-title" data-profile-field="englishName" aria-label="Your Name，英文名待提供">Your Name</a>
       <div class="navigation-wrap">
         <nav aria-label="主导航">
-          <a class="nav-current" href="#about-title" aria-current="page" lang="en"><span class="nav-label">About</span></a>
+          <div class="home-menu">
+            <button class="nav-current home-trigger" type="button" aria-expanded="false" aria-controls="home-submenu" lang="en"><span class="nav-label">Home</span></button>
+            <div class="home-submenu" id="home-submenu" hidden>
+              <div class="home-dropdown">
+                <a href="index.html" aria-current="page" lang="en">About</a>
+                <a href="news.html" lang="en">News</a>
+              </div>
+            </div>
+          </div>
           <button class="nav-item" type="button" aria-disabled="true" aria-label="研究方向，待更新"><span class="nav-label">研究方向</span></button>
           <button class="nav-item" type="button" aria-disabled="true" aria-label="课程作业，待更新"><span class="nav-label">课程作业</span></button>
           <button class="nav-item" type="button" aria-disabled="true" aria-label="爱好，待更新"><span class="nav-label">爱好</span></button>
@@ -247,6 +263,30 @@
     }
     document.querySelector('.recovery-close').addEventListener('click', closeRecovery);
     recoveryValue.addEventListener('click', () => recoveryValue.select());
+    const homeMenu = document.querySelector('.home-menu');
+    const homeTrigger = homeMenu.querySelector('.home-trigger');
+    const homeSubmenu = homeMenu.querySelector('.home-submenu');
+    function showHomeMenu(open) {
+      homeMenu.classList.toggle('is-open', open);
+      homeTrigger.setAttribute('aria-expanded', String(open));
+      homeSubmenu.hidden = !open;
+    }
+    homeMenu.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') showHomeMenu(true); });
+    homeMenu.addEventListener('pointerleave', event => { if (event.pointerType === 'mouse') showHomeMenu(false); });
+    homeTrigger.addEventListener('click', () => showHomeMenu(homeSubmenu.hidden));
+    homeTrigger.addEventListener('keydown', event => {
+      if (event.key !== 'ArrowDown') return;
+      event.preventDefault();
+      showHomeMenu(true);
+      homeSubmenu.querySelector('a').focus();
+    });
+    homeMenu.addEventListener('focusout', event => { if (!homeMenu.contains(event.relatedTarget)) showHomeMenu(false); });
+    homeMenu.addEventListener('keydown', event => {
+      if (event.key !== 'Escape') return;
+      showHomeMenu(false);
+      homeTrigger.focus();
+    });
+    document.addEventListener('pointerdown', event => { if (!homeMenu.contains(event.target)) showHomeMenu(false); });
     document.querySelectorAll('.nav-item').forEach(button => {
       button.addEventListener('click', () => {
         const note = document.querySelector('.navigation-note');
