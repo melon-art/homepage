@@ -1,0 +1,5 @@
+[
+  {"id":"food","name":"美食地图","english":"A TASTE OF PLACE","tag":"城市里的味觉坐标","description":"让一顿饭，成为重新认识一座城的方式。","file":"food-map.html","kind":"food","image":null,"previewImages":["explore/assets/food-preview-01.png","explore/assets/food-preview-02.png","explore/assets/food-preview-03.png"],"createdAt":0,"updatedAt":0},
+  {"id":"read","name":"瓜瓣READ","english":"BETWEEN THE PAGES","tag":"书页之外，还有回响","description":"读过的、想读的，以及停留在书页间的念头。","file":"guaban-read.html","kind":"read","image":null,"previewImages":["explore/assets/read-preview-01.png","explore/assets/read-preview-02.png","explore/assets/read-preview-03.png"],"createdAt":0,"updatedAt":0},
+  {"id":"concepts","name":"概念集","english":"IDEAS, CONNECTED","tag":"给抽象的想法一个形状","description":"把概念拆开、连接，再从一个问题走向另一个。","file":"concepts.html","kind":"concepts","image":null,"previewImages":["explore/assets/concept-preview-01.png","explore/assets/concept-preview-02.png","explore/assets/concept-preview-03.png"],"createdAt":0,"updatedAt":0}
+]

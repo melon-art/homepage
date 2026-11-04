@@ -1,8 +1,8 @@
-(() => {
+(async () => {
   'use strict';
+  await SiteStorage.ready;
+  if (SiteStorage.mode === 'error') return;
 
-  // Retain the key so existing saved name/degree values carry forward.
-  const STORAGE_KEY = 'academic-homepage.profile.v1';
   const limits = {
     name: 80, degree: 120, englishName: 80, school: 120, department: 120, major: 120,
     introduction: 10000,
@@ -35,32 +35,8 @@
     return result;
   }
 
-  function read() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? normalize(JSON.parse(stored)) : normalize({});
-  }
-
-  function write(value) {
-    const profile = normalize(value);
-    // Atomic write: a quota failure preserves the previously saved text and files.
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
-    return profile;
-  }
-
-  // File previews transfer text only, never large image/PDF data in the URL.
-  let fileProfile;
-  if (isLocalFile && location.hash.startsWith('#profile-edit=')) {
-    try {
-      let saved = {};
-      try { saved = read(); } catch (_) { /* Incoming text can still be used. */ }
-      const incoming = JSON.parse(decodeURIComponent(location.hash.slice(14)));
-      fileProfile = normalize({ ...saved, ...incoming });
-      if (!form) write(fileProfile);
-    } catch (_) {
-      if (status) status.textContent = '无法读取资料，请重新填写后保存。';
-    }
-    try { history.replaceState(null, '', location.pathname + location.search); } catch (_) { /* Keep file previews usable. */ }
-  }
+  async function read() { return normalize(await SiteStorage.profile()); }
+  async function write(value, expected) { return normalize(await SiteStorage.saveProfile(normalize(value), expected)); }
 
   function fileLink(href, profile) {
     const text = Object.fromEntries(Object.keys(limits).map(key => [key, profile[key]]));
@@ -72,8 +48,10 @@
     const homeLink = document.querySelector('[data-home-link]');
     const saveButton = form.querySelector('[type="submit"]');
     let profile = normalize({});
-    try { profile = fileProfile || read(); }
-    catch (_) { status.textContent = '已保存资料暂时无法读取，可重新填写后保存。'; }
+    try { profile = await read(); }
+    catch (error) { status.textContent = error.message; form.inert = true; return; }
+    const profileVersion = SiteStorage.profileVersion;
+    let saving = false;
     for (const key of Object.keys(limits)) form.elements.namedItem(key).value = profile[key];
     const aboutEditor = AboutContent.createEditor(form, profile);
     if (isLocalFile) homeLink.href = fileLink(homeLink.getAttribute('href'), profile);
@@ -82,8 +60,8 @@
     const revisions = { photo: 0, cv: 0 };
 
     function updateBusy() {
-      saveButton.disabled = pending.size > 0;
-      saveButton.textContent = pending.size ? '正在读取文件…' : '保存';
+      saveButton.disabled = pending.size > 0 || saving || !SiteStorage.canEdit || !SiteStorage.initialized;
+      saveButton.textContent = saving ? '正在保存…' : pending.size ? '正在读取文件…' : '保存';
       form.setAttribute('aria-busy', String(pending.size > 0));
     }
 
@@ -181,19 +159,21 @@
       document.querySelector('#storage-note').after(note);
     }
 
-    form.addEventListener('submit', event => {
+    updateBusy();
+    form.addEventListener('submit', async event => {
       event.preventDefault();
-      if (pending.size || !form.reportValidity()) return;
+      if (saving || pending.size || !form.reportValidity()) return;
       let about;
       try { about = aboutEditor.snapshot(); } catch (_) { return; }
       const values = Object.fromEntries(Object.keys(limits).map(key => [key, form.elements.namedItem(key).value]));
       try {
-        const saved = write({ ...values, ...draftAssets, ...about });
+        saving = true; updateBusy();
+        const saved = await write({ ...values, ...draftAssets, ...about }, profileVersion);
         status.textContent = '已保存，正在返回主页。';
         location.assign(isLocalFile ? fileLink(homeLink.getAttribute('href'), saved) : homeLink.href);
-      } catch (_) {
-        status.textContent = '无法保存，浏览器存储可能已满或被禁用。请尝试更小的文件或允许存储后重试；输入内容已保留。';
-      }
+      } catch (error) {
+        status.textContent = error.message + ' 输入内容已保留。';
+      } finally { saving = false; updateBusy(); }
     });
   } else {
     const portrait = document.querySelector('.portrait');
@@ -204,9 +184,12 @@
     const contactDefaults = typeof CONTACTS === 'undefined' ? {} : { ...CONTACTS };
     let currentCv = null;
 
-    function render() {
+    let generation = 0;
+    async function render() {
+      const current = ++generation;
       let profile;
-      try { profile = fileProfile || read(); } catch (_) { profile = normalize({}); }
+      try { profile = await read(); } catch (error) { if (typeof notify === "function") notify(error.message); return; }
+      if (current !== generation) return;
       for (const [element, fallback] of defaults) element.textContent = profile[element.dataset.profileField] || fallback;
       const wordmark = document.querySelector('.wordmark');
       wordmark.setAttribute('aria-label', profile.englishName || 'Your Name，英文名待提供');
@@ -252,7 +235,8 @@
       setTimeout(() => URL.revokeObjectURL(url), 30000);
     });
     render();
-    window.addEventListener('pageshow', () => { fileProfile = undefined; render(); });
-    window.addEventListener('storage', event => { if (event.key === STORAGE_KEY || event.key === null) render(); });
+    window.addEventListener('pageshow', render);
+    window.addEventListener('site-content-changed', render);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) render(); });
   }
 })();

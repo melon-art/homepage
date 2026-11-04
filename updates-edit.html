@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>新增 Updates · 个人学术主页</title>
+  <link rel="stylesheet" href="updates-editor.css?v=1"><link rel="stylesheet" href="updates.css?v=7">
+  <script src="file-store.js?v=1" defer></script>
+  <script src="site-pages.js?v=3" defer></script><script src="updates-store.js?v=file-1" defer></script>
+  <script src="updates-view.js?v=5" defer></script><script src="updates-editor.js?v=file-1" defer></script>
+</head>
+<body>
+  <div class="up-editor-page">
+    <header class="up-editor-header"><a class="back-link" href="index.html#updates-title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 5-7 7 7 7M3 12h18"/></svg>返回主页</a><a class="up-text-link" href="updates-manage.html">管理 Updates</a></header>
+    <main class="up-main">
+      <h1 id="up-edit-title">新增 Updates</h1>
+      <p class="up-note">保存到本地项目文件。未选定有效目标的更新可以先存为草稿；草稿仅电脑本机可见。</p>
+      <div class="up-editor-layout">
+        <form id="up-form" novalidate>
+          <fieldset id="up-fields">
+            <div class="up-field-row">
+              <div class="up-field"><label for="up-date">更新日期</label><input id="up-date" name="date" type="date" min="1900-01-01" max="2100-12-31" required></div>
+              <div class="up-field"><label for="up-section">所属板块</label><select id="up-section" name="sectionId"><option value="">请选择板块</option></select></div>
+            </div>
+            <div class="up-field"><label for="up-body">更新正文</label><textarea id="up-body" name="body" maxlength="500" rows="3" placeholder="简短介绍这次更新的内容" aria-describedby="up-body-help"></textarea><p class="up-help" id="up-body-help">无需另写标题。<span id="up-body-count">0</span> / 500</p></div>
+            <div class="up-field"><label for="up-page">跳转页面</label><select id="up-page" name="pageId" aria-describedby="up-page-help"></select><p class="up-help" id="up-page-help">先选择所属板块，再选择已有页面。</p></div>
+            <div class="up-field"><label for="up-anchor">页面内位置<span class="up-optional">可选</span></label><select id="up-anchor" name="anchorId"><option value="">页面顶部</option></select><div class="up-destination"><span class="up-help" id="up-target-text">尚未选择跳转页面</span><a id="up-test-link" target="_blank" rel="noopener" hidden>测试跳转</a></div></div>
+            <div class="up-field"><label for="up-image">预览图片<span class="up-optional">可选</span></label><input id="up-image" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="up-image-help up-image-error"><p class="up-help" id="up-image-help">上传页面截图，JPG／PNG／WebP，不超过 5 MB。未添加图片时显示文字预览。</p><p class="up-file-name" id="up-image-name">未添加图片</p><button type="button" class="up-link-button" id="up-image-remove" hidden>移除图片</button><p class="up-error" id="up-image-error" hidden></p></div>
+            <div class="up-field"><label for="up-image-alt">图片说明<span class="up-optional">可选</span></label><input id="up-image-alt" type="text" maxlength="160" placeholder="例如：课程作业页面的预览截图"><p class="up-help">未填写时使用所属板块名称生成说明。</p></div>
+            <div class="up-actions"><p class="up-status" id="up-status" role="status" aria-live="polite" hidden></p><button type="submit" name="action" value="draft" class="up-secondary">保存草稿</button><button type="submit" name="action" value="published" class="up-primary">保存并展示</button></div>
+          </fieldset>
+        </form>
+        <aside class="up-preview" aria-label="更新实时预览"><div class="up-preview-head"><h2>主页展示效果</h2><span class="up-preview-state" id="up-preview-state">未保存</span></div><section class="updates depth-study"><div class="updates-heading"><h2 lang="en">Updates</h2></div><div id="up-preview-view"></div></section><p class="up-preview-note">悬停可查看抬高效果。预览不会自动保存。</p></aside>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

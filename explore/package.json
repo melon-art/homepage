@@ -1,0 +1,9 @@
+{
+  "name": "academic-homepage-explore",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": { "build": "node build.mjs" },
+  "dependencies": { "framer-motion": "12.23.24", "react": "19.2.0", "react-dom": "19.2.0" },
+  "devDependencies": { "esbuild": "0.25.12" },
+  "overrides": { "motion-dom": "12.23.23", "motion-utils": "12.23.6" }
+}

@@ -1,5 +1,6 @@
-(() => {
+(async () => {
   'use strict';
+  await SiteStorage.ready;
 
   const DB_NAME = 'academic-homepage.news.v1';
   const REVISION_KEY = 'academic-homepage.news.revision';
@@ -7,7 +8,6 @@
   const LIMITS = { image: 5 * 1024 * 1024, file: 10 * 1024 * 1024 };
   const form = document.querySelector('#news-form');
   const list = document.querySelector('.news-list');
-  let database;
   let channel;
   try { channel = new BroadcastChannel(DB_NAME); } catch (_) { /* Storage-event fallback below. */ }
 
@@ -19,53 +19,6 @@
 
   function safeName(value) {
     return String(value || '').replace(/[\x00-\x1f/\\<>:"|?*]/g, '').slice(0, 200) || 'attachment';
-  }
-
-  function connect() {
-    if (!database) database = new Promise((resolve, reject) => {
-      const request = indexedDB.open(DB_NAME, 1);
-      let blocked = false;
-      request.onupgradeneeded = () => request.result.createObjectStore('entries', { keyPath: 'id' });
-      request.onerror = () => reject(request.error);
-      request.onblocked = () => { blocked = true; reject(new Error('Blocked storage')); };
-      request.onsuccess = () => {
-        const db = request.result;
-        if (blocked) { db.close(); return; }
-        db.onversionchange = () => { db.close(); database = undefined; };
-        resolve(db);
-      };
-    }).catch(error => { database = undefined; throw error; });
-    return database;
-  }
-
-  async function transact(mode, action) {
-    const db = await connect();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction('entries', mode);
-      const request = action(tx.objectStore('entries'));
-      tx.oncomplete = () => resolve(request.result);
-      tx.onabort = tx.onerror = () => reject(tx.error || new Error('Storage failed'));
-    });
-  }
-
-  // Read and replace in one transaction: editing a deleted/stale entry must not recreate it.
-  async function replaceExisting(entry, original) {
-    const db = await connect();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction('entries', 'readwrite');
-      const store = tx.objectStore('entries');
-      const request = store.get(entry.id);
-      let reason;
-      request.onsuccess = () => {
-        const current = request.result;
-        if (!current) reason = 'missing';
-        else if ((current.updatedAt || current.createdAt) !== (original.updatedAt || original.createdAt)) reason = 'conflict';
-        if (reason) { tx.abort(); return; }
-        store.put(entry);
-      };
-      tx.oncomplete = resolve;
-      tx.onabort = tx.onerror = () => reject(reason ? new Error(reason) : tx.error || new Error('Storage failed'));
-    });
   }
 
   function attachment(value, kind) {
@@ -81,6 +34,12 @@
     } catch (_) { /* Returning home / pageshow still reloads the saved entries. */ }
   }
 
+  if (form && (!SiteStorage.canEdit || !SiteStorage.initialized)) {
+    form.querySelector('fieldset').disabled = true;
+    form.querySelector('[type=submit]').disabled = true;
+    form.querySelector('#news-form-status').textContent = SiteStorage.canEdit ? '请先在设置页备份并迁移旧数据。' : '当前为只读预览，请在电脑本机地址编辑。';
+    return;
+  }
   if (form) {
     const fields = form.querySelector('fieldset');
     const save = form.querySelector('[type="submit"]');
@@ -96,7 +55,7 @@
       const back = document.querySelector('.back-link');
       back.href = returnTarget;
       back.lastChild.textContent = '返回新闻列表';
-      document.querySelector('#news-storage-note').textContent = '保存后返回新闻列表。News 与附件仅保存在当前浏览器，不会自动公开发布。';
+      document.querySelector('#news-storage-note').textContent = '保存后返回新闻列表。News 与附件保存在本地项目文件，不上传 GitHub。';
     }
     let original;
     const assetErrors = { image: false, file: false };
@@ -206,8 +165,8 @@
       const entry = { id: editing ? original.id : crypto.randomUUID(), date: date.value, body: body.value.trim(), createdAt: editing ? original.createdAt : Date.now(), image: assets.image, file: assets.file };
       if (editing) entry.updatedAt = Math.max(Date.now(), Number(original.updatedAt || original.createdAt || 0) + 1);
       try {
-        if (editing) await replaceExisting(entry, original);
-        else await transact('readwrite', store => store.add(entry));
+        if (editing) await SiteStorage.save('news', entry, original.updatedAt || original.createdAt);
+        else await SiteStorage.save('news', entry, null);
         notifySaved(entry.id);
         location.assign(returnTarget);
       } catch (failure) {
@@ -215,7 +174,7 @@
           missing: '这条 News 已被删除，无法保存修改。当前草稿保留在此页，可复制正文后返回主页。',
           conflict: '这条 News 已在其他页面修改。当前草稿保留在此页，请复制后重新打开最新记录。'
         };
-        message(reasons[failure.message] || '保存失败，可能是浏览器存储空间不足或被禁用。内容和附件已保留在此页，请重试。', true);
+        message(reasons[failure.message] || failure.message + ' 内容和附件已保留，请重试。', true);
         saving = false;
         fields.disabled = false;
         updateBusy();
@@ -226,10 +185,10 @@
       message('请通过 http://127.0.0.1:8765/news-edit.html 打开此页，再添加 News。', true);
     } else {
       (async () => {
-        await connect();
+        await SiteStorage.assertWritable();
         if (editing) {
           message('正在读取 News…');
-          const entry = editId ? await transact('readonly', store => store.get(editId)) : null;
+          const entry = editId ? (await SiteStorage.all('news')).find(entry => entry.id === editId) : null;
           if (!entry || !validDate(entry.date) || typeof entry.body !== 'string') {
             message('找不到这条 News，可能已被删除。请返回主页查看。', true);
             return;
@@ -246,8 +205,8 @@
         fields.disabled = false;
         ready = true;
         updateBusy();
-      })().catch(() => {
-        message('无法打开 News 本地存储，请允许浏览器存储后刷新。当前输入会保留在此页。', true);
+      })().catch(error => {
+        message(error.message + ' 当前输入会保留在此页。', true);
       });
     }
   }
@@ -269,7 +228,7 @@
     async function render() {
       const current = ++version;
       try {
-        const stored = await transact('readonly', store => store.getAll());
+        const stored = await SiteStorage.all('news');
         if (current !== version) return;
         const entries = stored.filter(entry => entry && typeof entry.id === 'string' && validDate(entry.date) && typeof entry.body === 'string' && entry.body.trim() && entry.body.length <= 2000);
         entries.sort((a, b) => b.date.localeCompare(a.date) || (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0) || a.id.localeCompare(b.id));
@@ -296,15 +255,15 @@
             deleting.add(entry.id);
             remove.disabled = true;
             try {
-              await transact('readwrite', store => store.delete(entry.id));
+              await SiteStorage.remove('news', entry.id, entry.updatedAt || entry.createdAt);
               notifySaved(entry.id);
               await render();
               status.textContent = 'News 已删除。';
               status.classList.add('is-success');
               status.hidden = false;
               (list.querySelector('.news-edit') || document.querySelector('.news-add')).focus({ preventScroll: true });
-            } catch (_) {
-              status.textContent = '删除失败，News 未删除。请允许浏览器存储后重试。';
+            } catch (error) {
+              status.textContent = error.message;
               status.classList.remove('is-success');
               status.hidden = false;
             } finally {
@@ -344,16 +303,17 @@
         for (const url of urls) URL.revokeObjectURL(url);
         urls = nextURLs;
         status.hidden = true;
-      } catch (_) {
+      } catch (error) {
         if (current !== version) return;
         if (!urls.length && !list.querySelector('time')) list.replaceChildren();
-        status.textContent = '暂时无法读取本机 News。请使用本地预览地址并允许浏览器存储，然后刷新。';
+        status.textContent = error.message;
         status.classList.remove('is-success');
         status.hidden = false;
       }
     }
 
     render();
+    SiteStorage.subscribe(render);
     if (channel) channel.onmessage = event => { if (event.data === 'changed') render(); };
     window.addEventListener('storage', event => { if (event.key === REVISION_KEY || event.key === null) render(); });
     window.addEventListener('pageshow', event => { if (event.persisted) render(); });

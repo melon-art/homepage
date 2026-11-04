@@ -1,43 +1,73 @@
 # 项目总览
 
-核对日期：2026-11-03（Asia/Shanghai）。文档整理基线：`ab371b8`；EDIT-001 建立本机编辑；EDIT-002 扩展主页除 News 外的所有待填字段；EDIT-004 在 `39cae46` 后将 About 改为全文自由填写。
+核对日期：2026-11-05（Asia/Shanghai）。文档整理基线：`ab371b8`；EDIT-001 建立本机编辑；EDIT-002 扩展主页除 News 外的所有待填字段；EDIT-004 在 `39cae46` 后将 About 改为全文自由填写。
 
 ## 定位与当前阶段
 
 这是个人学术主页，面向希望了解站点主人基本情况、研究兴趣、课程与个人活动的访问者。当前阶段为**静态首页草稿，基础界面与交互已实现，真实内容尚未补齐；线上发布状态待确认**。
 
-首页包含个人资料栏、About 和 News，并预留研究方向、课程作业、爱好、活动、获奖五个栏目。目标不是登录系统、内容管理后台或数据库应用。页面语言当前为中文资料与少量英文栏目名，最终语言待确认。
+首页包含个人资料栏、About、News 和 Updates；顶部栏目顺序为 Home、研究方向、课程作业、个人生活、获奖、探索广场，其后保留设置入口。探索广场门户已接入，其余四个栏目仍待建立；三个探索子板块仍待真实内容。个人生活／探索广场沿用 hobbies／activities 内部 ID，保留已有 Updates 草稿关联。提供电脑本机使用的文件编辑服务，尚无账号系统或公网管理后台。页面语言当前为中文资料与少量英文栏目名，最终语言待确认。
+
+探索广场已正式接入[explore.html](../explore.html)：美食地图、瓜瓣READ、概念集重复排列为18张卡，覆盖完整圆周；支持连续旋转、悬停抽出与两侧让位、选中描述、点击进入各自的内容待添加页。EXPLORE背景字调浅为oklch(91% .006 88)，保持最终确认的宽度、位置及3/4字高。门户通过site-pages.js同时接入顶部导航和Updates目标目录；子页不登记为已完成内容或Updates目标。React／Framer Motion仅用于此局部模块，首页与编辑功能保持原实现；源码与构建见explore/，验证见TASKS E41。仓库外预览保留为历史稿。
 
 ## 技术栈与运行方式
 
+探索转盘当前全部卡牌共享浅银灰金属工牌与增强镭射／高光，各自保留名称、介绍和站内目标；默认九张本地卡面图仅为临时页面设计示意，可在设置中替换，未实现对应内容页功能。共享组件为explore/src/main.jsx内SectionBadge，验证见TASKS E44。
+
 | 项目 | 当前真实实现 |
 | --- | --- |
-| 页面 | `index.html` 首页、`settings.html` 设置页、`news-edit.html` 独立 News 新增／编辑页、`news.html` 全部新闻页，原生 HTML |
-| 样式 | 页面内嵌 CSS 与共享 news.css、自定义属性、Grid／Flex 和媒体查询 |
+| 页面 | `explore-manage.html` 设置内探索广场管理、`explore-edit.html` 卡牌编辑；`index.html` 首页、`settings.html` 设置页、`news-edit.html` 独立 News 新增／编辑页、`news.html` 全部新闻页、`updates-edit.html` 更新编辑页、`updates-manage.html` 更新管理页，原生 HTML |
+| 样式 | 页面内嵌 CSS 与共享 news.css、首页与编辑预览共享 updates.css、更新编辑／管理共享 updates-editor.css、自定义属性、Grid／Flex 和媒体查询 |
 | 交互 | 首页保留原内联交互；共享 `profile.js` 管理资料、联系信息及本地附件的读取、保存和同步；`about.js` 处理 About 格式编辑、安全渲染与首页收起／展开 |
 | 图标、字体 | 内联描边 SVG、本地字体栈，无图标包或网络字体依赖 |
-| 数据 | 默认模板在 HTML；资料／个人附件覆盖值在 localStorage；News 与附件在浏览器 IndexedDB，按日期倒序加载；联系方式仍为原六键 CONTACTS |
-| 构建和依赖 | 无 `package.json`、框架、构建步骤或应用依赖清单；目前不是 Astro／React 项目 |
-| 服务端 | 无 API、后台、服务端数据库或登录；只有当前浏览器本地持久化，不能写入仓库或全站发布 |
+| 数据 | `data/site.json` 保存资料、News、展示中的 Updates 和 `explore` 卡牌集合；附件独立保存至 `assets/uploads/`；草稿和自动备份在 Git 忽略的 `.local/`；旧 localStorage／IndexedDB 只用于用户主动迁移，不再写入内容；实际site.json、上传附件和.local被Git忽略，仓库只提供空白site.example.json |
+| 构建和依赖 | 首页／编辑页无需构建；探索模块独立使用explore/package.json（React19.2.0、Framer Motion12.23.24、esbuild0.25.12），构建产物已保存，浏览时无需安装依赖 |
+| 服务端 | Python 标准库 `tools/server.py` 提供文件读写 API 和静态页面；仅电脑回环地址可写，局域网手机只读；无数据库、登录或 GitHub 上传 |
 | 版本管理 | Git，分支 `main`，已配置 GitHub 远程 `melon-art/homepage` |
 | 部署 | 仓库内未发现部署配置、工作流或线上地址记录；是否已有站外托管待确认 |
 
-可直接用浏览器打开根目录 `index.html`。若使用本地 HTTP 预览，在仓库根目录运行：
+双击根目录 `start-local.cmd`，或在仓库根目录运行：
 
 ```text
-python -m http.server 8765 --bind 127.0.0.1
+python tools/server.py --port 8765
 ```
 
-浏览器地址为 `http://127.0.0.1:8765/`。Python 仅是可选预览工具，不是网站运行依赖。本地预览和 GitHub 上传均不代表已完成公网发布。
+电脑编辑地址保持 `http://127.0.0.1:8765/`。服务默认监听所有网卡，手机连接同一网络后可用电脑 IPv4 地址只读预览；手机实际网络连通性取决于防火墙和当前网络。文件编辑需要 Python 3.9+，无需安装第三方包；普通 `python -m http.server` 只能读取已保存的公开内容，不能保存。不再支持直接 `file://` 编辑。首次在原浏览器／原地址打开设置，主动迁移旧内容；迁移不会删除旧数据。详细步骤见 [STORAGE.md](STORAGE.md)。
 
 ## 目录与职责
 
 ```text
 academic-homepage/
+├── explore-manage.html         设置中的探索板块列表及编辑／删除入口
+├── explore-edit.html           独立卡牌标题、介绍、图片编辑页
+├── explore-editor.js／css      列表与编辑交互，复用Updates编辑样式
+├── data/explore-defaults.json   原三板块默认内容与固定路由
+├── explore.html                探索广场门户，由explore/build.mjs生成
+├── food-map.html               美食地图内容待添加页
+├── guaban-read.html            瓜瓣READ内容待添加页
+├── concepts.html               概念集内容待添加页
+├── explore/                    局部React／Framer Motion源码、样式、依赖与本地打包产物
 ├── news-edit.html              日期、正文及可选图片／文件的独立新增／编辑页
 ├── news.html                   全部 News 列表，日期倒序、保留新增／编辑／删除
 ├── news.css                    首页与列表页共用的 News 卡片、动画和响应式样式
-├── news.js                     News 本地 IndexedDB、附件、首页／列表展示与同步
+├── news.js                     News 表单、附件、首页／列表展示与文件适配
+├── site-pages.js               顶部导航与 Updates 共用的站内页面／锚点目录
+├── updates.js                  首页本地更新加载、同步与操作
+├── updates-view.js             首页／编辑页共享日期轴与立体预览
+├── updates-store.js            Updates 校验、共享文件适配与变更通知
+├── updates.css                 News／Updates 6:4 布局与局部动效
+├── updates-edit.html            日期、正文、目标、图片的独立编辑页
+├── updates-manage.html          所有更新与草稿的管理页
+├── updates-editor.js            新增、编辑、草稿、图片与管理逻辑
+├── updates-editor.css           两个 Updates 编辑／管理页面的样式
+├── file-store.js               共享文件 API、旧浏览器内容读取／迁移及只读状态
+├── storage.css                 设置页存储说明、迁移入口与只读状态
+├── tools/server.py             Python 本地文件服务、校验、备份及版本冲突保护
+├── tools/test_storage.py       文件存储与接口边界测试
+├── start-local.cmd             Windows 一键启动
+├── data/site.json              资料、News 和已展示 Updates
+├── assets/uploads/             内容寻址的图片、PDF 和下载文件
+├── .local/                     Git 忽略的草稿、草稿图片、自动备份及事务日志
 ├── index.html                  首页与既有联系交互
 ├── settings.html               基本信息设置页
 ├── profile.js                  全资料、联系信息和本地附件的保存与同步
@@ -53,6 +83,7 @@ academic-homepage/
 │   ├── TASKS.md                实际任务状态、证据与已知问题
 │   ├── CHANGELOG.md            重要变更及历史依据
 │   ├── DESIGN.md               完整现行视觉设计规范
+│   ├── STORAGE.md              本地启动、浏览器迁移、数据文件和备份说明
 │   ├── requirements.md         需求与验收目标，不代表完成状态
 │   └── archive/                不再维护的历史说明
 └── .impeccable/
@@ -64,7 +95,7 @@ academic-homepage/
 
 ## 页面与逻辑组件
 
-以下是页面中的逻辑分区，尚未建立组件框架；`profile.js` 为两页共享的原生脚本。
+以下是原生页面中的逻辑分区，`profile.js` 为两页共享的原生脚本。探索广场独立使用 React 组件，局部边界见 explore/，不改变首页与编辑页架构。
 
 | 分区／选择器 | 当前内容与行为 |
 | --- | --- |
@@ -72,12 +103,13 @@ academic-homepage/
 | `.home-menu`、`.home-trigger` | 顶部 Home 悬停下拉；About 跳转 index.html，News 跳转 news.html，移出关闭；支持键盘与触屏 |
 | `.settings-link` | 主页右上角“设置”，跳转设置页 |
 | `#profile-form` | 个人资料、About、联系方式、简历四组；保存后返回主页 |
-| `.nav-item` | 五个待开发栏目的按钮，只显示“栏目待更新”，不执行页面跳转 |
+| `.nav-item` | 探索广场通过共用目录启用explore.html；其余四个待开发栏目仅提示待更新 |
 | `.profile`、`.portrait` | 资料文字和照片占位；可显示本机保存的图片，仓库没有真实照片 |
 | `.contacts` | 六个横排图标；名称提示、点击复制及空数据反馈 |
 | `.cv-area`、`.cv-button` | 浅金底、金色字、与照片同宽；无 PDF 时 `disabled`；有本机 PDF 时启用并下载该文件 |
 | `.about-block` | 用户填写的 About 全文，保留换行／加粗／文字颜色；与 News 同宽，长内容默认收起、段末展开／收起，未填写时明确占位 |
-| `.news`、`.news-list` | 从本地 IndexedDB 加载，日期倒序；主页 data-news-limit=3 仅显示最新三条，news.html 展示全部；每条日期与正文，无标题，可选右侧缩略图及文件下载 |
+| `.news`、`.news-list` | 通过 file-store.js 从本地文件加载，日期倒序；主页 data-news-limit=3 仅显示最新三条，news.html 展示全部；每条日期与正文，无标题，可选右侧缩略图及文件下载 |
+| `.updates`、`.depth-stage` | About 下方与 News 按 6:4 排列，1100px 以下上下排列；连续日期轴、前后景预览、悬停抬高、点击图片跳转；当前无可展示记录时显示“暂无更新”；加号新增，“管理”可查看草稿 |
 | `.news-view-all` | 主页 News 标题栏右侧 View All →，左到右金色下划线，跳至 news.html |
 | `.news-add`、`news-edit.html` | 加号新增；每条悬停／聚焦显示编辑、删除，触屏常显；编辑以 id 参数复用同一表单、预填原记录，保存成功返回首页 News |
 | `.toast` | 普通复制反馈，礼貌播报，约 2.6 秒收起 |
@@ -87,7 +119,7 @@ academic-homepage/
 
 ## 数据与交互流
 
-`CONTACTS` 的键固定为 `phone`、`email`、`wechat`、`instagram`、`xiaohongshu`、`bilibili`，源文件默认值全部为空字符串；本机保存值在页面加载后填入同名键。社交图标目前**复制账号或链接，不打开平台页面**，也没有微信二维码功能。
+`CONTACTS` 的键固定为 `phone`、`email`、`wechat`、`instagram`、`xiaohongshu`、`bilibili`，源文件默认值全部为空字符串；文件保存值在页面加载后填入同名键。社交图标目前**复制账号或链接，不打开平台页面**，也没有微信二维码功能。
 
 ```text
 点击联系图标
@@ -98,9 +130,11 @@ academic-homepage/
   → 两种方式均失败：显示持续保留的手动复制面板
 ```
 
-`notify()` 管理普通提示；`copyText()` 管理复制；`closeRecovery()` 管理恢复面板关闭与焦点。名称提示由脚本创建，支持悬停／焦点显示和 Escape 关闭。没有业务网络请求或服务器表单提交。`profile.js` 拦截设置表单，在原 localStorage 键 `academic-homepage.profile.v1` 保存 13 个文字字段、可选 `introductionRuns` 格式片段及 `photo`／`cv` 附件对象（`{name, data}`，data 为限定 MIME 的 data URL），读取旧 `{name, degree}` 时保留原值、缺失新字段按空值处理；原 introduction 文本沿用为 About 全文，旧 researchOne／researchTwo／researchQuestion 字段不再参与保存和渲染；保存成功后返回主页，更新英文名、左栏、About、联系信息和简历状态。照片支持 JPG／PNG／WebP≤1 MB，PDF≤2 MB；选择时验证文件大小、图片解码或 PDF 文件头。未保存草稿不影响主页。整份资料使用一次原子写入，配额失败不覆盖上次记录。刷新／返回缓存页会重新读取，同源多个标签页通过 storage 事件同步。About 使用单个可编辑文本区，最多 10000 字符，不再根据个人资料生成句子；换行和空行保留，空值显示“About 内容待填写。”。工具条提供选词加粗、金色、自选颜色和清除格式，保留选区并支持 Ctrl+B／⌘B。`introduction` 保留纯文本兼容，`introductionRuns` 为 `{text, bold, color}` 片段；仅接受十六进制颜色，不保存原始 HTML。旧纯文本自动读取，片段与正文不一致时回退到正文。超限明确阻止保存并保留草稿。其他空值恢复占位；渲染使用 textContent 创建文字及 strong／span；存储失败保留输入并提示，不假报成功。
+`notify()` 管理联系提示，`copyText()` 与 `closeRecovery()` 保留原行为。`profile.js` 通过 `SiteStorage` 异步读取／提交完整资料；设置表单提交后返回主页，更新英文名、左栏、About、六类联系信息和简历状态。保存核对 `profileRevision`，旧页面不能覆盖新资料。照片 JPG／PNG／WebP≤1 MB、PDF≤2 MB，表单保留原附件预览和移除行为；文件落地后 JSON 仅保存 `{name,path,type,size}` 引用。
 
-本机 `file://` 预览通过临时 URL 片段传递文字字段及 About 格式片段，读取后移除片段；不传递图片或 PDF。文件模式禁止新增附件并提供 HTTP 预览入口，避免不同文件的存储隔离和超长 URL。推荐固定使用本地 HTTP 地址预览；不同浏览器、端口、设备或清除站点数据后不会共享修改。这不是管理后台，不会修改 HTML 文件、Git 仓库或所有访客看到的内容。News 由独立页面与 news.js 管理，不写入个人资料键。下载通过浏览器 Blob URL 生成，文件名与内容来自用户选择的 PDF，没有上传接口。
+About 全文由用户填写，最多 10000 字符，保留换行。`introduction` 为纯文本，`introductionRuns` 为 `{text,bold,color}` 结构化片段；只接受十六进制颜色，不保存用户 HTML，不直接拼接 HTML 渲染。空内容仍显示占位；校验、网络或磁盘失败时保留当前输入。主页重新显示／重新可见时读取最新文件。旧浏览器 `academic-homepage.profile.v1` 与两个 IndexedDB 的 entries 只用于显式迁移；迁移前先在 `.local/backups/` 保存含附件的原始快照，迁移后旧数据库不删除。用户真实内容是否迁移以设置页状态为准，模拟测试不能证明已迁移。
+
+所有设备读取同一电脑文件；电脑服务停止时无法访问，清除浏览器数据不会删除已迁移文件。手机局域网地址只读，不能读取 Updates 草稿、备份或写入接口。静态托管可读取 `data/site.json` 与公开附件，不能运行 Python 写入接口；公网发布和 GitHub 上传没有自动执行。
 
 ## About 收起与展开
 
@@ -110,15 +144,31 @@ News 保持文档流，随 About 高度自然上下移动，不预留展开高�
 
 ## News 数据与附件
 
-news.js 使用浏览器 IndexedDB 数据库 academic-homepage.news.v1、entries 对象仓库。每条为 `{id, date, body, createdAt, image, file}`，编辑后另带 updatedAt，没有 title；附件是 `{name, blob}`，不经 base64 或个人资料 localStorage。正文按纯文本渲染，保留换行，最多 2000 字；日期使用有效 YYYY-MM-DD 和 time／datetime。按日期降序、同日创建时间降序排列。图片最多一张，JPG／PNG／WebP≤5 MB，解码成功才接收；文件最多一个、≤10 MB，以 Blob URL 下载。可同时添加图片和文件；保存前可更换／移除附件。
+`news.js` 通过共享 `file-store.js` 读取 `data/site.json` 的 news 列表。每条保留 `{id,date,body,createdAt,updatedAt,image,file}`，无标题；附件在文件中保存引用，读取后转换为 Blob 供原列表／表单使用。日期有效、正文纯文本≤2000字；图片 JPG／PNG／WebP≤5 MB，文件≤10 MB。图片仍左文右图，附件以原文件名下载，编辑时保留未改附件。
 
-首页限制只影响显示，不删除或截断数据库记录；news.html 全量展示并复用相同卡片、附件和操作。新增／编辑入口可携带 from=news；仅接受这一固定值决定返回 news.html，其他情况仍返回首页 News。列表页含返回主页及新增入口。
+首页仅显示最新三条，news.html 全量展示；列表数量限制不删除文件记录。新增／编辑保存成功才返回，`from=news` 保留原返回列表行为。服务端核对原 `updatedAt`，拒绝覆盖新版本或复活已删记录；删除需原确认、成功后才移除。错误保留表单和已存记录。BroadcastChannel／修订通知、pageshow／重新可见继续刷新列表。没有后台登录或自动公网发布。
 
-新增事务提交成功才返回；重复提交受阻，附件读取期间保存禁用；非法附件需重新选择或移除。失败保留本页草稿和已存记录。BroadcastChannel（不可用时回退到独立 localStorage 修订标记）、pageshow 与可见状态变化更新首页。原个人资料键及格式保持不变。编辑使用 news-edit.html?id=记录ID，与新增共用表单；保留原 id、createdAt 及未改附件，保存后重新按日期排序。单个读写事务核对原记录存在和更新时间后覆盖，缺失或其他页面已修改则保留草稿并报错，不能复活已删记录或覆盖新版本。删除使用浏览器原生确认；成功才移除并同步，失败保留记录并提示，删除后焦点落到下一可用入口。无真实记录的占位卡片不提供编辑／删除。News 功能需 HTTP 预览；不提供 file:// 保存、跨浏览器同步或公开发布。
+## Updates 数据与边界
+
+site-pages.js 是顶部导航和更新跳转的共用页面目录，登记板块、真实页面与可选锚点。当前 Home 的 About／News 与探索广场门户有真实目标，其余四个栏目明确待建立；探索三个空内容子页不登记为 Updates 目标。添加真实内容后登记目录才能启用。Updates 保存 pageId／anchorId，不允许直接填写任意 URL；首页点击中心图在当前标签页进入同一页面，编辑页测试跳转使用新标签页。
+
+updates-store.js 通过 file-store.js 使用本地文件，每条为 {id,date,sectionId,pageId,anchorId,body,imageAlt,image,status,createdAt,updatedAt}；文件中的图片为 {name,path,type,size} 引用，前端转换为 {name,blob}，保留现有组件接口。独立 id 支持同日多条，日期降序、同日创建时间降序；日期轴每个日期一个位置，当天多条在日期轴下方显示1、2、3小编号，点击或滚轮切换，默认最新一条为1。日期轴及编号滚轮先遍历当天条目，再平滑进入相邻自然日，空日保留原占位；预览区域滚轮不带动外页，包括节流中与内容边界。draft 不出现在主页；published 仅表示本机主页展示，需有效目标与正文，不表示公网发布。
+
+独立 updates-edit.html 左表单、右实时预览，支持日期（1900—2100年）、板块、纯文本正文≤500字、真实页面／登记锚点、一张 JPG／PNG／WebP≤5 MB、图片说明≤160字。图片解码通过后接收，保留原附件或明确移除；无图用文字预览。目标未建立时可存草稿；保存草稿留在编辑页，保存并展示成功返回主页并选中新记录。updates-manage.html 显示全部本机记录与草稿，编辑复用同页，删除需确认。
+
+展示中的 Updates 存入 `data/site.json`；草稿存入 `.local/drafts.json`，草稿图片在 `.local/uploads/`，不返回给手机或静态访客。保存／删除核对版本，失败保留输入。每次有效修改前自动备份旧 JSON；先写临时文件再原子替换，并用事务日志恢复跨公开／草稿文件的中断。一个项目只允许一个写入进程。支持设置页下载完整 ZIP（含公开内容、草稿和引用附件），不自动执行 Git；尚无栏目自动记录、云端同步或公网编辑。文件模式与普通静态预览不允许保存。
+
+## 探索卡牌管理（EXPLORE-005）
+
+设置侧栏的“探索广场”进入explore-manage.html，按板块而非18张重复卡牌列出标题／介绍／配图及编辑、删除；点击编辑进入explore-edit.html?id=固定ID。标题≤24字、介绍≤160字且必填，可上传单张JPG／PNG／WebP≤5 MB或恢复默认图。保存返回管理列表并通过变更通知同步转盘各重复卡面、底部介绍及对应子页文字；不改变路由或已有动画。
+
+在site.json中新增explore集合，固定原三板块ID、文件目标与材质，编辑只改name／description／image。旧文件没有explore字段时从data/explore-defaults.json读取默认内容，不自动覆盖实际文件；空数组表示主动全部删除，永不重新补回。删除带确认，保留页面文件；剩余板块仍重复铺满18卡，全部删除显示空状态。已删板块直接访问其URL显示移除提示。没有本次新增板块功能，不把子页空内容当成完成。
+
+更新和删除核对updatedAt，旧页不能覆盖新值或复活已删项；保留原备份及只读边界，上传图片纳入完整ZIP。长标题／介绍在卡面有限空间内截断，完整值保存在文件；默认配图仍为临时页面示意。局部证据见TASKS E48。
 
 ## 已实现与缺失的边界
 
-已经实现的是**展示框架和基础交互**，并不是已填入真实资料的可发布成品。本地照片／简历选择和 PDF 下载机制已验证；真实公开简历、五个内容页面、真实照片／介绍／联系方式／动态仍未完成。News 已支持日期倒序、本机新增／编辑／删除，尚未提供公开发布。详细状态与测试范围见 [TASKS.md](TASKS.md)。
+已经实现的是**展示框架和基础交互**，并不是已填入真实资料的可发布成品。本地照片／简历选择和PDF下载机制、探索广场门户已验证；真实公开简历、其余四个栏目、探索子板块真实内容、照片／介绍／联系方式／动态仍待补齐。News已支持本机新增／编辑／删除，尚未提供公开发布。详细状态与测试范围见[TASKS.md](TASKS.md)。
 
 ## 文档维护与信息优先级
 

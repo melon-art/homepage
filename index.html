@@ -5,10 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="个人学术主页视觉预览，个人资料待补充。">
   <title>个人学术主页 · 视觉预览</title>
+  <script src="file-store.js?v=1" defer></script>
   <script src="about.js?v=4efae92768a9" defer></script>
-  <script src="profile.js" defer></script>
+  <script src="profile.js?v=file-1" defer></script>
   <link rel="stylesheet" href="news.css?v=016d5d863111">
-  <script src="news.js?v=939a27035698" defer></script>
+  <script src="news.js?v=file-1" defer></script>
+  <link rel="stylesheet" href="updates.css?v=7">
+  <script src="site-pages.js?v=3" defer></script>
+  <script src="updates-store.js?v=file-1" defer></script>
+  <script src="updates-view.js?v=5" defer></script>
+  <script src="updates.js?v=3" defer></script>
   <style>
 
     :root {
@@ -164,16 +170,16 @@
             <button class="nav-current home-trigger" type="button" aria-expanded="false" aria-controls="home-submenu" lang="en"><span class="nav-label">Home</span></button>
             <div class="home-submenu" id="home-submenu" hidden>
               <div class="home-dropdown">
-                <a href="index.html" aria-current="page" lang="en">About</a>
-                <a href="news.html" lang="en">News</a>
+                <a href="index.html" data-page-id="about" aria-current="page" lang="en">About</a>
+                <a href="news.html" data-page-id="news" lang="en">News</a>
               </div>
             </div>
           </div>
-          <button class="nav-item" type="button" aria-disabled="true" aria-label="研究方向，待更新"><span class="nav-label">研究方向</span></button>
-          <button class="nav-item" type="button" aria-disabled="true" aria-label="课程作业，待更新"><span class="nav-label">课程作业</span></button>
-          <button class="nav-item" type="button" aria-disabled="true" aria-label="爱好，待更新"><span class="nav-label">爱好</span></button>
-          <button class="nav-item" type="button" aria-disabled="true" aria-label="活动，待更新"><span class="nav-label">活动</span></button>
-          <button class="nav-item" type="button" aria-disabled="true" aria-label="获奖，待更新"><span class="nav-label">获奖</span></button>
+          <button class="nav-item" data-section-id="research" type="button" aria-disabled="true" aria-label="研究方向，待更新"><span class="nav-label">研究方向</span></button>
+          <button class="nav-item" data-section-id="coursework" type="button" aria-disabled="true" aria-label="课程作业，待更新"><span class="nav-label">课程作业</span></button>
+          <button class="nav-item" data-section-id="hobbies" type="button" aria-disabled="true" aria-label="个人生活，待更新"><span class="nav-label">个人生活</span></button>
+          <button class="nav-item" data-section-id="awards" type="button" aria-disabled="true" aria-label="获奖，待更新"><span class="nav-label">获奖</span></button>
+          <button class="nav-item" data-section-id="activities" type="button" aria-disabled="true" aria-label="探索广场，待更新"><span class="nav-label">探索广场</span></button>
           <a class="settings-link" href="settings.html" data-settings-link><span class="nav-label">设置</span></a>
         </nav>
         <p class="navigation-note" role="status" hidden></p>
@@ -207,6 +213,7 @@
         </div>
 
         </section>
+        <div class="activity-columns">
         <section class="news" aria-labelledby="news-title">
           <div class="news-heading">
             <h2 id="news-title" lang="en">News</h2>
@@ -220,6 +227,13 @@
           </ul>
           <p class="news-status" role="status" aria-live="polite" hidden></p>
         </section>
+        <section class="updates depth-study" aria-labelledby="updates-title">
+          <div class="updates-heading"><h2 id="updates-title" lang="en">Updates</h2><a class="updates-add" href="updates-edit.html" aria-label="新增 Updates" title="新增 Updates"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></a><a class="updates-manage" href="updates-manage.html">管理</a></div>
+          <div data-updates-view></div>
+          <div class="update-record-actions" hidden><a href="updates-edit.html">编辑</a><button type="button">删除</button></div>
+          <p class="updates-status" role="status" aria-live="polite" hidden></p>
+        </section>
+        </div>
       </div>
     </main>
   </div>

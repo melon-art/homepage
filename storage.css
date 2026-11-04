@@ -1,0 +1,13 @@
+.storage-banner{position:relative;z-index:30;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 20px;padding:10px 20px;background:#f8f5ed;color:#866b35;font:400 14px/1.6 "Microsoft YaHei","Segoe UI",sans-serif}
+.storage-banner a{color:inherit;text-underline-offset:3px}
+.storage-panel{margin-top:25px;padding:20px 0;border-block:1px solid var(--line,#e4e6e8)}
+.storage-panel h2{margin:0 0 10px;font-size:18px;font-weight:600;line-height:1.5}
+.storage-panel p{margin:0;color:var(--muted,#626b75);font-size:14px;line-height:1.8;overflow-wrap:anywhere}
+.storage-actions{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:15px}
+.storage-actions button{min-height:44px;padding:9px 16px;border:0;border-radius:6px;background:#f8f5ed;color:#866b35;font:inherit;cursor:pointer}
+.storage-actions button:focus-visible{outline:2px solid #866b35;outline-offset:3px}
+.storage-actions button:disabled{opacity:.55;cursor:wait}
+.storage-panel .storage-feedback{margin-top:10px;color:#866b35}
+body[data-storage-readonly=true] .news-add,body[data-storage-readonly=true] .news-actions,body[data-storage-readonly=true] .updates-add,body[data-storage-readonly=true] .update-record-actions,body[data-storage-readonly=true] .updates-manage,body[data-storage-readonly=true] .up-record-actions{display:none!important}
+form[inert]{opacity:.65}
+body:has(.storage-banner) .page-shell.is-wheel{height:calc(100svh - var(--storage-banner-height,43px))}

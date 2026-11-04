@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>新增 News · 个人学术主页</title>
-  <script src="news.js?v=939a27035698" defer></script>
+  <script src="file-store.js?v=1" defer></script>
+  <script src="news.js?v=file-1" defer></script>
   <style>
     :root { color-scheme: light; --paper: #fff; --ink: #242b34; --body-ink: #414a54; --muted: #626b75; --gold: #866b35; --gold-soft: #f8f5ed; --line: #e4e6e8; --error: #a13c30; --radius-control: 6px; --font-body: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif; --font-heading: Georgia, "Songti SC", SimSun, serif; }
     * { box-sizing: border-box; }
@@ -59,7 +60,7 @@
     </header>
     <main class="news-editor-main" aria-labelledby="news-edit-title">
       <h1 id="news-edit-title">新增 News</h1>
-      <p class="editor-note" id="news-storage-note">保存后返回主页。News 与附件仅保存在当前浏览器，不会自动公开发布。</p>
+      <p class="editor-note" id="news-storage-note">保存后写入本地文件并返回主页；附件独立保存，不上传 GitHub。</p>
       <form id="news-form" aria-describedby="news-storage-note">
         <fieldset id="news-fields">
           <div class="field date-field">

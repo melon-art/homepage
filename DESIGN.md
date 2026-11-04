@@ -11,8 +11,15 @@ colors:
   card: "#f8f9fa"
   line: "#e4e6e8"
   portrait-ground: "#40564a"
+  explore-display: "oklch(91% .006 88)"
+  badge-silver: "#f5f6f7"
   error: "#a13c30"
 typography:
+  explore-display:
+    fontFamily: 'Bahnschrift, "Arial Narrow", sans-serif'
+    fontSize: "21.5vw"
+    fontWeight: 600
+    letterSpacing: ".025em"
   identity:
     fontFamily: 'Georgia, "Songti SC", SimSun, serif'
     fontSize: "2.25rem"
@@ -48,6 +55,23 @@ spacing:
   column-gap: "54px"
   navigation-underline: "72px"
 components:
+  explore-editor:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.body-ink}"
+    rounded: "{rounded.input}"
+    inputHeight: "52px"
+    layout: "settings sidebar 320px / content; list with 128x86 preview and actions; stacked at 620px"
+  section-badge:
+    backgroundColor: "{colors.badge-silver}"
+    textColor: "#232a30"
+    rounded: "18px * card-ratio"
+    content: "all 18 cards: own name, description, temporary page screenshot"
+    motion: "2x pointer foil travel, +/-12deg sweep and variable light strength under copy; static in reduced motion"
+  explore-backdrop:
+    textColor: "{colors.explore-display}"
+    typography: "{typography.explore-display}"
+    width: "95vw"
+    heightScale: "previous approved height * .75"
   navigation-current:
     backgroundColor: "transparent"
     textColor: "{colors.gold}"
@@ -98,6 +122,25 @@ components:
     textColor: "{colors.gold}"
     rounded: "{rounded.control}"
     padding: "10px 25px"
+  updates-editor:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.body-ink}"
+    rounded: "{rounded.input}"
+    inputHeight: "52px"
+    layout: "7fr 5fr; stacked at 820px"
+  updates-preview:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.body-ink}"
+    rounded: "{rounded.control}"
+    height: "180px"
+    stageHeight: "248px"
+    nextOffset: "54px"
+    mobileNextOffset: "49px"
+    captionGap: "24px"
+    numberSize: "12px"
+    numberTarget: "24px"
+    numberImageGap: "12px + stage inset"
+    motion: "360ms cubic-bezier(.16,1,.3,1)"
   news-card:
     backgroundColor: "{colors.card}"
     textColor: "{colors.body-ink}"
