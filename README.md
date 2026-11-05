@@ -4,8 +4,10 @@
 
 ## 目录怎么找
 
+当前电脑工程位置：`C:\Users\melon\OneDrive\ドキュメント\ChatGPT\个人网站`。2026-11-05已从原Codex目录迁入，启动仍使用根目录start-local.cmd和原8765地址；原资料与Git记录一同保留，无需重新填写。
+
 ```text
-academic-homepage/
+个人网站/
 ├── public/                     网站目录，服务将此目录映射到原网址
 │   ├── index.html              首页
 │   ├── settings.html           基本信息设置
@@ -84,6 +86,9 @@ python server/server.py --port 8765
 | [CHANGELOG](docs/CHANGELOG.md) | 已发生的重要变更 |
 | [DESIGN](docs/DESIGN.md) | 视觉和交互规范 |
 | [STORAGE](docs/STORAGE.md) | 启动、迁移、文件和备份 |
+| [COLLABORATION](docs/COLLABORATION.md) | 总控与模块聊天分工、独立副本、端口、数据及交付约定 |
+| [探索广场文档入口](docs/modules/explore/README.md) | 子板块任务索引与按需阅读方式 |
+| [美食地图任务单](docs/modules/explore/food-map.md) | 21 \| 美食地图：已确认范围、交互与验收标准 |
 | [需求](docs/requirements.md) | 验收目标，不代表完成情况 |
 | [AGENTS](AGENTS.md) | 开工阅读、验证和更新约定 |
 
