@@ -26,7 +26,7 @@ npm run build --prefix src/explore
 
 卡面通过SiteStorage.explore()读取；旧文件缺字段时使用public/data/explore-defaults.json，空数组保持删除态。编辑／删除后同步卡面与描述，剩余类型重复填充18卡；保留旋转、抽出／让位、指针光效、触屏与减少动态。美食卡进入正式地图；两个商圈推荐与另外两子页仍待真实内容。
 
-美食地图使用三张PNG与本地字体，字体CSS只在地图及两个推荐页加载；地图内为StarLovePencil，导航及姓名保持主页字体，推荐页正文为GenRyuMin2 TC EL。字体来源／许可随public/explore/assets/fonts保存。构建不需要早期OSM矢量快照或仓库外生成工具，当前地理锚点与投影由poster-geography.js提供；详见[模块任务](../../docs/modules/explore/food-map.md)。
+美食地图使用三张PNG与本地字体；六个共享HTML入口统一加载字体声明CSS，避免站内切换不刷新文档时缺字体。实际字库仅在地图／推荐正文使用时按需请求，卡组无字体二进制请求。地图内为StarLovePencil，导航及姓名保持主页字体，推荐页正文为GenRyuMin2 TC EL。字体来源／许可随public/explore/assets/fonts保存。构建不需要早期OSM矢量快照或仓库外生成工具，当前地理锚点与投影由poster-geography.js提供；详见[模块任务](../../docs/modules/explore/food-map.md)。
 
 public/explore/assets/内九张PNG是生成的临时页面版式图，可在设置中替换。图片URL沿用explore/assets/...，与已保存的卡牌数据兼容。
 

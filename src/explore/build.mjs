@@ -30,7 +30,9 @@ for(const [file,title] of Object.entries(pages)){
   <meta name="description" content="探索广场：美食地图、瓜瓣READ、概念集。">
   <title>${title}</title>
   <link rel="stylesheet" href="explore/style.css?v=${style}">
-  <link rel="stylesheet" href="explore/header.css?v=${header}">${['food-map.html','food-map-darongcheng.html','food-map-wudaokou.html'].includes(file)?`\n  <link rel="stylesheet" href="explore/food-map-fonts.css?v=${foodFonts}">`:''}
+  <link rel="stylesheet" href="explore/header.css?v=${header}">
+  <!-- Shared routes switch in place; declare fonts before a food page is entered. -->
+  <link rel="stylesheet" href="explore/food-map-fonts.css?v=${foodFonts}">
   <script src="assets/js/file-store.js?v=${storage}" defer></script>
   <script src="assets/js/site-pages.js?v=${directory}" defer></script>
   <script src="explore/app.js?v=${app}" defer></script>
