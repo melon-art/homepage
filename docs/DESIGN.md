@@ -13,8 +13,20 @@ colors:
   portrait-ground: "#40564a"
   explore-display: "oklch(91% .006 88)"
   badge-silver: "#f5f6f7"
+  food-map-paper: "#fdf5f0"
+  food-map-label: "oklch(47% .025 90)"
   error: "#a13c30"
 typography:
+  food-map:
+    fontFamily: 'StarLovePencil, "GenRyuMin2 TC EL", "Noto Serif SC", "Songti SC", SimSun, serif'
+    fontSize: "clamp(28px, 2.6vw, 40px)"
+    fontWeight: 400
+    lineHeight: 1.25
+    letterSpacing: ".08em"
+  food-recommendation:
+    fontFamily: '"GenRyuMin2 TC EL", Newsreader, "Noto Serif SC", Georgia, "Songti SC", SimSun, serif'
+    fontWeight: 400
+    fontSynthesis: "none"
   explore-display:
     fontFamily: 'Bahnschrift, "Arial Narrow", sans-serif'
     fontSize: "21.5vw"
@@ -55,6 +67,18 @@ spacing:
   column-gap: "54px"
   navigation-underline: "72px"
 components:
+  food-map:
+    backgroundColor: "{colors.food-map-paper}"
+    textColor: "{colors.food-map-label}"
+    layout: "full viewport width; 4830:2730 image ratio; top-left map title; six labels"
+    typography: "{typography.food-map}"
+    header: "same local font stack, weight, size and line height as homepage"
+  food-beacon:
+    targetSize: "44px"
+    coreSize: "12px"
+    glowSize: "42.4264px"
+    motion: "1s easeInOut loop; static with reduced motion"
+    illustrationWidth: "ART PARK clamp(43.2px,9%,132px); WUDAOKOU clamp(34.56px,7.2%,105.6px)"
   explore-editor:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.body-ink}"
@@ -188,7 +212,7 @@ components:
 
 页面以白色画布承载个人信息与学术阅读内容。大幅方形照片区域和居中的身份信息形成左侧锚点，右侧使用衬线章节标题、简短正文和浅色动态卡片。暖金色只承担文字强调、当前导航与交互反馈；页面没有页脚。
 
-本规范记录 `index.html` 中已经使用的设计，不生成新的视觉方向。个人照片和资料仍待提供，因此照片区域保留明确的占位说明；占位底色不构成照片内容或新增品牌色承诺。字体全部来自本地字体栈，不下载外部字体。
+本规范记录 `index.html` 中已经使用的设计，不生成新的视觉方向。个人照片和资料仍待提供，因此照片区域保留明确的占位说明；占位底色不构成照片内容或新增品牌色承诺。主页、导航与姓名使用本地字体栈；美食地图／推荐正文例外使用随仓库保存的WOFF2字库，不依赖运行时外部字体服务。
 
 **Key Characteristics:**
 - 白色阅读背景、深灰文字与克制的暖金色强调。
@@ -230,7 +254,7 @@ components:
 
 页眉身份入口另用粗衬线（2rem、行高 1.2、字距 -.02em）。日期采用等宽排列数字。About 正文不再施加 73ch 行宽限制，铺满右侧内容栏，与 News 左右边缘对齐；字号、行高和栏间距沿用原值。长名称、链接和无空格文本均允许在容器内换行。
 
-**The Local Font Rule.** 继承当前本地字体栈；身份与章节保持衬线，正文保持无衬线。
+**The Local Font Rule.** 主页、所有顶部导航及姓名继承当前本地字体栈；身份与章节保持衬线，正文保持无衬线。美食地图内与推荐正文的专属字库见下文，不覆盖页眉。
 
 ## Layout
 
@@ -400,3 +424,17 @@ NAV-008：探索模块四页顶部Home点击／Enter／触屏点按直接返回�
 Operate设置表面，继承克制、清晰、学术的白底／暖金系统、本地衬线标题与无衬线正文，不新建视觉主题。设置侧栏含基本信息与探索广场，延用320px／54px和既有断点，620px以下改横向导航。列表为缩略图（128×86）、标题／介绍、文字编辑／删除，浅线区分行，无装饰卡片；1100px以下操作移至正文下方。独立编辑页复用Updates的52px圆角输入、24px分组与右下浅金保存；图片旁显示预览，窄屏上下排列。加载／空态／失败有持续反馈，触屏操作常显且44px高，保留焦点轮廓与未保存离开提醒，无新增动效。
 
 转盘仍使用原金属工牌与镭射；名称最多两行，超过10字适当缩字并将介绍限为一行，其余介绍最多两行，避免覆盖图片；底部说明最多三行，完整值保留在文件。编辑不改变动画／路由／几何。桌面编辑及390px管理截图已查看，长文案双档无重叠／溢出。此为功能管理页，沿用列表与原设置结构符合任务；自评9/10，未新增模板式装饰或视觉身份，非完整发布审计。
+
+
+## 美食地图：正式局部设计系统（2026-11-06，FOOD-001）
+
+以模块用户确认的日落城市海报为主视觉，定位为个人探索站点中的地理浏览入口；关键词为日落、纸刊、手写、清晰，标志性动作是地理锚点上的白色呼吸光点。此为地图／推荐正文的局部系统，不改变主页或卡组结构。
+
+- 地图4830×2730 PNG与页面等宽、自然比例完整展示，保留城市文字及OSM署名。标题左上32px／26px（540px下20px／20px），字号clamp(28px,2.6vw,40px)、手机28px；不新增外部说明栏、底栏或装饰卡片。六地名按UTM50N定位，17px、字距2px，540px下26px／0字距（SVG视图单位）；区域文字描边使用map-paper，保证与底图区分。
+- 地图纸色#fdf5f0、标签oklch(47% .025 90)，沿用日落橙红底图及建筑插画，不扩散为主站配色。PNG内文字为栅格，保持原样。地图字体为StarLovePencil，标题／地名／错误提示／重试均在food-map-page作用域；推荐正文为GenRyuMin2 TC EL，font-synthesis:none。顶部导航和姓名按本次用户最新指示与主页完全相同，不能让页面专属字库继承到Header。
+- 大融城建筑宽clamp(43.2px,9%,132px)，高度87%处对齐锚点；五道口宽clamp(34.56px,7.2%,105.6px)，98%处对齐。两地名下移35个SVG单位。建筑只作形象示意，不表示地图比例／实测轮廓；图片不接收指针、没有呼吸动画。
+- 两个白色光点为原生链接，44×44px操作区域、12px核心、约42.43px基准光晕；Framer Motion 1秒easeInOut循环，光晕scale .85→1.4→.85、opacity .55→1→.55，核心scale .9→1.18→.9。减少动态时静态scale1，光晕opacity .8。键盘可见金色焦点、Enter及触屏直达独立推荐页，不恢复区域抬起。
+- 地图加载前隐藏入口；底图失败显示持续错误及44px重试按钮，重试恢复；单张建筑失败只隐藏该图，不阻断入口。推荐页保持无餐馆的简洁空态、返回地图及锚点，主导航仍可回首页／探索。
+- 字体随仓库自托管，CSS只在三个food页面加载、按Unicode请求。GenRyuMin2 TC EL源自ButTaiwan v2.100，附OFL；StarLovePencil由用户提供，内部声明免费使用且fsType0，未附独立许可条文，不能描述为OFL。当前手写子集130码点／23468字节，新文案需检查覆盖；来源与授权说明位于public/explore/assets/fonts。Newsreader／Noto Serif SC保留为字形加载后备。
+
+实际截图与字形检查见TASKS E54：1440／390／320px无横向溢出、光点44px可点，导航及姓名与主页font样式相同。延续既定海报结构，无通用SaaS布局、重复说明或新增装饰；本次仅做受影响范围检查，保留手机地图文字随整图缩放的用户确认方案，实体手机阅读体验与最终发布验收待QA-001。

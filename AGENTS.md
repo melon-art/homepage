@@ -7,7 +7,7 @@
 1. 先读 [PROJECT.md](docs/PROJECT.md) 和 [TASKS.md](docs/TASKS.md)，再读 [ROADMAP.md](docs/ROADMAP.md) 的当前阶段和 [CHANGELOG.md](docs/CHANGELOG.md) 的最近记录。按任务读取相关段落，避免无目的全量重读。
 2. UI 任务再读完整 [DESIGN.md](docs/DESIGN.md) 与相关需求。需求、计划和历史评审都不是功能完成证据。
 3. 检查 Git 状态，定位真实实现。页面在 `public/*.html`，原生脚本在 `public/assets/js/`，共用样式在 `public/assets/css/`；本地服务在 `server/server.py`，测试在 `tests/`。这些是业务源；仓库外的独立预览副本、截图与临时脚本不作为实现依据。
-4. 探索广场业务源为 `src/explore/main.jsx`、`style.css`、`header.css` 与 `build.mjs`；`public/explore.html` 及三个子页HTML、`public/explore/app.js` 和两个CSS由构建生成，修改源后执行 `npm run build --prefix src/explore`。不要只改打包产物，也不回到仓库外预览修改正式功能。
+4. 探索广场业务源为 `src/explore/main.jsx`、`style.css`、`header.css`、`food-map/` 与 `build.mjs`；六个HTML入口（含两个商圈推荐页）、`public/explore/app.js` 和三个CSS由构建生成，修改源后执行 `npm run build --prefix src/explore`。不要只改打包产物，也不回到仓库外预览修改正式功能。
 5. 明确本次任务 ID、范围与完成标准。已有用户决定无需重复询问；遇到会改变结果的未知事实，记入 TASKS 的“待确认”，不要猜测。
 6. 涉及多窗口分工、并行修改或交付集成时，再读 [COLLABORATION.md](docs/COLLABORATION.md)。它规定总控／模块边界、worktree、共享文件、预览端口与交付流程，不自行创建聊天、启动后台监控或授予跨聊天通信权限。
 7. 探索广场任务从 [模块索引](docs/modules/explore/README.md) 定位对应任务单；用户指定的美食地图聊天名为 `21 | 美食地图`。已读且未变化的文档不反复全量加载，按当前任务补读相关变化，不能因省上下文跳过适用的全局规则。
@@ -20,7 +20,8 @@
 - 不随意重写、删除或重构已有功能。用能完成需求的最小改动；架构、框架或数据结构迁移需另行确认范围。
 - 保留 CONTACTS 六个键、复制与空值／失败恢复逻辑；没有真实资料不复制占位文案。
 - 顶部六个栏目顺序为 Home、研究方向、课程作业、个人生活、获奖、探索广场，设置入口继续保留在其后；未有真实页面的入口继续明确待更新，不能挂上无效链接。个人生活／探索广场沿用 hobbies／activities 内部 ID，兼容已有 Updates 草稿。
-- 探索广场activities已指向explore.html，首页导航与Updates共用site-pages.js目录。美食地图、瓜瓣READ、概念集仍为内容待添加页，不把空内容页登记为已完成内容或Updates目标；保留18卡圆周、旋转吸附、抽出与两侧让位、底部描述及减少动态。站内链接使用相对路径，不写死本机端口；读取现有英文名不写回个人资料。
+- 探索广场activities已指向explore.html，首页导航与Updates共用site-pages.js目录。美食地图已接入日落PNG地图与两个独立推荐空页；瓜瓣READ、概念集仍待内容。本轮不增加美食子页Updates目标，不把空推荐页当作餐馆内容完成。保留18卡圆周、旋转吸附、抽出与两侧让位、底部描述及减少动态。站内链接使用相对路径，不写死本机端口；读取现有英文名不写回个人资料。
+- 美食地图遵循docs/modules/explore/food-map.md最新决定：ART PARK大融城／五道口建筑与白色呼吸光点，普通food-map.html直接进入；不恢复区域高亮抬起或早期预览参数依赖。地图内StarLovePencil，顶部导航和姓名沿用主页字体，推荐正文GenRyuMin2 TC EL；字体／许可与三张PNG一并保留。没有餐馆评价资料时保持空态，不新增虚构推荐或写入接口。
 - 设置页支持主页除 News 外的资料、About 全文、六类联系方式、照片和 PDF 简历编辑。资料／News／展示中的Updates通过file-store.js保存到data/site.json，附件在assets/uploads；Updates草稿／草稿附件与备份在.local并被Git忽略。本地data/site.json、assets/uploads和.local均Git忽略，仓库只包含空白public/data/site.example.json；不自动上传内容或向公网发布；只允许电脑回环地址编辑，局域网设备只读。旧浏览器数据库仅显式迁移读取，不清空或继续写入内容；不得自动用空白文件覆盖旧内容。使用start-local.cmd或python server/server.py启动，禁止用普通http.server替代文件编辑服务。
 - About 全文由用户填写，不按姓名、学历或研究字段拼接；保留已有 introduction 文本，News 由独立编辑页负责。About 加粗／颜色以 introductionRuns 结构化片段保存，渲染仅创建文字、strong／span 与经过校验的颜色，不直接插入用户 HTML。展开／收起只影响首页展示，不得把截断后的预览写回资料；短内容直接完整显示。
 - 不编造姓名、学历、论文、奖项、动态、联系方式或线上部署地址。保留“待资料／待确认”状态。

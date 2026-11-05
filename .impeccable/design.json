@@ -291,6 +291,47 @@
         "emptyArray": "deleted; never reseed",
         "longText": "two title lines; compact long title with one description line"
       }
+    },
+    "foodMap": {
+      "updated": "2026-11-06",
+      "scope": "food-map-page and food-recommendations only; header uses homepage fonts",
+      "mapFont": "StarLovePencil",
+      "recommendationFont": "GenRyuMin2 TC EL",
+      "fontSynthesis": "none",
+      "mapRatio": "4830 / 2730",
+      "mapPaper": "#fdf5f0",
+      "labelColor": "oklch(47% .025 90)",
+      "beacon": {
+        "target": 44,
+        "core": 12,
+        "glow": 42.4264,
+        "duration": 1,
+        "ease": "easeInOut",
+        "glowScale": [
+          0.85,
+          1.4,
+          0.85
+        ],
+        "glowOpacity": [
+          0.55,
+          1,
+          0.55
+        ],
+        "reduced": "static scale1 opacity .8"
+      },
+      "illustrations": {
+        "darongcheng": {
+          "width": "clamp(43.2px,9%,132px)",
+          "offset": "-87%"
+        },
+        "wudaokou": {
+          "width": "clamp(34.56px,7.2%,105.6px)",
+          "offset": "-98%"
+        }
+      },
+      "failure": "base image hides markers until retry succeeds; failed illustration hides only itself",
+      "license": "See public/explore/assets/fonts sources and licenses; StarLovePencil is not OFL",
+      "verification": "TASKS E54, targeted Edge integration checks; not full release validation"
     }
   },
   "components": [

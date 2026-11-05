@@ -13,8 +13,20 @@ colors:
   portrait-ground: "#40564a"
   explore-display: "oklch(91% .006 88)"
   badge-silver: "#f5f6f7"
+  food-map-paper: "#fdf5f0"
+  food-map-label: "oklch(47% .025 90)"
   error: "#a13c30"
 typography:
+  food-map:
+    fontFamily: 'StarLovePencil, "GenRyuMin2 TC EL", "Noto Serif SC", "Songti SC", SimSun, serif'
+    fontSize: "clamp(28px, 2.6vw, 40px)"
+    fontWeight: 400
+    lineHeight: 1.25
+    letterSpacing: ".08em"
+  food-recommendation:
+    fontFamily: '"GenRyuMin2 TC EL", Newsreader, "Noto Serif SC", Georgia, "Songti SC", SimSun, serif'
+    fontWeight: 400
+    fontSynthesis: "none"
   explore-display:
     fontFamily: 'Bahnschrift, "Arial Narrow", sans-serif'
     fontSize: "21.5vw"
@@ -55,6 +67,18 @@ spacing:
   column-gap: "54px"
   navigation-underline: "72px"
 components:
+  food-map:
+    backgroundColor: "{colors.food-map-paper}"
+    textColor: "{colors.food-map-label}"
+    layout: "full viewport width; 4830:2730 image ratio; top-left map title; six labels"
+    typography: "{typography.food-map}"
+    header: "same local font stack, weight, size and line height as homepage"
+  food-beacon:
+    targetSize: "44px"
+    coreSize: "12px"
+    glowSize: "42.4264px"
+    motion: "1s easeInOut loop; static with reduced motion"
+    illustrationWidth: "ART PARK clamp(43.2px,9%,132px); WUDAOKOU clamp(34.56px,7.2%,105.6px)"
   explore-editor:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.body-ink}"

@@ -8,13 +8,18 @@ const folder=dirname(fileURLToPath(import.meta.url)),root=resolve(folder,'../..'
 const publicFolder=join(root,'public'),output=join(publicFolder,'explore');
 await mkdir(output,{recursive:true});
 await build({absWorkingDir:folder,entryPoints:['main.jsx'],bundle:true,minify:true,outfile:join(output,'app.js'),legalComments:'linked',define:{'process.env.NODE_ENV':'"production"'},logLevel:'info'});
-await Promise.all(['style.css','header.css'].map(file=>copyFile(join(folder,file),join(output,file))));
+await Promise.all([
+  copyFile(join(folder,'header.css'),join(output,'header.css')),
+  copyFile(join(folder,'food-map/fonts.css'),join(output,'food-map-fonts.css')),
+  Promise.all(['style.css','food-map/FoodMap.css'].map(file=>readFile(join(folder,file),'utf8')))
+    .then(styles=>writeFile(join(output,'style.css'),styles.join('\n')))
+]);
 async function version(file){return createHash('sha256').update(await readFile(file)).digest('hex').slice(0,12)}
-const [app,style,header,directory,storage]=await Promise.all([
-  ...['app.js','style.css','header.css'].map(file=>version(join(output,file))),
+const [app,style,header,foodFonts,directory,storage]=await Promise.all([
+  ...['app.js','style.css','header.css','food-map-fonts.css'].map(file=>version(join(output,file))),
   version(join(publicFolder,'assets/js/site-pages.js')),version(join(publicFolder,'assets/js/file-store.js'))
 ]);
-const pages={'explore.html':'探索广场','food-map.html':'美食地图 · 探索广场','guaban-read.html':'瓜瓣READ · 探索广场','concepts.html':'概念集 · 探索广场'};
+const pages={'explore.html':'探索广场','food-map.html':'美食地图 · 探索广场','food-map-darongcheng.html':'大融城推荐 · 美食地图','food-map-wudaokou.html':'五道口推荐 · 美食地图','guaban-read.html':'瓜瓣READ · 探索广场','concepts.html':'概念集 · 探索广场'};
 for(const [file,title] of Object.entries(pages)){
   const html=`<!doctype html>
 <html lang="zh-CN">
@@ -25,7 +30,7 @@ for(const [file,title] of Object.entries(pages)){
   <meta name="description" content="探索广场：美食地图、瓜瓣READ、概念集。">
   <title>${title}</title>
   <link rel="stylesheet" href="explore/style.css?v=${style}">
-  <link rel="stylesheet" href="explore/header.css?v=${header}">
+  <link rel="stylesheet" href="explore/header.css?v=${header}">${['food-map.html','food-map-darongcheng.html','food-map-wudaokou.html'].includes(file)?`\n  <link rel="stylesheet" href="explore/food-map-fonts.css?v=${foodFonts}">`:''}
   <script src="assets/js/file-store.js?v=${storage}" defer></script>
   <script src="assets/js/site-pages.js?v=${directory}" defer></script>
   <script src="explore/app.js?v=${app}" defer></script>

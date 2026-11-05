@@ -1,14 +1,14 @@
 # 项目总览
 
-核对日期：2026-11-05（Asia/Shanghai）。文档整理基线：`ab371b8`；EDIT-001 建立本机编辑；EDIT-002 扩展主页除 News 外的所有待填字段；EDIT-004 在 `39cae46` 后将 About 改为全文自由填写。
+核对日期：2026-11-06（Asia/Shanghai）。文档整理基线：`ab371b8`；EDIT-001 建立本机编辑；EDIT-002 扩展主页除 News 外的所有待填字段；EDIT-004 在 `39cae46` 后将 About 改为全文自由填写；FOOD-001首期地图接入见TASKS E54。
 
 ## 定位与当前阶段
 
 这是个人学术主页，面向希望了解站点主人基本情况、研究兴趣、课程与个人活动的访问者。当前阶段为**静态首页草稿，基础界面与交互已实现，真实内容尚未补齐；线上发布状态待确认**。
 
-首页包含个人资料栏、About、News 和 Updates；顶部栏目顺序为 Home、研究方向、课程作业、个人生活、获奖、探索广场，其后保留设置入口。探索广场门户已接入，其余四个栏目仍待建立；三个探索子板块仍待真实内容。个人生活／探索广场沿用 hobbies／activities 内部 ID，保留已有 Updates 草稿关联。提供电脑本机使用的文件编辑服务，尚无账号系统或公网管理后台。页面语言当前为中文资料与少量英文栏目名，最终语言待确认。
+首页包含个人资料栏、About、News 和 Updates；顶部栏目顺序为 Home、研究方向、课程作业、个人生活、获奖、探索广场，其后保留设置入口。探索广场门户与美食地图首期已接入，其余四个栏目仍待建立；餐馆推荐与另两个探索子板块内容待补齐。个人生活／探索广场沿用 hobbies／activities 内部 ID，保留已有 Updates 草稿关联。提供电脑本机使用的文件编辑服务，尚无账号系统或公网管理后台。页面语言当前为中文资料与少量英文栏目名，最终语言待确认。
 
-探索广场已正式接入[explore.html](../public/explore.html)：美食地图、瓜瓣READ、概念集重复排列为18张卡，覆盖完整圆周；支持连续旋转、悬停抽出与两侧让位、选中描述、点击进入各自的内容待添加页。EXPLORE背景字调浅为oklch(91% .006 88)，保持最终确认的宽度、位置及3/4字高。门户通过site-pages.js同时接入顶部导航和Updates目标目录；子页不登记为已完成内容或Updates目标。React／Framer Motion仅用于此局部模块，首页与编辑功能保持原实现；源码与构建见src/explore/，验证见TASKS E41。仓库外预览保留为历史稿。
+探索广场已正式接入[explore.html](../public/explore.html)：美食地图、瓜瓣READ、概念集重复排列为18张卡，覆盖完整圆周；支持连续旋转、悬停抽出与两侧让位、选中描述。美食卡进入正式地图，其余两类仍进入内容待添加页。EXPLORE背景字调浅为oklch(91% .006 88)，保持最终确认的宽度、位置及3/4字高。门户通过site-pages.js同时接入顶部导航和Updates目标目录；本轮不新增美食子页Updates目标。React／Framer Motion仅用于此局部模块，首页与编辑功能保持原实现；源码与构建见src/explore/，验证见TASKS E41／E54。仓库外预览保留为历史稿。
 
 ## 技术栈与运行方式
 
@@ -21,7 +21,7 @@
 | 页面 | `public/explore-manage.html` 设置内探索广场管理、`public/explore-edit.html` 卡牌编辑；`public/index.html` 首页、`public/settings.html` 设置页、`public/news-edit.html` 独立 News 新增／编辑页、`public/news.html` 全部新闻页、`public/updates-edit.html` 更新编辑页、`public/updates-manage.html` 更新管理页，原生 HTML |
 | 样式 | 页面内嵌 CSS 与共享 news.css、首页与编辑预览共享 updates.css、更新编辑／管理共享 updates-editor.css、自定义属性、Grid／Flex 和媒体查询 |
 | 交互 | 首页保留原内联交互；共享 `public/assets/js/profile.js` 管理资料、联系信息及本地附件的读取、保存和同步；`public/assets/js/about.js` 处理 About 格式编辑、安全渲染与首页收起／展开 |
-| 图标、字体 | 内联描边 SVG、本地字体栈，无图标包或网络字体依赖 |
+| 图标、字体 | 内联描边SVG；主页及顶部导航沿用本地字体栈；美食地图／推荐正文使用随仓库保存的WOFF2，无运行时远程字体请求 |
 | 数据 | `data/site.json` 保存资料、News、展示中的 Updates 和 `explore` 卡牌集合；附件独立保存至 `assets/uploads/`；草稿和自动备份在 Git 忽略的 `.local/`；旧 localStorage／IndexedDB 只用于用户主动迁移，不再写入内容；实际site.json、上传附件和.local被Git忽略，仓库只提供空白public/data/site.example.json |
 | 构建和依赖 | 首页／编辑页无需构建；探索模块独立使用src/explore/package.json（React19.2.0、Framer Motion12.23.24、esbuild0.25.12），构建产物已保存，浏览时无需安装依赖 |
 | 服务端 | Python 标准库 `server/server.py` 提供文件读写 API 和静态页面；仅电脑回环地址可写，局域网手机只读；无数据库、登录或 GitHub 上传 |
@@ -48,7 +48,8 @@ python server/server.py --port 8765
 │   ├── news*.html              新闻列表与编辑页
 │   ├── updates-*.html          更新管理与编辑页
 │   ├── explore*.html           探索门户、管理与编辑页
-│   ├── food-map.html / guaban-read.html / concepts.html
+│   ├── food-map*.html           地图及两个推荐空页
+│   ├── guaban-read.html / concepts.html
 │   ├── assets/js/              原生脚本：资料、About、News、Updates、存储及导航
 │   ├── assets/css/             原生页面共用样式
 │   ├── explore/                自动构建的JS／CSS与默认卡面图片
@@ -126,7 +127,7 @@ News 保持文档流，随 About 高度自然上下移动，不预留展开高�
 
 ## Updates 数据与边界
 
-site-pages.js 是顶部导航和更新跳转的共用页面目录，登记板块、真实页面与可选锚点。当前 Home 的 About／News 与探索广场门户有真实目标，其余四个栏目明确待建立；探索三个空内容子页不登记为 Updates 目标。添加真实内容后登记目录才能启用。Updates 保存 pageId／anchorId，不允许直接填写任意 URL；首页点击中心图在当前标签页进入同一页面，编辑页测试跳转使用新标签页。
+site-pages.js 是顶部导航和更新跳转的共用页面目录，登记板块、真实页面与可选锚点。当前 Home 的 About／News 与探索广场门户有真实目标，其余四个栏目明确待建立；探索子页本轮不新增为 Updates 目标，推荐空页不当作餐馆内容完成。添加真实内容后登记目录才能启用。Updates 保存 pageId／anchorId，不允许直接填写任意 URL；首页点击中心图在当前标签页进入同一页面，编辑页测试跳转使用新标签页。
 
 updates-store.js 通过 file-store.js 使用本地文件，每条为 {id,date,sectionId,pageId,anchorId,body,imageAlt,image,status,createdAt,updatedAt}；文件中的图片为 {name,path,type,size} 引用，前端转换为 {name,blob}，保留现有组件接口。独立 id 支持同日多条，日期降序、同日创建时间降序；日期轴每个日期一个位置，当天多条在日期轴下方显示1、2、3小编号，点击或滚轮切换，默认最新一条为1。日期轴及编号滚轮先遍历当天条目，再平滑进入相邻自然日，空日保留原占位；预览区域滚轮不带动外页，包括节流中与内容边界。draft 不出现在主页；published 仅表示本机主页展示，需有效目标与正文，不表示公网发布。
 
@@ -142,9 +143,13 @@ updates-store.js 通过 file-store.js 使用本地文件，每条为 {id,date,se
 
 更新和删除核对updatedAt，旧页不能覆盖新值或复活已删项；保留原备份及只读边界，上传图片纳入完整ZIP。长标题／介绍在卡面有限空间内截断，完整值保存在文件；默认配图仍为临时页面示意。局部证据见TASKS E48。
 
-## 美食地图：已确认需求，待实现
+## 美食地图：首期已接入，推荐内容待资料
 
-FOOD-001范围为北大附近地图，西到万柳、东到五道口、北到圆明园、南到中关村原欧美汇的大融城；首期仅大融城／五道口两处商圈悬停高亮抬起，点击进入各自空内容子页，未来再加入餐馆评价。当前food-map.html仍是探索模块生成的占位页，设计、地图来源、商圈边界与功能尚未实现。用户指定开发聊天名为 `21 | 美食地图`，实际ID与副本待登记；任务及交接范围见 [美食地图模块说明](modules/explore/food-map.md)，子板块统一从 [探索广场索引](modules/explore/README.md) 查阅。
+2026-11-06，FOOD-001按 `21 | 美食地图` 最新交付集成。用户后续在模块确认日落北京PNG、全宽等比完整显示与六处地名；大融城位置改为中关村ART PARK（原中关村购物广场），取代早期原欧美汇描述。大融城／五道口叠加建筑插画和白色呼吸光点，点击进入各自独立推荐空页，返回地图对应锚点；不恢复早期商圈区域抬起。普通food-map.html与原卡牌已直接接入，不依赖预览参数。两个推荐页只显示名称、位置及“推荐内容待添加。”，不含餐馆数据、评价编辑或新存储接口。
+
+源码在src/explore/food-map/：FoodMap、FoodRecommendations、poster-geography.js及页面专用样式／字体；build.mjs生成六个HTML入口与共享探索资源。三张PNG、自托管字体及来源／许可在public/explore/assets/；原图城市文字与OSM署名保留。地图内为StarLovePencil；按本次用户修正，顶部导航与姓名保持主页字体，推荐正文为GenRyuMin2 TC EL，不改变其他页面字体。StarLovePencil子集随新文案需补字，来源与授权边界见模块反馈。
+
+模块副本为 `C:\Users\melon\.codex\worktrees\food-map\个人网站`，起点39c1726；本次取a1d7835连同当前未提交文件的选定快照，不把旧提交误当完整交付。总控逐项接入源码、图片、字体和文档，未复制模块数据、依赖、旧SVG实验或早期OSM构建输入。主工程8765的针对性检查见TASKS E54；实体手机、Safari、性能与完整发布验收未覆盖。任务见 [美食地图模块说明](modules/explore/food-map.md)，对接见 [交付反馈](modules/explore/food-map-feedback.md)。
 
 ## 已实现与缺失的边界
 
@@ -152,7 +157,7 @@ FOOD-001范围为北大附近地图，西到万柳、东到五道口、北到圆
 
 ## 文档维护与信息优先级
 
-- 多窗口协作按 [COLLABORATION.md](COLLABORATION.md)：总控负责共享功能与集成，模块在独立副本交付；8765与真实数据保留在主工程。协作约定已拟定，模块聊天、工作副本及端口实际登记待启用，不代表新增服务或自动通信已经运行。
+- 多窗口协作按 [COLLABORATION.md](COLLABORATION.md)：总控负责共享功能与集成，模块在独立副本交付；8765与真实数据保留在主工程。美食地图已完成首轮文件对接与主工程集成；聊天ID及通信授权尚未登记，没有启用自动跨聊天通信或监控。
 - 本文件维护当前项目事实；[TASKS.md](TASKS.md) 维护任务与验证证据；[ROADMAP.md](ROADMAP.md) 是建议计划，不代表开工或完成。
 - [DESIGN.md](DESIGN.md) 维护完整视觉规范；[CHANGELOG.md](CHANGELOG.md) 记录已发生的变更；[requirements.md](requirements.md) 记录目标。
 - 代码、需求与文档冲突时，分别记录“当前实际行为”和“用户期望”，未核实的原因标记待确认，不用猜测解决冲突。

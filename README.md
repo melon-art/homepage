@@ -14,7 +14,8 @@
 │   ├── news*.html              新闻列表与编辑页
 │   ├── updates-*.html          更新管理与编辑页
 │   ├── explore*.html           探索门户、管理与编辑页
-│   ├── food-map.html / guaban-read.html / concepts.html
+│   ├── food-map*.html           美食地图及两商圈推荐空页
+│   ├── guaban-read.html / concepts.html
 │   ├── assets/js/              原生脚本：资料、About、News、Updates、存储及导航
 │   ├── assets/css/             原生页面共用样式
 │   ├── explore/                自动构建的JS／CSS与默认卡面图片

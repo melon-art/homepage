@@ -1,6 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {AnimatePresence, MotionConfig, animate, motion, useMotionValue, useMotionValueEvent, useReducedMotion, useSpring, useTransform} from 'framer-motion';
+import FoodMap from './food-map/FoodMap.jsx';
+import FoodRecommendations from './food-map/FoodRecommendations.jsx';
 
 const spring={type:'spring',stiffness:340,damping:32,mass:.8};
 function Arrow({diagonal=false}){return <svg viewBox="0 0 24 24" aria-hidden="true">{diagonal?<path d="M5 19 19 5M5 5h14v14"/>:<path d="M3 12h18m-6-6 6 6-6 6"/>}</svg>}
@@ -195,13 +197,16 @@ function App(){
   },[]);
   useEffect(()=>{const pop=()=>setPath(location.pathname);addEventListener('popstate',pop);return()=>removeEventListener('popstate',pop)},[]);
   const section=sections?.find(item=>path.endsWith('/'+item.file)),isDeck=path.endsWith('/explore.html'),hasCards=!!sections?.length;
-  useEffect(()=>{document.title=section?section.name+' · 探索广场':'探索广场'},[section]);
+  const isFoodMap=section?.id==='food';
+  const foodRecommendation=path.endsWith('/food-map-darongcheng.html')?'darongcheng':path.endsWith('/food-map-wudaokou.html')?'wudaokou':null;
+  const isFoodRecommendation=!!foodRecommendation;
+  useEffect(()=>{document.title=isFoodRecommendation?(foodRecommendation==='wudaokou'?'五道口':'大融城')+'推荐 · 美食地图':section?section.name+' · 探索广场':'探索广场'},[section,foodRecommendation]);
   function navigate(event){
     if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
     const url=new URL(event.currentTarget.href),allowed=['explore.html',...(sections||[]).map(item=>item.file)].some(file=>new URL(file,document.baseURI).pathname===url.pathname);
     if(url.origin!==location.origin||!allowed)return;
     event.preventDefault();history.pushState(null,'',url.pathname+url.search+url.hash);setPath(url.pathname);scrollTo({top:0,behavior:'instant'});
   }
-  return <MotionConfig reducedMotion="user"><div className={'page-shell'+(isDeck&&hasCards?' is-wheel':'')}><Header navigate={navigate}/>{loadError&&sections&&<p className="explore-load-status" role="status">{loadError}</p>}<AnimatePresence mode="wait" initial={!reduced}>{!sections?<main key="loading" className="explore-empty" role="status"><p>{loadError||'正在读取探索广场…'}</p></main>:section?<Destination key={section.id} section={section} navigate={navigate}/>:isDeck&&hasCards?<Deck key={'deck:'+sections.map(item=>item.id).join('-')} sections={sections} navigate={navigate}/>:<main key="empty" className="explore-empty"><h1>{isDeck?'探索广场':'该板块已移除'}</h1><p>{isDeck?'暂无探索板块。':'可以返回探索广场浏览其他板块。'}</p><a href={isDeck?'index.html':'explore.html'}>{isDeck?'返回主页':'返回探索广场'}</a></main>}</AnimatePresence></div></MotionConfig>
+  return <MotionConfig reducedMotion="user"><div className={'page-shell'+(isDeck&&hasCards?' is-wheel':'')+(isFoodMap?' is-food-map':'')+(isFoodMap||isFoodRecommendation?' is-food-editorial':'')}><Header navigate={navigate}/>{loadError&&sections&&<p className="explore-load-status" role="status">{loadError}</p>}<AnimatePresence mode="wait" initial={!reduced}>{!sections?<main key="loading" className="explore-empty" role="status"><p>{loadError||'正在读取探索广场…'}</p></main>:isFoodRecommendation?<FoodRecommendations key={foodRecommendation+'-recommendations'} regionId={foodRecommendation}/>:isFoodMap?<FoodMap key="food-map-preview"/>:section?<Destination key={section.id} section={section} navigate={navigate}/>:isDeck&&hasCards?<Deck key={'deck:'+sections.map(item=>item.id).join('-')} sections={sections} navigate={navigate}/>:<main key="empty" className="explore-empty"><h1>{isDeck?'探索广场':'该板块已移除'}</h1><p>{isDeck?'暂无探索板块。':'可以返回探索广场浏览其他板块。'}</p><a href={isDeck?'index.html':'explore.html'}>{isDeck?'返回主页':'返回探索广场'}</a></main>}</AnimatePresence></div></MotionConfig>
 }
 createRoot(document.querySelector('#root')).render(<App/>);
