@@ -10,7 +10,7 @@ web
 
 ## Stack
 
-首页、设置与 News／Updates 使用原生 HTML／CSS／JavaScript；探索广场是独立构建的局部 React／Framer Motion 模块，源码在 explore/，静态产物随仓库保存。Python标准库tools/server.py提供本地文件API。data/site.json保存资料、News及展示中的Updates；附件独立落盘，草稿和备份在Git忽略的.local。旧localStorage／IndexedDB仅用于显式迁移。无账号后台或服务端数据库。
+首页、设置与 News／Updates 使用原生 HTML／CSS／JavaScript；探索广场是独立构建的局部 React／Framer Motion 模块，源码在 src/explore/，静态产物随仓库保存。Python标准库server/server.py提供本地文件API。data/site.json保存资料、News及展示中的Updates；附件独立落盘，草稿和备份在Git忽略的.local。旧localStorage／IndexedDB仅用于显式迁移。无账号后台或服务端数据库。
 
 ## Product Purpose
 

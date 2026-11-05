@@ -156,7 +156,7 @@
   }
   function node(tag, content, className) { const value = document.createElement(tag); if (content) value.textContent = content; if (className) value.className = className; return value; }
   ready.then(() => {
-    const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'storage.css?v=1'; document.head.append(css);
+    const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'assets/css/storage.css?v=1'; document.head.append(css);
     const readOnly = !state?.canEdit || !!failure;
     document.body.dataset.storageReadonly = String(readOnly);
     const note = document.querySelector('#storage-note, #news-storage-note, .up-note');

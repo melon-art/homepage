@@ -208,7 +208,7 @@
     "explore": {
       "status": "integrated portal; three destinations are empty content pages",
       "entry": "explore.html",
-      "source": "explore/src/main.jsx; explore/style.css; explore/header.css",
+      "source": "src/explore/main.jsx; src/explore/style.css; src/explore/header.css",
       "build": "npm run build --prefix explore",
       "display": {
         "color": "oklch(91% .006 88)",

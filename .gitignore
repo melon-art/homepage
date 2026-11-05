@@ -9,3 +9,5 @@ __pycache__/
 *.pyc
 /data/site.json
 /assets/uploads/
+/public/data/site.json
+/public/assets/uploads/

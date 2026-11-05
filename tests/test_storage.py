@@ -13,7 +13,7 @@ import urllib.request
 import zipfile
 from http.server import ThreadingHTTPServer
 
-from server import Store, Handler, Problem, atomic_json
+from server.server import Store, Handler, Problem, atomic_json
 
 PNG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jCZYAAAAASUVORK5CYII='
 
@@ -155,7 +155,7 @@ class StorageTests(unittest.TestCase):
                 raise OSError('simulated full disk')
             actual_write(path, value)
 
-        with patch('server.atomic_json', side_effect=fail_once):
+        with patch('server.server.atomic_json', side_effect=fail_once):
             with self.assertRaises(Problem):
                 self.store.mutate('profile', dict(expected=before['profileRevision'], value={'name': 'unsaved'}))
         self.assertEqual(self.store.state(True), before)
@@ -170,7 +170,14 @@ class StorageTests(unittest.TestCase):
 
     def test_http_rejects_cross_origin_remote_write_and_private_files(self):
         self.initialize()
-        (self.root / 'index.html').write_text('<h1>Example</h1>')
+        (self.root / 'public').mkdir()
+        (self.root / 'public/index.html').write_text('<h1>Example</h1>')
+        (self.root / 'public/assets/js').mkdir(parents=True)
+        (self.root / 'public/assets/js/example.js').write_text('window.example = true;')
+        (self.root / 'public/data').mkdir()
+        atomic_json(self.root / 'public/data/site.example.json', {'profile': {}, 'news': []})
+        (self.root / 'internal.js').write_text('not a public resource')
+        image = self.store.asset(dict(name='photo.png', data=PNG), 'image')
         (self.root / '.local/secret.txt').write_text('private')
         http = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
         http.store, http.token = self.store, 'test-token'
@@ -178,10 +185,14 @@ class StorageTests(unittest.TestCase):
         worker.start()
         base = 'http://127.0.0.1:' + str(http.server_port)
         try:
+            self.assertIn(b'<h1>Example</h1>', urllib.request.urlopen(base + '/').read())
+            self.assertIn(b'window.example', urllib.request.urlopen(base + '/assets/js/example.js').read())
+            self.assertEqual(urllib.request.urlopen(base + '/' + image['path']).read(), self.store.asset_path(image['path']).read_bytes())
+            self.assertEqual(json.load(urllib.request.urlopen(base + '/data/site.example.json')), {'profile': {}, 'news': []})
             value = json.load(urllib.request.urlopen(base + '/api/state'))
             self.assertTrue(value['canEdit'])
             self.assertEqual(value['token'], 'test-token')
-            for route in ['/.local/secret.txt', '/%2elocal/secret.txt', '/tools/server.py', '/data/', '/.git/config']:
+            for route in ['/.local/secret.txt', '/%2elocal/secret.txt', '/tools/server.py', '/server/server.py', '/src/explore/main.jsx', '/internal.js', '/data/', '/assets/uploads/../../.local/secret.txt', '/.git/config']:
                 with self.assertRaises(urllib.error.HTTPError) as error:
                     urllib.request.urlopen(base + route)
                 self.assertEqual(error.exception.code, 404)

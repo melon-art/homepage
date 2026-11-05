@@ -21,7 +21,7 @@ import uuid
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_EXPLORE = json.loads((ROOT / 'data/explore-defaults.json').read_text(encoding='utf-8'))
+DEFAULT_EXPLORE = json.loads((ROOT / 'public/data/explore-defaults.json').read_text(encoding='utf-8'))
 LIMITS = dict(name=80, degree=120, englishName=80, school=120, department=120,
               major=120, introduction=10000, phone=80, email=254, wechat=300,
               instagram=500, xiaohongshu=500, bilibili=500)
@@ -378,7 +378,7 @@ class Handler(SimpleHTTPRequestHandler):
     server_version = 'HomepageLocal/1'
 
     def __init__(self, request, client_address, server):
-        super().__init__(request, client_address, server, directory=str(server.store.root))
+        super().__init__(request, client_address, server, directory=str(server.store.root / 'public'))
 
     def log_message(self, format, *args):
         # Do not log request bodies, tokens, contact data or query strings.
@@ -427,6 +427,9 @@ class Handler(SimpleHTTPRequestHandler):
             if route == '/data/explore-defaults.json':
                 self.json(DEFAULT_EXPLORE)
                 return
+            if route == '/data/site.example.json':
+                self.json(json.loads((self.server.store.root / 'public/data/site.example.json').read_text(encoding='utf-8')))
+                return
             if route.startswith('/api/draft-assets/'):
                 if not self.is_editor():
                     raise Problem('草稿只允许电脑本机读取。', 403)
@@ -437,10 +440,13 @@ class Handler(SimpleHTTPRequestHandler):
                 raise Problem('接口不存在。', 404)
             relative = route.lstrip('/') or 'index.html'
             parts = Path(relative).parts
-            if any(part.startswith('.') or part in ('tools', 'node_modules', '__pycache__') for part in parts) or '..' in parts:
+            if any(part.startswith('.') or part in ('server', 'src', 'tests', 'node_modules', '__pycache__') for part in parts) or '..' in parts:
                 raise Problem('文件不可访问。', 404)
-            path = (self.server.store.root / relative).resolve()
-            if not path.is_relative_to(self.server.store.root) or not path.is_file():
+            # Public assets and existing uploads have separate physical roots.
+            # Content JSON retains its original assets/uploads/... references.
+            asset_root = (self.server.store.root / ('assets/uploads' if relative.startswith('assets/uploads/') else 'public')).resolve()
+            path = ((self.server.store.root / relative) if relative.startswith('assets/uploads/') else (asset_root / relative)).resolve()
+            if not path.is_relative_to(asset_root) or not path.is_file():
                 raise Problem('文件不存在。', 404)
             # Only site assets are served; no directory listings, private state or scripts.
             if not (path.suffix.lower() in ('.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.webp', '.svg', '.pdf', '.bin', '.ico', '.txt')

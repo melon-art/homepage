@@ -2,6 +2,37 @@
 
 个人资料、About、News、Updates 与探索广场组成的学术主页草稿。首页和编辑页使用原生 HTML／CSS／JavaScript；探索广场局部使用 React／Framer Motion。真实内容与公网发布状态仍待确认。
 
+## 目录怎么找
+
+```text
+academic-homepage/
+├── public/                     网站目录，服务将此目录映射到原网址
+│   ├── index.html              首页
+│   ├── settings.html           基本信息设置
+│   ├── news*.html              新闻列表与编辑页
+│   ├── updates-*.html          更新管理与编辑页
+│   ├── explore*.html           探索门户、管理与编辑页
+│   ├── food-map.html / guaban-read.html / concepts.html
+│   ├── assets/js/              原生脚本：资料、About、News、Updates、存储及导航
+│   ├── assets/css/             原生页面共用样式
+│   ├── explore/                自动构建的JS／CSS与默认卡面图片
+│   └── data/                   空白模板与探索默认配置，不含个人填写内容
+├── src/explore/                React／Framer Motion源码、样式、构建配置与模块说明
+├── server/                     Python本地文件服务
+├── tests/                      存储、接口和静态资源边界检查
+├── docs/                       项目、路线、任务、变更、设计、存储与需求文档
+├── data/site.json              电脑本地内容，Git忽略，原位置不变
+├── assets/uploads/             电脑本地上传文件，Git忽略，原位置不变
+├── .local/                     电脑本地草稿、备份与日志，Git忽略
+├── .impeccable/                设计工具元数据与历史评审
+├── start-local.cmd             双击启动，仍使用8765端口
+├── README.md                   启动与目录入口
+├── AGENTS.md                   开发约定
+└── DESIGN.md / PRODUCT.md      设计工具需要的根目录兼容摘要
+```
+
+网页、脚本和样式集中在 `public/`；原生页面直接使用该目录中的源码，无需构建。探索模块修改 `src/explore/` 后构建到 `public/explore/`，不要直接改生成文件。服务只公开网站目录及已保存的展示附件；本地数据与代码分开。页面网址仍是 `/`、`settings.html`、`explore.html` 等，无需在网址中添加 `public/`。原需求统一保存在 [docs/requirements.md](docs/requirements.md)，移除重复的根目录入口。
+
 ## 启动与首次迁移
 
 1. 双击根目录 `start-local.cmd`，保持服务运行；需要 Python 3.9+，无需安装第三方包。
@@ -9,10 +40,12 @@
 3. 在“本地数据”点击“备份并迁移至本地文件”。会先保存含附件的浏览器快照，再迁移资料、News、Updates及草稿；旧浏览器数据不删除。
 4. 之后继续使用原编辑界面保存，内容直接写入电脑项目文件。设置页可下载含草稿、附件的完整 ZIP 备份。
 
+已经迁移过的项目直接启动即可；此次目录整理无需再次迁移、重新填写或清理浏览器。
+
 也可在项目根目录运行：
 
 ```text
-python tools/server.py --port 8765
+python server/server.py --port 8765
 ```
 
 如果提示端口占用，先关闭原来的普通预览服务再启动。普通 `python -m http.server` 和直接打开 HTML 不能提供文件保存。请固定原电脑地址完成首次迁移；不同浏览器／端口中的旧内容不会自行合并。
@@ -28,7 +61,7 @@ python tools/server.py --port 8765
 | `.local/drafts.json`、`.local/uploads/` | Updates草稿与草稿图片 |
 | `.local/backups/` | 每次修改前的备份、首次迁移原始快照 |
 
-`data/site.json`、`assets/uploads/`和`.local/`均被Git忽略，填写内容及附件保留在电脑。仓库提供空白`data/site.example.json`；首次启动文件服务会自动建立本地数据文件。静态预览缺少本地文件时读取空白模板，仅用于界面展示。没有自动Git提交、上传或公开发布；内容是否公开另行决定。已迁移内容不依赖浏览器缓存。
+`data/site.json`、`assets/uploads/`和`.local/`均被Git忽略，填写内容及附件保留在电脑。仓库提供空白`public/data/site.example.json`；首次启动文件服务会自动建立本地数据文件。静态预览缺少本地文件时读取空白模板，仅用于界面展示。没有自动Git提交、上传或公开发布；内容是否公开另行决定。已迁移内容不依赖浏览器缓存。
 
 ## 已有功能
 
@@ -39,7 +72,7 @@ python tools/server.py --port 8765
 - 设置侧栏“探索广场”可管理原有三个板块：编辑标题、介绍、图片或删除；编辑保存后同步全部重复卡面。删除保留页面文件，支持空状态，图片与资料一起备份。
 - Home下拉含About和News；探索广场18张金属工牌支持旋转、悬停抽出、两侧让位、减少动态与手机点按。美食地图、瓜瓣READ、概念集仍为内容待添加页。
 
-探索模块构建产物已保存，浏览无需安装Node；修改其源码后执行 `npm ci --prefix explore`、`npm run build --prefix explore`，见 [模块说明](explore/README.md)。不据此重写首页及编辑页。
+探索模块构建产物已保存，浏览无需安装Node；修改其源码后执行 `npm ci --prefix src/explore`、`npm run build --prefix src/explore`，见 [模块说明](src/explore/README.md)。不据此重写首页及编辑页。
 
 ## 项目文档
 
@@ -59,7 +92,7 @@ python tools/server.py --port 8765
 在项目根目录运行（只使用临时目录，不修改用户内容）：
 
 ```text
-python -m unittest discover -s tools -p test_storage.py -v
+python -m unittest discover -s tests -p test_storage.py -v
 ```
 
 覆盖文件迁移、附件、草稿隔离、版本冲突、失败恢复与接口边界；不等同于真实内容／全站发布验收。草稿阶段只做受影响范围的必要检查，完整交付验收由用户安排。
