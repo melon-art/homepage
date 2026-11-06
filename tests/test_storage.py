@@ -201,6 +201,7 @@ class StorageTests(unittest.TestCase):
         atomic_json(self.root / 'public/data/site.example.json', {'profile': {}, 'news': []})
         (self.root / 'internal.js').write_text('not a public resource')
         image = self.store.asset(dict(name='photo.png', data=PNG), 'image')
+        private_image = self.store.asset(dict(name='draft.png', data=PNG), 'image', private=True)
         (self.root / '.local/secret.txt').write_text('private')
         http = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
         http.store, http.token = self.store, 'test-token'
@@ -208,11 +209,19 @@ class StorageTests(unittest.TestCase):
         worker.start()
         base = 'http://127.0.0.1:' + str(http.server_port)
         try:
-            self.assertIn(b'<h1>Example</h1>', urllib.request.urlopen(base + '/').read())
+            with urllib.request.urlopen(base + '/') as response:
+                self.assertIn(b'<h1>Example</h1>', response.read())
+                self.assertEqual(response.headers['Cache-Control'], 'no-store')
             self.assertIn(b'window.example', urllib.request.urlopen(base + '/assets/js/example.js').read())
-            self.assertEqual(urllib.request.urlopen(base + '/' + image['path']).read(), self.store.asset_path(image['path']).read_bytes())
+            with urllib.request.urlopen(base + '/' + image['path']) as response:
+                self.assertEqual(response.read(), self.store.asset_path(image['path']).read_bytes())
+                self.assertEqual(response.headers['Cache-Control'], 'private, max-age=31536000, immutable')
+            with urllib.request.urlopen(base + '/' + private_image['path']) as response:
+                self.assertEqual(response.headers['Cache-Control'], 'no-store')
             self.assertEqual(json.load(urllib.request.urlopen(base + '/data/site.example.json')), {'profile': {}, 'news': []})
-            value = json.load(urllib.request.urlopen(base + '/api/state'))
+            with urllib.request.urlopen(base + '/api/state') as response:
+                self.assertEqual(response.headers['Cache-Control'], 'no-store')
+                value = json.load(response)
             self.assertTrue(value['canEdit'])
             self.assertEqual(value['token'], 'test-token')
             for route in ['/.local/secret.txt', '/%2elocal/secret.txt', '/tools/server.py', '/server/server.py', '/src/explore/main.jsx', '/internal.js', '/data/', '/assets/uploads/../../.local/secret.txt', '/.git/config']:

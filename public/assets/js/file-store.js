@@ -2,7 +2,7 @@
 (() => {
   'use strict';
   let state, mode = 'loading', failure, legacy;
-  const listeners = new Set(), blobCache = new Map();
+  const listeners = new Set(), blobCache = new Map(), dataCache = new Map();
   let channel;
   try { channel = new BroadcastChannel('academic-homepage.files.v1'); channel.onmessage = () => changed(false); } catch (_) { /* pageshow also refreshes */ }
   const localHost = ['127.0.0.1', 'localhost', '[::1]'].includes(location.hostname);
@@ -71,11 +71,17 @@
     const path = asset.path;
     if (!/^assets\/uploads\/[a-f0-9]{64}\.(png|jpg|webp|pdf|bin)$/.test(path || '') &&
         !/^api\/draft-assets\/[a-f0-9]{64}\.(png|jpg|webp|pdf|bin)$/.test(path || '')) return Promise.reject(new Error('附件路径无效。'));
-    if (!blobCache.has(path)) blobCache.set(path, fetch(endpoint(path), { cache: 'no-store' }).then(async response => {
+    const cache = path.startsWith('assets/uploads/') ? 'default' : 'no-store';
+    if (!blobCache.has(path)) blobCache.set(path, fetch(endpoint(path), { cache }).then(async response => {
       if (!response.ok) throw new Error('附件读取失败，请检查本地文件。');
       return response.blob();
     }).catch(error => { blobCache.delete(path); throw error; }));
     return blobCache.get(path);
+  }
+  function assetData(asset) {
+    const path = asset.path;
+    if (!dataCache.has(path)) dataCache.set(path, assetBlob(asset).then(fileData).catch(error => { dataCache.delete(path); throw error; }));
+    return dataCache.get(path);
   }
   async function hydrateEntry(value) {
     const result = { ...value };
@@ -131,7 +137,9 @@
       await refresh();
       if (mode === 'pending') return { ...legacy.profile };
       const value = { ...state.profile };
-      for (const key of ['photo', 'cv']) if (value[key]) value[key] = { name: value[key].name, data: await fileData(await assetBlob(value[key])) };
+      await Promise.all(['photo', 'cv'].map(async key => {
+        if (value[key]) value[key] = { name: value[key].name, data: await assetData(value[key]) };
+      }));
       return value;
     },
     async saveProfile(value, expected) { await mutate('profile', { value, expected }); return this.profile(); },

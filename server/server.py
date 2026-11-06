@@ -392,11 +392,11 @@ class Handler(SimpleHTTPRequestHandler):
         except ValueError:
             return False
 
-    def send_bytes(self, content, mime, status=200, attachment=None):
+    def send_bytes(self, content, mime, status=200, attachment=None, cache_control='no-store'):
         self.send_response(status)
         self.send_header('Content-Type', mime)
         self.send_header('Content-Length', str(len(content)))
-        self.send_header('Cache-Control', 'no-store')
+        self.send_header('Cache-Control', cache_control)
         self.send_header('X-Content-Type-Options', 'nosniff')
         self.send_header('Referrer-Policy', 'same-origin')
         if attachment:
@@ -453,7 +453,12 @@ class Handler(SimpleHTTPRequestHandler):
                     and not relative.endswith('.LEGAL.txt')):
                 raise Problem('文件不可访问。', 404)
             mime = mimetypes.guess_type(path.name)[0] or 'application/octet-stream'
-            self.send_bytes(path.read_bytes(), mime, attachment='download' + path.suffix if path.suffix in ('.bin', '.pdf') else None)
+            # Upload names are content hashes: a replacement has a different URL.
+            cache_control = ('private, max-age=31536000, immutable'
+                             if re.fullmatch(r'assets/uploads/[a-f0-9]{64}\.(png|jpg|webp|pdf|bin)', relative)
+                             else 'no-store')
+            self.send_bytes(path.read_bytes(), mime, attachment='download' + path.suffix if path.suffix in ('.bin', '.pdf') else None,
+                            cache_control=cache_control)
         except Problem as error:
             self.json({'error': str(error)}, error.status)
         except FileNotFoundError:

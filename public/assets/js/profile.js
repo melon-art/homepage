@@ -195,10 +195,10 @@
       wordmark.setAttribute('aria-label', profile.englishName || 'Your Name，英文名待提供');
       portrait.classList.toggle('has-photo', Boolean(profile.photo));
       if (profile.photo) {
-        const image = document.createElement('img');
-        image.src = profile.photo.data;
+        const image = portrait.querySelector('img') || document.createElement('img');
+        if (image.getAttribute('src') !== profile.photo.data) image.src = profile.photo.data;
         image.alt = (profile.name || '个人') + '的照片';
-        portrait.replaceChildren(image);
+        if (image.parentNode !== portrait) portrait.replaceChildren(image);
         portrait.removeAttribute('role');
         portrait.removeAttribute('aria-label');
       } else {
