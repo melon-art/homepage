@@ -23,7 +23,7 @@ function RegionMarker({region}) {
     preference.addEventListener('change',refresh);
     return()=>preference.removeEventListener('change',refresh);
   },[]);
-  return <a className={`food-region-marker food-${region.id}-marker`} id={`${region.id}-marker`} href={`food-map-${region.id}.html`} aria-label={`查看${region.name}美食推荐`} title={`查看${region.name}美食推荐`} style={{...region.position,'--illustration-anchor':region.anchor,aspectRatio:`720 / ${region.height}`}}>
+  return <a className={`food-region-marker food-${region.id}-marker`} id={`${region.id}-marker`} href={`food-map-${region.id}.html`} aria-label={`查看${region.name}美食推荐`} style={{...region.position,'--illustration-anchor':region.anchor,aspectRatio:`720 / ${region.height}`}}>
     <RegionIllustration region={region}/>
     <span className="food-beacon" aria-hidden="true">
     <motion.span className="food-beacon-glow" aria-hidden="true" initial={reduced?false:{scale:.85,opacity:.55}} animate={reduced?{scale:1,opacity:.8}:{scale:[.85,1.4,.85],opacity:[.55,1,.55]}} transition={reduced?{duration:0}:breathing}/>
