@@ -35,8 +35,7 @@ function RegionMarker({region}) {
 function MapDrawing({attempt,ready,onLoad,onError}) {
   const image=poster.src+(attempt?'?retry='+attempt:'');
   return <div className="food-atlas">
-    <svg className="food-atlas-drawing" viewBox={`0 0 ${poster.width} ${poster.height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="food-map-title food-map-description">
-      <title id="food-map-title">北京大学周边地图</title>
+    <svg className="food-atlas-drawing" viewBox={`0 0 ${poster.width} ${poster.height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label="北京大学周边地图" aria-describedby="food-map-description">
       <desc id="food-map-description">北京日落配色地图，按页面宽度等比完整显示，可上下滚动查看，保留底部城市文字与原图署名。六个地点以文字标注，大融城和五道口处放置建筑插画和白色微光入口，可分别查看美食推荐。插画为用户提供的形象示意，不代表地图比例或建筑边界。</desc>
       <image id="food-map-poster" href={image} x="0" y="0" width={poster.width} height={poster.height} preserveAspectRatio="xMidYMid meet" onLoad={onLoad} onError={onError}/>
       <g className="food-landmark-labels" aria-hidden="true">{mapLabels.map(label=>{const [x,y]=project(label.lon,label.lat);return <text className="food-poster-place" key={label.name} x={x} y={y} dy={label.id?35:undefined}>{label.name}</text>})}</g>
