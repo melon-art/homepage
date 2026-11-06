@@ -79,6 +79,7 @@ components:
     glowSize: "42.4264px"
     motion: "1s easeInOut loop; static with reduced motion"
     illustrationWidth: "ART PARK clamp(43.2px,9%,132px); WUDAOKOU clamp(34.56px,7.2%,105.6px)"
+    illustrationHover: "scale 1.14 around geographic anchor; 240ms cubic-bezier(.16,1,.3,1); fine hover or keyboard focus; static with reduced motion"
   explore-editor:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.body-ink}"

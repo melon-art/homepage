@@ -320,6 +320,14 @@
         "reduced": "static scale1 opacity .8"
       },
       "illustrations": {
+        "interaction": {
+          "scale": 1.14,
+          "durationMs": 240,
+          "ease": "cubic-bezier(.16,1,.3,1)",
+          "trigger": "fine pointer hover or keyboard focus on the shared building/beacon link",
+          "origin": "geographic anchor; beacon position and size unchanged",
+          "reduced": "no scale or transition; retain gold focus outline"
+        },
         "darongcheng": {
           "width": "clamp(43.2px,9%,132px)",
           "offset": "-87%"
@@ -331,7 +339,7 @@
       },
       "failure": "base image hides markers until retry succeeds; failed illustration hides only itself",
       "license": "See public/explore/assets/fonts sources and licenses; StarLovePencil is not OFL",
-      "verification": "TASKS E54, targeted Edge integration checks; not full release validation"
+      "verification": "TASKS E54 and E59, targeted Edge integration and marker hover checks; not full release validation"
     }
   },
   "components": [

@@ -3,7 +3,7 @@ import {motion} from 'framer-motion';
 import {poster,regions,landmarks,project} from './poster-geography.js';
 
 const mapLabels=[...landmarks,...regions.map(region=>({id:region.id,name:region.name,lon:region.anchor[0],lat:region.anchor[1]}))];
-const markerImages={darongcheng:{height:519,offset:'-87%'},wudaokou:{height:763,offset:'-98%'}};
+const markerImages={darongcheng:{height:519,anchor:'87%'},wudaokou:{height:763,anchor:'98%'}};
 const mapMarkers=regions.map(region=>{
   const [x,y]=project(...region.anchor);
   return {...region,...markerImages[region.id],position:{left:`${x/poster.width*100}%`,top:`${y/poster.height*100}%`}};
@@ -13,19 +13,22 @@ const breathing={duration:1,repeat:Infinity,ease:'easeInOut'};
 function RegionIllustration({region}) {
   const [failed,setFailed]=useState(false);
   if(failed)return null;
-  return <img className={`food-region-illustration food-${region.id}-illustration`} src={`explore/assets/${region.id}-illustration.png`} alt="" aria-hidden="true" width="720" height={region.height} draggable={false} decoding="async" style={{...region.position,'--illustration-offset':region.offset}} onError={()=>setFailed(true)}/>;
+  return <img className="food-region-illustration" src={`explore/assets/${region.id}-illustration.png`} alt="" aria-hidden="true" width="720" height={region.height} draggable={false} decoding="async" onError={()=>setFailed(true)}/>;
 }
 
-function RegionBeacon({region}) {
+function RegionMarker({region}) {
   const [reduced,setReduced]=useState(()=>matchMedia('(prefers-reduced-motion: reduce)').matches);
   useEffect(()=>{
     const preference=matchMedia('(prefers-reduced-motion: reduce)'),refresh=()=>setReduced(preference.matches);
     preference.addEventListener('change',refresh);
     return()=>preference.removeEventListener('change',refresh);
   },[]);
-  return <a className="food-beacon" id={`${region.id}-marker`} href={`food-map-${region.id}.html`} aria-label={`查看${region.name}美食推荐`} title={`查看${region.name}美食推荐`} style={region.position}>
+  return <a className={`food-region-marker food-${region.id}-marker`} id={`${region.id}-marker`} href={`food-map-${region.id}.html`} aria-label={`查看${region.name}美食推荐`} title={`查看${region.name}美食推荐`} style={{...region.position,'--illustration-anchor':region.anchor,aspectRatio:`720 / ${region.height}`}}>
+    <RegionIllustration region={region}/>
+    <span className="food-beacon" aria-hidden="true">
     <motion.span className="food-beacon-glow" aria-hidden="true" initial={reduced?false:{scale:.85,opacity:.55}} animate={reduced?{scale:1,opacity:.8}:{scale:[.85,1.4,.85],opacity:[.55,1,.55]}} transition={reduced?{duration:0}:breathing}/>
     <motion.span className="food-beacon-core" aria-hidden="true" initial={reduced?false:{scale:.9}} animate={reduced?{scale:1}:{scale:[.9,1.18,.9]}} transition={reduced?{duration:0}:breathing}/>
+    </span>
   </a>;
 }
 
@@ -38,7 +41,7 @@ function MapDrawing({attempt,ready,onLoad,onError}) {
       <image id="food-map-poster" href={image} x="0" y="0" width={poster.width} height={poster.height} preserveAspectRatio="xMidYMid meet" onLoad={onLoad} onError={onError}/>
       <g className="food-landmark-labels" aria-hidden="true">{mapLabels.map(label=>{const [x,y]=project(label.lon,label.lat);return <text className="food-poster-place" key={label.name} x={x} y={y} dy={label.id?35:undefined}>{label.name}</text>})}</g>
     </svg>
-    {ready&&mapMarkers.map(region=><React.Fragment key={region.id}><RegionIllustration region={region}/><RegionBeacon region={region}/></React.Fragment>)}
+    {ready&&mapMarkers.map(region=><RegionMarker key={region.id} region={region}/>)}
   </div>;
 }
 

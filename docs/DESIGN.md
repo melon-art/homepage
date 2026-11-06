@@ -79,6 +79,7 @@ components:
     glowSize: "42.4264px"
     motion: "1s easeInOut loop; static with reduced motion"
     illustrationWidth: "ART PARK clamp(43.2px,9%,132px); WUDAOKOU clamp(34.56px,7.2%,105.6px)"
+    illustrationHover: "scale 1.14 around geographic anchor; 240ms cubic-bezier(.16,1,.3,1); fine hover or keyboard focus; static with reduced motion"
   explore-editor:
     backgroundColor: "{colors.paper}"
     textColor: "{colors.body-ink}"
@@ -432,8 +433,8 @@ Operate设置表面，继承克制、清晰、学术的白底／暖金系统、�
 
 - 地图4830×2730 PNG与页面等宽、自然比例完整展示，保留城市文字及OSM署名。标题左上32px／26px（540px下20px／20px），字号clamp(28px,2.6vw,40px)、手机28px；不新增外部说明栏、底栏或装饰卡片。六地名按UTM50N定位，17px、字距2px，540px下26px／0字距（SVG视图单位）；区域文字描边使用map-paper，保证与底图区分。
 - 地图纸色#fdf5f0、标签oklch(47% .025 90)，沿用日落橙红底图及建筑插画，不扩散为主站配色。PNG内文字为栅格，保持原样。地图字体为StarLovePencil，标题／地名／错误提示／重试均在food-map-page作用域；推荐正文为GenRyuMin2 TC EL，font-synthesis:none。顶部导航和姓名按本次用户最新指示与主页完全相同，不能让页面专属字库继承到Header。
-- 大融城建筑宽clamp(43.2px,9%,132px)，高度87%处对齐锚点；五道口宽clamp(34.56px,7.2%,105.6px)，98%处对齐。两地名下移35个SVG单位。建筑只作形象示意，不表示地图比例／实测轮廓；图片不接收指针、没有呼吸动画。
-- 两个白色光点为原生链接，44×44px操作区域、12px核心、约42.43px基准光晕；Framer Motion 1秒easeInOut循环，光晕scale .85→1.4→.85、opacity .55→1→.55，核心scale .9→1.18→.9。减少动态时静态scale1，光晕opacity .8。键盘可见金色焦点、Enter及触屏直达独立推荐页，不恢复区域抬起。
+- 大融城建筑宽clamp(43.2px,9%,132px)，高度87%处对齐锚点；五道口宽clamp(34.56px,7.2%,105.6px)，98%处对齐。两地名下移35个SVG单位。建筑只作形象示意，不表示地图比例／实测轮廓。FOOD-004将建筑和光点合为一个原生链接：精细指针悬停或键盘聚焦时建筑scale1.14，240ms cubic-bezier(.16,1,.3,1)，以地理锚点为缩放原点，移开复位，不改变布局、锚点或光点尺寸。减少动态时建筑保持scale1，保留金色焦点。
+- 两个组合入口中的白色光点保留44×44px操作区域、12px核心、约42.43px基准光晕；Framer Motion 1秒easeInOut循环，光晕scale .85→1.4→.85、opacity .55→1→.55，核心scale .9→1.18→.9。减少动态时静态scale1，光晕opacity .8。键盘可见金色焦点、Enter及触屏直接点按建筑／光点均进入独立推荐页，不恢复区域抬起。
 - 地图加载前隐藏入口；底图失败显示持续错误及44px重试按钮，重试恢复；单张建筑失败只隐藏该图，不阻断入口。推荐页保持无餐馆的简洁空态、返回地图及锚点，主导航仍可回首页／探索。
 - 字体随仓库提供；六个共享探索HTML直接内嵌字体声明、地图手写子集及推荐常用分片，以支持站内切换并省去当前内容的单独字体请求，字库随HTML读取解析。额外汉字分片仍按Unicode请求，导航不使用专属字库。GenRyuMin2 TC EL源自ButTaiwan v2.100，附OFL；StarLovePencil由用户提供，内部声明免费使用且fsType0，未附独立许可条文，不能描述为OFL。当前手写子集130码点／23468字节，新文案需检查覆盖；来源与授权说明位于public/explore/assets/fonts。Newsreader／Noto Serif SC保留为字形加载后备。
 
