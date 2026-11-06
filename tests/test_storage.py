@@ -100,6 +100,29 @@ class StorageTests(unittest.TestCase):
             self.store.mutate('updates', dict(value=draft, expected=draft['updatedAt']))
         self.assertEqual(self.store.state(True)['updates'], [])
 
+    def test_food_map_update_target_publishes_and_preserves_validation(self):
+        self.initialize()
+        value = dict(id='food-update', date='2026-11-06', body='Map update',
+                     status='draft', sectionId='activities', pageId='food-map', anchorId='')
+        draft = self.store.mutate('updates', dict(value=value, expected=None))['updates'][0]
+        self.assertEqual(self.store.state()['updates'], [])
+        state = self.store.mutate('updates', dict(value={**draft, 'status': 'published'}, expected=draft['updatedAt']))
+        entry = state['updates'][0]
+        self.assertEqual((entry['sectionId'], entry['pageId'], entry['anchorId']), ('activities', 'food-map', ''))
+        self.assertEqual(entry['createdAt'], draft['createdAt'])
+        self.assertEqual(json.loads(self.store.public.read_text())['updates'][0]['pageId'], 'food-map')
+        before = self.store.public.read_bytes()
+        for invalid in [{**entry, 'sectionId': 'home'}, {**entry, 'anchorId': 'unknown'},
+                        {**entry, 'pageId': 'guaban-read'}, {**entry, 'pageId': 'concepts'},
+                        {**entry, 'pageId': 'https://unrelated.example'}]:
+            with self.assertRaises(Problem):
+                self.store.mutate('updates', dict(value=invalid, expected=entry['updatedAt']))
+            self.assertEqual(self.store.public.read_bytes(), before)
+        with self.assertRaises(Problem):
+            self.store.mutate('updates', dict(value={**entry, 'body': 'Stale edit'}, expected=draft['updatedAt']))
+        state = self.store.mutate('updates', dict(value={**entry, 'pageId': 'activities'}, expected=entry['updatedAt']))
+        self.assertEqual(state['updates'][0]['pageId'], 'activities')
+
     def test_explore_edits_preserve_routes_and_backup_uploaded_image(self):
         self.initialize()
         previous = self.store.state()['explore'][0]

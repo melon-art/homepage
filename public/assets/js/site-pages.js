@@ -16,7 +16,8 @@
       { id: 'about-title', label: 'About' }, { id: 'news-title', label: 'News' }, { id: 'updates-title', label: 'Updates' }
     ] },
     { id: 'news', sectionId: 'home', label: 'News · 全部新闻', href: 'news.html', anchors: [] },
-    ...sections.slice(1).map(section => ({ id: section.id, sectionId: section.id, label: section.label, href: section.id === 'activities' ? 'explore.html' : '', anchors: [] }))
+    ...sections.slice(1).map(section => ({ id: section.id, sectionId: section.id, label: section.label, href: section.id === 'activities' ? 'explore.html' : '', anchors: [] })),
+    { id: 'food-map', sectionId: 'activities', label: '美食地图', href: 'food-map.html', anchors: [] }
   ];
   function resolve(pageId, anchorId = '') {
     const page = pages.find(item => item.id === pageId);

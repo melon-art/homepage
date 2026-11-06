@@ -26,8 +26,8 @@ LIMITS = dict(name=80, degree=120, englishName=80, school=120, department=120,
               major=120, introduction=10000, phone=80, email=254, wechat=300,
               instagram=500, xiaohongshu=500, bilibili=500)
 IMAGE_TYPES = {'image/png': '.png', 'image/jpeg': '.jpg', 'image/webp': '.webp'}
-SECTION_PAGES = {'about': 'home', 'news': 'home', 'activities': 'activities'}
-ANCHORS = {'about': {'', 'about-title', 'news-title', 'updates-title'}, 'news': {''}, 'activities': {''}}
+SECTION_PAGES = {'about': 'home', 'news': 'home', 'activities': 'activities', 'food-map': 'activities'}
+ANCHORS = {'about': {'', 'about-title', 'news-title', 'updates-title'}, 'news': {''}, 'activities': {''}, 'food-map': {''}}
 
 
 class Problem(Exception):

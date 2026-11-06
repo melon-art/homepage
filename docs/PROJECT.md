@@ -8,7 +8,7 @@
 
 首页包含个人资料栏、About、News 和 Updates；顶部栏目顺序为 Home、研究方向、课程作业、个人生活、获奖、探索广场，其后保留设置入口。探索广场门户与美食地图首期已接入，其余四个栏目仍待建立；餐馆推荐与另两个探索子板块内容待补齐。个人生活／探索广场沿用 hobbies／activities 内部 ID，保留已有 Updates 草稿关联。提供电脑本机使用的文件编辑服务，尚无账号系统或公网管理后台。页面语言当前为中文资料与少量英文栏目名，最终语言待确认。
 
-探索广场已正式接入[explore.html](../public/explore.html)：美食地图、瓜瓣READ、概念集重复排列为18张卡，覆盖完整圆周；支持连续旋转、悬停抽出与两侧让位、选中描述。美食卡进入正式地图，其余两类仍进入内容待添加页。EXPLORE背景字调浅为oklch(91% .006 88)，保持最终确认的宽度、位置及3/4字高。门户通过site-pages.js同时接入顶部导航和Updates目标目录；本轮不新增美食子页Updates目标。React／Framer Motion仅用于此局部模块，首页与编辑功能保持原实现；源码与构建见src/explore/，验证见TASKS E41／E54。仓库外预览保留为历史稿。
+探索广场已正式接入[explore.html](../public/explore.html)：美食地图、瓜瓣READ、概念集重复排列为18张卡，覆盖完整圆周；支持连续旋转、悬停抽出与两侧让位、选中描述。美食卡进入正式地图，其余两类仍进入内容待添加页。EXPLORE背景字调浅为oklch(91% .006 88)，保持最终确认的宽度、位置及3/4字高。门户与美食地图均在site-pages.js的Updates目录登记，顶栏探索广场仍进入门户。React／Framer Motion仅用于此局部模块，首页与编辑功能保持原实现；源码与构建见src/explore/，验证见TASKS E41／E54／E57。仓库外预览保留为历史稿。
 
 ## 技术栈与运行方式
 
@@ -127,7 +127,7 @@ News 保持文档流，随 About 高度自然上下移动，不预留展开高�
 
 ## Updates 数据与边界
 
-site-pages.js 是顶部导航和更新跳转的共用页面目录，登记板块、真实页面与可选锚点。当前 Home 的 About／News 与探索广场门户有真实目标，其余四个栏目明确待建立；探索子页本轮不新增为 Updates 目标，推荐空页不当作餐馆内容完成。添加真实内容后登记目录才能启用。Updates 保存 pageId／anchorId，不允许直接填写任意 URL；首页点击中心图在当前标签页进入同一页面，编辑页测试跳转使用新标签页。
+site-pages.js 是顶部导航和更新跳转的共用页面目录，登记板块、真实页面与可选锚点。当前 Home 的 About／News 与探索广场门户、美食地图有有效目标，其余四个栏目明确待建立。UPDATES-009允许所属板块为探索广场（activities）时选择门户（activities）或美食地图（food-map），旧记录ID保持不变，顶栏仍使用门户；两个空推荐页与瓜瓣READ／概念集不启用。新页面须同时登记前端目录与server.py的SECTION_PAGES／ANCHORS白名单，防止界面可选但保存失败。Updates 保存 pageId／anchorId，不允许直接填写任意 URL；首页点击中心图在当前标签页进入同一页面，编辑页测试跳转使用新标签页。选择地图不等于餐馆内容已完成。
 
 updates-store.js 通过 file-store.js 使用本地文件，每条为 {id,date,sectionId,pageId,anchorId,body,imageAlt,image,status,createdAt,updatedAt}；文件中的图片为 {name,path,type,size} 引用，前端转换为 {name,blob}，保留现有组件接口。独立 id 支持同日多条，日期降序、同日创建时间降序；日期轴每个日期一个位置，当天多条在日期轴下方显示1、2、3小编号，点击或滚轮切换，默认最新一条为1。日期轴及编号滚轮先遍历当天条目，再平滑进入相邻自然日，空日保留原占位；预览区域滚轮不带动外页，包括节流中与内容边界。draft 不出现在主页；published 仅表示本机主页展示，需有效目标与正文，不表示公网发布。
 
