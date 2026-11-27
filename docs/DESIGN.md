@@ -101,6 +101,7 @@ components:
     layout: "114px background band, 96px circular avatar with soft shadow, adjustable cover crop"
     backgroundColor: "{colors.gold-soft}"
   navigation-shell:
+    mobile: "64px scroll-direction bar through 820px; 26.4px icons with 13px side padding; left drawer, 280ms entry, warm-gold Contents heading"
     backgroundColor: "rgba(248,249,250,.76)"
     backdropFilter: "blur(20px) saturate(140%)"
     layout: "fixed full-width surface with reserved flow height; desktop 69px; mobile about previous height * .75; dropdown overflow visible"
@@ -466,3 +467,7 @@ Operate设置表面，继承克制、清晰、学术的白底／暖金系统、�
 卡片本身是正文链接。悬停卡片时封面放大1.045倍，悬停标题时标题以文字块中心放大1.04倍，减少动态时关闭两种变换。正文从顶部「个人博客」回到目录。已展示文章底部显示评论。评论输入栏位于列表前方，默认单行，聚焦或有草稿时展开。每条主评论以可展开的回复框承载一级回复。
 
 博客设置左栏使用「博客」下拉，包含「个人信息」和「文章编辑」。子设置页默认展开，标记当前项。文章列表显示标题和状态，编辑表单沿用主站输入框、文章正文长输入区与暖金保存按钮。手机布局将导航放在正文上方。
+
+## 手机主导航（NAV-012）
+
+820px 及以下使用约 64px 磨砂顶栏，手指上滑隐藏，下滑显示。左侧菜单和右侧主页图标均为 26.4px，点击区域为 48.4px，水平内边距为 13px，垂直内边距为 7.8px，必要时水平内边距适配安全区。抽屉顶部用浅金色 #f3ead7 显示分行标题「目录」与「Contents」，栏目列表移除 News。展开后白色菜单从左滑入，宽度为视口的 80% 且最多 320px，背景加暗，沿用站点暖金色和导航目录。可点击关闭按钮、遮罩或按 Escape 关闭，焦点回到菜单按钮。开启减少动态时直接显示菜单。桌面沿用滚动显隐和 Home 下拉。

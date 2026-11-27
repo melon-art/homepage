@@ -21,7 +21,7 @@
 | 页面 | `public/explore-manage.html` 设置内探索广场管理、`public/explore-edit.html` 卡牌编辑；`public/index.html` 首页、`public/settings.html` 设置页、`public/news-edit.html` 独立 News 新增／编辑页、`public/news.html` 全部新闻页、`public/updates-edit.html` 更新编辑页、`public/updates-manage.html` 更新管理页，原生 HTML |
 | 个人博客 | `public/blog.html` 和 `public/blog-article.html` 共用资料及标签侧栏。博客昵称、头像及背景在设置的「博客」中单独编辑，裁切位置与缩放随各图片保存，存入 `data/site.json` 的 `blogAppearance` 并纳入完整备份。设置侧栏「博客」下设个人信息与文章编辑。文章展示内容在 `data/site.json` 的 `blogArticles`，草稿与草稿封面在 `.local`，均纳入完整备份。已展示文章的评论和一级回复按文章 ID 保存在当前浏览器，演示使用独立记录。导航已开通，Updates 可链接文章目录。 |
 | 样式 | 页面内嵌 CSS 与共享 news.css、首页与编辑预览共享 updates.css、更新编辑／管理共享 updates-editor.css、自定义属性、Grid／Flex 和媒体查询 |
-| 顶部导航 | 主页和探索六个入口共用assets/css/navigation.css与assets/js/navigation.js；半透明浅灰磨砂、固定顶端、下滑隐藏／上滑显示，440ms平滑收放，桌面69px／手机约原3/4高度、栏目字重600；实测高度占位，下拉／扫线保留，探索由build.mjs生成版本化引用 |
+| 顶部导航 | 主页、博客两页及探索六个入口共用 navigation.css／navigation.js。桌面沿用磨砂顶栏、下滑隐藏与上滑显示。820px 及以下显示菜单与主页图标，手指上滑时隐藏、下滑时显示；站内栏目从左侧滑出。探索由 build.mjs 生成版本化引用 |
 | 交互 | 首页保留原内联交互；共享 `public/assets/js/profile.js` 管理资料、联系信息及本地附件的读取、保存和同步；`public/assets/js/about.js` 处理 About 格式编辑、安全渲染与首页收起／展开 |
 | 图标、字体 | 内联描边SVG；16个正式入口共用本地汉仪唐美人55W，涵盖导航、编辑器、卡牌与地图；已安装时直接使用本机字库，否则读取完整WOFF2；无远程字体请求，旧地图字库保留作历史资源 |
 | 数据 | `data/site.json` 保存资料、News、展示中的 Updates 和 `explore` 卡牌集合；附件独立保存至 `assets/uploads/`；草稿和自动备份在 Git 忽略的 `.local/`；旧 localStorage／IndexedDB 只用于用户主动迁移，不再写入内容；实际site.json、上传附件和.local被Git忽略，仓库只提供空白public/data/site.example.json |

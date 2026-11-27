@@ -13,6 +13,7 @@
       "directorySidebar": "sticky above 820px with 16px clearance below navigation and overflow scrolling"
     },
     "navigationShell": {
+      "mobile": "64px bar through 820px that hides going down the page and reveals on return. 26.4px icons, 13px side padding. Left drawer with two-line Contents header on #f3ead7.",
       "updated": "2026-11-27",
       "backgroundColor": "rgba(248,249,250,.76)",
       "backdropFilter": "blur(20px) saturate(140%)",

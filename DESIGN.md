@@ -101,6 +101,7 @@ components:
     layout: "114px background band, 96px circular avatar with soft shadow, adjustable cover crop"
     backgroundColor: "{colors.gold-soft}"
   navigation-shell:
+    mobile: "64px scroll-direction bar through 820px; 26.4px icons with 13px side padding; left drawer, 280ms entry, warm-gold Contents heading"
     backgroundColor: "rgba(248,249,250,.76)"
     backdropFilter: "blur(20px) saturate(140%)"
     layout: "fixed full-width surface with reserved flow height; desktop 69px; mobile about previous height * .75; dropdown overflow visible"
