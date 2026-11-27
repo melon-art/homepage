@@ -69,7 +69,7 @@ document.querySelectorAll('.contact-button').forEach((button, index) => {
   const avatar = document.getElementById('blog-avatar-image');
   const background = document.getElementById('blog-background-image');
   const avatarPlaceholder = document.getElementById('avatar-placeholder');
-  const imagePath = asset => /^assets\/uploads\/[a-f0-9]{64}\.(png|jpg|webp)$/.test(asset?.path || '') ? asset.path : '';
+  const imagePath = asset => /^assets\/(uploads|published)\/[a-f0-9]{64}\.(png|jpg|webp)$/.test(asset?.path || '') ? asset.path : '';
   function renderImage(image, asset) {
     const path = imagePath(asset);
     BlogCrop.apply(image, asset?.crop);

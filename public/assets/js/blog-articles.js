@@ -10,7 +10,7 @@
     return (site.blogArticles || [])
       .filter(article => article.status === 'published')
       .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt) || b.createdAt - a.createdAt)
-      .map(article => ({ ...article, cover: /^assets\/uploads\/[a-f0-9]{64}\.(png|jpg|webp)$/.test(article.cover?.path || '') ? article.cover.path : '' }));
+      .map(article => ({ ...article, cover: /^assets\/(uploads|published)\/[a-f0-9]{64}\.(png|jpg|webp)$/.test(article.cover?.path || '') ? article.cover.path : '' }));
   }
   window.BlogArticles = {
     demo,

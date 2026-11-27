@@ -6,6 +6,7 @@
   let channel;
   try { channel = new BroadcastChannel('academic-homepage.files.v1'); channel.onmessage = () => changed(false); } catch (_) { /* pageshow also refreshes */ }
   const localHost = ['127.0.0.1', 'localhost', '[::1]'].includes(location.hostname);
+  const staticHost = ['melatius.love', 'www.melatius.love'].includes(location.hostname) || location.hostname.endsWith('.github.io');
   const endpoint = path => new URL(path, document.baseURI).href;
   function changed(broadcast = true) {
     listeners.forEach(listener => listener());
@@ -69,9 +70,9 @@
   function assetBlob(asset) {
     if (!asset || asset.blob instanceof Blob) return Promise.resolve(asset?.blob);
     const path = asset.path;
-    if (!/^assets\/uploads\/[a-f0-9]{64}\.(png|jpg|webp|pdf|bin)$/.test(path || '') &&
+    if (!/^assets\/(uploads|published)\/[a-f0-9]{64}\.(png|jpg|webp|pdf|bin)$/.test(path || '') &&
         !/^api\/draft-assets\/[a-f0-9]{64}\.(png|jpg|webp|pdf|bin)$/.test(path || '')) return Promise.reject(new Error('附件路径无效。'));
-    const cache = path.startsWith('assets/uploads/') ? 'default' : 'no-store';
+    const cache = path.startsWith('assets/') ? 'default' : 'no-store';
     if (!blobCache.has(path)) blobCache.set(path, fetch(endpoint(path), { cache }).then(async response => {
       if (!response.ok) throw new Error('附件读取失败，请检查本地文件。');
       return response.blob();
@@ -113,7 +114,7 @@
   const ready = (async () => {
     try {
       if (location.protocol === 'file:') throw new Error('文件保存需要本地服务，请双击 start-local.cmd 后打开 http://127.0.0.1:8765/ 。');
-      const response = await fetch(endpoint('api/state'), { cache: 'no-store' });
+      const response = staticHost ? { status: 404 } : await fetch(endpoint('api/state'), { cache: 'no-store' });
       if (response.status === 404 || response.status === 405 || response.status === 501) {
         try { state = await jsonRequest('data/site.json'); }
         catch (error) { if (error.status !== 404) throw error; state = await jsonRequest('data/site.example.json'); }
