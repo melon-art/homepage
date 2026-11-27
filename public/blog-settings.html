@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>个人信息 · 博客设置</title>
+  <link rel="stylesheet" href="assets/css/explore-editor.css?v=1">
+  <link rel="stylesheet" href="assets/css/typography.css?v=423a50b84a1b">
+  <style>
+    #blog-settings-form { margin-top:32px; }
+    .blog-picture-layout { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,290px); gap:16px 24px; align-items:start; }
+    .blog-picture-preview { position:relative; margin:0; background:var(--gold-soft); border-radius:10px; overflow:hidden; display:grid; place-items:center; color:var(--muted); }
+    .blog-picture-preview img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    .blog-picture-preview img[hidden] { display:none; }
+    .avatar-preview { width:96px; aspect-ratio:1; border-radius:50%; background:#e4e9e5; box-shadow:0 2px 12px rgb(30 39 48 / .24); }
+    .background-preview { width:min(290px,100%); aspect-ratio:290 / 114; }
+    .blog-picture-preview span { font-size:.875rem; }
+    [data-image-name] { overflow-wrap:anywhere; }
+    .blog-crop { max-width:360px; margin-top:12px; }
+    .blog-crop legend { margin-bottom:8px; }
+    .blog-crop label { display:grid; grid-template-columns:5em minmax(0,1fr) 3.5em; align-items:center; gap:8px; margin-bottom:4px; font-size:.875rem; }
+    .blog-crop input[type="range"] { width:100%; min-width:0; min-height:30px; margin:0; padding:0; border:0; accent-color:var(--gold); }
+    .blog-crop output { text-align:right; font-variant-numeric:tabular-nums; color:var(--muted); }
+    @media (max-width:1100px) { .blog-picture-layout { grid-template-columns:minmax(0,1fr); } }
+  </style>
+  <script src="assets/js/file-store.js?v=260b73f1e3fa" defer></script>
+  <script src="assets/js/blog-crop.js?v=f3e60a69fd02" defer></script>
+  <script src="assets/js/blog-settings.js?v=4e4c193fe9b6" defer></script>
+  <link rel="stylesheet" href="assets/css/blog-settings-nav.css?v=d6082bcf99df">
+</head>
+<body>
+  <div class="up-editor-page">
+    <header class="up-editor-header">
+      <a class="back-link" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 5-7 7 7 7M3 12h18"/></svg>返回主页</a>
+      <a class="up-text-link" href="blog.html">查看博客</a>
+    </header>
+    <main class="ex-settings-layout">
+      <aside>
+        <nav class="ex-settings-nav" aria-label="设置导航">
+          <a href="settings.html">基本信息</a>
+          <a href="explore-manage.html">探索广场</a>
+          <details class="blog-settings-menu" open><summary>博客</summary><div><a href="blog-settings.html" aria-current="page">个人信息</a><a href="blog-articles-settings.html">文章编辑</a></div></details>
+        </nav>
+      </aside>
+      <section class="ex-main" aria-labelledby="blog-settings-title">
+        <h1 id="blog-settings-title">个人信息</h1>
+        <form id="blog-settings-form">
+          <fieldset disabled>
+            <div class="up-field">
+              <label for="blog-nickname-input">博客昵称</label>
+              <input id="blog-nickname-input" name="nickname" type="text" maxlength="80" aria-describedby="blog-nickname-help">
+              <p class="up-help" id="blog-nickname-help">显示在博客侧栏。留空时使用基本信息中的姓名。</p>
+            </div>
+            <div class="up-field" data-picture="avatar">
+              <label for="blog-avatar-input">博客头像</label>
+              <div class="blog-picture-layout">
+                <div>
+                  <input id="blog-avatar-input" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="blog-avatar-help">
+                  <p class="up-help" id="blog-avatar-help">可单独选择博客头像。建议使用方形图片，支持 JPG、PNG 或 WebP，最大 5 MB。</p>
+                  <p class="up-file-name" data-image-name></p>
+                  <button type="button" class="up-link-button" data-reset hidden>移除头像</button>
+                  <div data-crop-controls></div>
+                </div>
+                <div class="blog-picture-preview avatar-preview"><img alt="博客头像预览" hidden><span>暂无头像</span></div>
+              </div>
+            </div>
+            <div class="up-field" data-picture="background">
+              <label for="blog-background-input">头像上方背景</label>
+              <div class="blog-picture-layout">
+                <div>
+                  <input id="blog-background-input" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="blog-background-help">
+                  <p class="up-help" id="blog-background-help">建议使用横向图片，支持 JPG、PNG 或 WebP，最大 5 MB。</p>
+                  <p class="up-file-name" data-image-name></p>
+                  <button type="button" class="up-link-button" data-reset hidden>恢复默认背景</button>
+                  <div data-crop-controls></div>
+                </div>
+                <div class="blog-picture-preview background-preview"><img alt="博客背景预览" hidden><span>默认背景</span></div>
+              </div>
+            </div>
+            <div class="up-actions"><button class="up-primary" type="submit" disabled>保存</button></div>
+          </fieldset>
+          <p class="up-status ex-message" role="status">正在读取博客设置…</p>
+        </form>
+      </section>
+    </main>
+  </div>
+  <template id="blog-crop-template">
+    <fieldset class="blog-crop" hidden>
+      <legend>裁切</legend>
+      <label>横向位置 <input type="range" data-crop="x" min="0" max="100" value="50"><output>50%</output></label>
+      <label>纵向位置 <input type="range" data-crop="y" min="0" max="100" value="50"><output>50%</output></label>
+      <label>缩放 <input type="range" data-crop="zoom" min="100" max="300" value="100"><output>100%</output></label>
+      <button type="button" class="up-link-button" data-crop-reset>重置裁切</button>
+    </fieldset>
+  </template>
+</body>
+</html>

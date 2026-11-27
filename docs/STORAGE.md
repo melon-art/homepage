@@ -1,5 +1,13 @@
 # 本地文件保存
 
+## GitHub Pages 同步（2026-11-27，DEPLOY-002）
+
+现行方案为本机编辑、公开内容快照发布，域名为 https://melatius.love/ 。公网 Pages 不运行 Python，也不能直接保存设置。双击 start-local.cmd 后在 http://127.0.0.1:8765/ 编辑并保存，原数据继续留在 data/site.json、assets/uploads 和 .local；建议定期下载完整 ZIP 并异地备份。博客评论仍仅保存在当前浏览器，不是共享评论。
+
+准备同步时在项目根目录运行 `python server/export_public.py`。它只读取本机展示内容，生成 public/data/site.published.json 和 public/assets/published/ 内的引用附件；Updates／文章仅导出 published 状态，不读 .local、不复制无引用附件，不改原数据。快照中的资料、联系方式、News、展示内容及附件会公开，且会进入公开仓库历史。完整 ZIP 包含私有草稿，不能用来发布。
+
+检查快照差异后，将代码和上述公开快照提交并推送到 main。GitHub Actions 构建探索模块，将 site.published.json 复制为部署产物内的 data/site.json，然后发布 public/。因此本机点击保存不会自动上线；每次要让域名网站更新，需重新导出、提交、推送并等待部署成功。原始 data/site.json、assets/uploads、.local 继续 Git 忽略。后文“仅空白模板／不上传”的描述为此前 FILE-001 范围，当前增加了用户明确授权的公开快照。
+
 FILE-001，2026-11-04。只在电脑本地保存，不执行Git提交或上传GitHub。首次迁移必须从原浏览器、原来源地址读取旧内容；测试使用隔离样例，不会代替迁移真实资料。
 
 ## 日常使用

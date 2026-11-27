@@ -1,0 +1,36 @@
+/* The surface floats; its shell keeps the original header space in the page. */
+:root { --navigation-bg:rgb(248 249 250 / .76); }
+.navigation-shell { position:relative; z-index:100; flex-shrink:0; }
+.navigation-surface { background:#f8f9fa; }
+.navigation-shell.is-ready { height:var(--navigation-height); }
+.navigation-shell.is-ready .navigation-surface {
+  position:fixed;
+  inset:0 0 auto;
+  background:var(--navigation-bg);
+  -webkit-backdrop-filter:blur(20px) saturate(140%);
+  backdrop-filter:blur(20px) saturate(140%);
+  border-radius:0 0 16px 16px;
+  box-shadow:0 5px 18px -14px rgb(30 39 48 / .3);
+  transform:translateY(0);
+  transition:transform 440ms cubic-bezier(.22,.61,.36,1);
+}
+.navigation-shell.is-ready .site-header { width:min(1480px,calc(100% - 96px)); margin-inline:auto; }
+.navigation-shell .site-header { min-height:69px; }
+.navigation-shell .site-header :is(.nav-current,.nav-item,.settings-link) { font-weight:600; }
+.navigation-shell.is-hidden .navigation-surface { transform:translateY(calc(-100% - 12px)); pointer-events:none; }
+.navigation-shell.is-hidden:not(:focus-within) .navigation-surface { visibility:hidden; transition:transform 440ms cubic-bezier(.22,.61,.36,1),visibility 0s 440ms; }
+html { scroll-padding-top:calc(var(--site-navigation-height,69px) + 16px); }
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
+  .navigation-shell.is-ready .navigation-surface { background:#f8f9fa; }
+}
+@media(max-width:1100px) { .navigation-shell.is-ready .site-header { width:calc(100% - 56px); } }
+@media(max-width:820px) {
+  .navigation-shell.is-ready .site-header { width:calc(100% - 40px); }
+  .navigation-shell .site-header { min-height:0; padding:10px 0 0; }
+  .navigation-shell .site-header .navigation-wrap { margin-top:7px; }
+  .navigation-shell .site-header :is(.nav-current,.nav-item,.settings-link) { min-height:32px; padding-block:2px; }
+}
+@media(max-width:620px) { .navigation-shell.is-ready .site-header { width:calc(100% - 36px); } }
+@media(prefers-reduced-motion:reduce) {
+  .navigation-shell.is-ready .navigation-surface { transition:none!important; }
+}

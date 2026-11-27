@@ -35,6 +35,11 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare published content
+        run: |
+          test -f public/data/site.published.json
+          cp public/data/site.published.json public/data/site.json
+
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
         with:

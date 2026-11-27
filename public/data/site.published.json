@@ -1,0 +1,372 @@
+{
+  "schemaVersion": 1,
+  "revision": 33,
+  "initialized": true,
+  "profileRevision": 1793802702489,
+  "profile": {
+    "name": "郭子健",
+    "degree": "Undergraduate",
+    "englishName": "Zijian Guo",
+    "school": "Peking Univ.",
+    "department": "Physics",
+    "major": "Physics",
+    "introduction": "Hi! I'm Guo Zijian, but you can also call me Melon. I'm currently an undergraduate student at School of Physics, Peking University, and I expect to graduate in 2029. My current academic interests lie in biophysics, particularly the fascinating phenomena associated with epigenetics.\n\nBut there's much more to me than physics! I enjoy a wide variety of hobbies, including playing the piano, volleyball, and softball, drawing, and roller skating. I've been an active member of PKUCC, the roller skating club at my university, for quite a while, so don't be surprised if I end up talking about roller skating quite a lot!\n\nThrough this page, I hope to share a vibrant and multifaceted side of myself — not just as a physics student, but as someone with diverse passions and interests.\n\nAbove all, I want to share my love for this wonderful world and all the little things that make it special.\n\nIt's lovely to meet you. Happy to be your friend! :)",
+    "phone": "+8618148065208",
+    "email": "m18148065208@163.com",
+    "wechat": "melonqomody0730",
+    "instagram": "https://www.instagram.com/melon_5lemon?rpxt=czBtdHg4c3hxMmNi",
+    "xiaohongshu": "https://xhslink.cn/o/ZV3sq8dZFF",
+    "bilibili": "https://b23.tv/UeciniI",
+    "introductionRuns": [
+      {
+        "text": "Hi! I'm Guo Zijian, but you can also call me Melon. I'm currently an undergraduate student at "
+      },
+      {
+        "text": "School of Physics, Peking University",
+        "bold": true,
+        "color": "#866b35"
+      },
+      {
+        "text": ", and I expect to graduate in 2029. My current academic interests lie in "
+      },
+      {
+        "text": "biophysics",
+        "bold": true,
+        "color": "#866b35"
+      },
+      {
+        "text": ", particularly the fascinating phenomena associated with "
+      },
+      {
+        "text": "epigenetics",
+        "bold": true,
+        "color": "#866b35"
+      },
+      {
+        "text": ".\n\nBut there's much more to me than physics! I enjoy a wide variety of hobbies, including playing the piano, volleyball, and softball, drawing, and roller skating. I've been an active member of "
+      },
+      {
+        "text": "PKUCC",
+        "bold": true,
+        "color": "#866b35"
+      },
+      {
+        "text": ", the roller skating club at my university, for quite a while, so don't be surprised if I end up talking about roller skating quite a lot!\n\nThrough this page, I hope to share a vibrant and multifaceted side of myself — not just as a physics student, but as someone with diverse passions and interests.\n\nAbove all, I want to share "
+      },
+      {
+        "text": "my love for this wonderful world and all the little things that make it special.",
+        "bold": true,
+        "color": "#866b35"
+      },
+      {
+        "text": "\n\nIt's lovely to meet you. Happy to be your friend! :)"
+      }
+    ],
+    "photo": {
+      "name": "1bef75f243d3617bed0a6f7cb17500f4.jpg",
+      "path": "assets/published/99266ea59f3eb003b4df420a6b7208c3d96585ce633b5be542b227274756b290.jpg",
+      "type": "image/jpeg",
+      "size": 611558
+    },
+    "cv": {
+      "name": "郭子健cv.pdf",
+      "path": "assets/published/65d1896891c50a8f4515c526a289e7e6b7d26707bb0c5246d2de8678147c87d8.pdf",
+      "type": "application/pdf",
+      "size": 25481
+    }
+  },
+  "news": [
+    {
+      "id": "0ff1bff1-29f1-4fc3-8f7a-033f38ed59d1",
+      "date": "2026-11-03",
+      "body": "Melon的第一条新闻出炉啦！\n快来看看吧",
+      "image": {
+        "name": "1fb7a3ab104a73b90e51f096ac58958f.jpg",
+        "path": "assets/published/853672c745f066cb5ea7f52c749933cdf30d06b075db4d2f61685792acaf9da5.jpg",
+        "type": "image/jpeg",
+        "size": 407162
+      },
+      "file": null,
+      "createdAt": 1793676151122,
+      "updatedAt": 1793678252954
+    },
+    {
+      "id": "581714bd-551e-4c8c-ae74-de83673ecc95",
+      "date": "2026-11-03",
+      "body": "45楼再也没有山竹冰淇淋了(ㄒoㄒ)",
+      "image": null,
+      "file": null,
+      "createdAt": 1793706295478,
+      "updatedAt": 1793716392635
+    },
+    {
+      "id": "b9cf7ec1-ba15-4025-88bb-aca49a5be973",
+      "date": "2026-11-03",
+      "body": "好消息：今天联系到了挑战杯导师\n坏消息：联系到了两个",
+      "image": null,
+      "file": null,
+      "createdAt": 1793702670072,
+      "updatedAt": 1793702670072
+    },
+    {
+      "id": "10dfbca7-204d-46df-bbe7-e05fde38f2b5",
+      "date": "2026-11-13",
+      "body": "起床搭子真有用吧，终于能在八点前起床了",
+      "image": null,
+      "file": null,
+      "createdAt": 1794530791213,
+      "updatedAt": 1794530791259
+    },
+    {
+      "id": "6d4904cb-3d61-45b8-97c9-119ea422b46d",
+      "date": "2026-11-24",
+      "body": "终于考完qr笔试啦！继续肝网站！",
+      "image": null,
+      "file": null,
+      "createdAt": 1795521331965,
+      "updatedAt": 1795521331989
+    }
+  ],
+  "updates": [
+    {
+      "id": "2de27e64-c64f-4f42-8f11-a9e34f28ef42",
+      "date": "2026-11-03",
+      "body": "完成新闻页搭建",
+      "sectionId": "home",
+      "pageId": "news",
+      "anchorId": "",
+      "status": "published",
+      "imageAlt": "",
+      "image": {
+        "name": "屏幕截图 2026-11-03 185934.png",
+        "path": "assets/published/6af7f0c0be706d974778eacb026d2b166747e2a2ea5b99724250cbf601eac357.png",
+        "type": "image/png",
+        "size": 126623
+      },
+      "createdAt": 1793703611658,
+      "updatedAt": 1793703611658
+    },
+    {
+      "id": "ac985eba-6de0-4a84-9193-59b3059812b7",
+      "date": "2026-11-04",
+      "body": "完成探索广场部分的主页面搭建",
+      "sectionId": "activities",
+      "pageId": "activities",
+      "anchorId": "",
+      "status": "published",
+      "imageAlt": "",
+      "image": {
+        "name": "7bd25b073d54e7f0b332309223bf889c.png",
+        "path": "assets/published/77f1f5392bf827a214b0738935c2c224273624cab0e4fc7695e31e1817376c9e.png",
+        "type": "image/png",
+        "size": 2005494
+      },
+      "createdAt": 1793799454299,
+      "updatedAt": 1793799454299
+    },
+    {
+      "id": "cc175cf1-4104-4c34-a1b4-bacfb37fb671",
+      "date": "2026-11-03",
+      "body": "完成主页视觉搭建",
+      "sectionId": "home",
+      "pageId": "about",
+      "anchorId": "",
+      "status": "published",
+      "imageAlt": "",
+      "image": {
+        "name": "屏幕截图 2026-11-03 185748.png",
+        "path": "assets/published/67c120bc1423ead62107de60676455d700dcd8a5c1de0747902487bfdd176f40.png",
+        "type": "image/png",
+        "size": 692403
+      },
+      "createdAt": 1793703448052,
+      "updatedAt": 1793703501025
+    },
+    {
+      "id": "02d9f9d9-5292-4f0b-be4d-087e1328e45b",
+      "date": "2026-11-06",
+      "body": "更新美食地图板块主页",
+      "sectionId": "activities",
+      "pageId": "food-map",
+      "anchorId": "",
+      "status": "published",
+      "imageAlt": "",
+      "image": {
+        "name": "db9acbcb0427d2b9f14ce49e80917767.png",
+        "path": "assets/published/bb0bae6e86fb1e37001145c2570f4547476949dff4b2ab5535bb08ec3b61e5bd.png",
+        "type": "image/png",
+        "size": 2103309
+      },
+      "createdAt": 1793932568421,
+      "updatedAt": 1793933055057
+    },
+    {
+      "id": "aa67057b-6b52-48e0-9a50-86fd2dc14ac6",
+      "date": "2026-11-27",
+      "body": "修改了网站字体，优化导航栏视觉",
+      "sectionId": "home",
+      "pageId": "about",
+      "anchorId": "",
+      "status": "published",
+      "imageAlt": "",
+      "image": {
+        "name": "b6547bb9e6188fa75b051b417cd1d4da.png",
+        "path": "assets/published/4aff0f9a23d3bf283381d72cd6afaf916d8bbd955f2c6979c7734755319bda0e.png",
+        "type": "image/png",
+        "size": 1004210
+      },
+      "createdAt": 1795752808205,
+      "updatedAt": 1795752808205
+    },
+    {
+      "id": "72a10062-a837-4f67-a3b1-931cf18e7b4b",
+      "date": "2026-11-27",
+      "body": "个人博客可以写文章啦",
+      "sectionId": "hobbies",
+      "pageId": "hobbies",
+      "anchorId": "",
+      "status": "published",
+      "imageAlt": "",
+      "image": {
+        "name": "7f61a44499ad2f49a0cff978adf10656.png",
+        "path": "assets/published/f18d80ac1169b46f15aca312503ab3e21d71a7d8556a59a15a97174d210a9917.png",
+        "type": "image/png",
+        "size": 1063381
+      },
+      "createdAt": 1795753253533,
+      "updatedAt": 1795753451443
+    }
+  ],
+  "explore": [
+    {
+      "id": "food",
+      "name": "美食地图",
+      "english": "A TASTE OF PLACE",
+      "tag": "城市里的味觉坐标",
+      "description": "持续更新！持续收藏！",
+      "file": "food-map.html",
+      "kind": "food",
+      "image": {
+        "name": "db9acbcb0427d2b9f14ce49e80917767.png",
+        "path": "assets/published/bb0bae6e86fb1e37001145c2570f4547476949dff4b2ab5535bb08ec3b61e5bd.png",
+        "type": "image/png",
+        "size": 2103309
+      },
+      "previewImages": [
+        "explore/assets/food-preview-01.png",
+        "explore/assets/food-preview-02.png",
+        "explore/assets/food-preview-03.png"
+      ],
+      "createdAt": 0,
+      "updatedAt": 1795521628180
+    },
+    {
+      "id": "read",
+      "name": "瓜瓣READ",
+      "english": "BETWEEN THE PAGES",
+      "tag": "书页之外，还有回响",
+      "description": "读过的、想读的，以及停留在书页间的念头。",
+      "file": "guaban-read.html",
+      "kind": "read",
+      "image": null,
+      "previewImages": [
+        "explore/assets/read-preview-01.png",
+        "explore/assets/read-preview-02.png",
+        "explore/assets/read-preview-03.png"
+      ],
+      "createdAt": 0,
+      "updatedAt": 0
+    },
+    {
+      "id": "concepts",
+      "name": "概念集",
+      "english": "IDEAS, CONNECTED",
+      "tag": "给抽象的想法一个形状",
+      "description": "从这里走进一个想象中的世界",
+      "file": "concepts.html",
+      "kind": "concepts",
+      "image": null,
+      "previewImages": [
+        "explore/assets/concept-preview-01.png",
+        "explore/assets/concept-preview-02.png",
+        "explore/assets/concept-preview-03.png"
+      ],
+      "createdAt": 0,
+      "updatedAt": 1793808522884
+    }
+  ],
+  "blogAppearance": {
+    "revision": 16,
+    "nickname": "melon的小窝",
+    "avatar": {
+      "name": "94702cbc4bbe9f9faaa0766ba2175395.jpg",
+      "path": "assets/published/33d9a084a8caf97262563e0594ccf33adb829df795f30f824af28008e1f8ffe9.jpg",
+      "type": "image/jpeg",
+      "size": 55203,
+      "crop": {
+        "x": 50,
+        "y": 50,
+        "zoom": 100
+      }
+    },
+    "background": {
+      "name": "9903dc29bfba935a37becbee4dac3eb8.jpg",
+      "path": "assets/published/f82cfa1dd244ae5b08adf8aa2b882d936773d1baebd3e6b64de29e0a699f2d9d.jpg",
+      "type": "image/jpeg",
+      "size": 242662,
+      "crop": {
+        "x": 50,
+        "y": 28,
+        "zoom": 100
+      }
+    }
+  },
+  "blogArticles": [
+    {
+      "id": "439a96ed-7154-40cd-bb24-56a5b774d524",
+      "title": "测试",
+      "body": "其实什么都没有写。",
+      "excerpt": "什么！竟然是测试？",
+      "tags": [
+        "测试"
+      ],
+      "publishedAt": "2026-11-27",
+      "cover": {
+        "name": "848237907b278e9e0d797e4b9a7fd1a1.jpg",
+        "path": "assets/published/7d2a91ea862782958af950132dd1aa087bf55404ea4d6e805281cba26a742983.jpg",
+        "type": "image/jpeg",
+        "size": 766431
+      },
+      "status": "published",
+      "createdAt": 1795753086090,
+      "updatedAt": 1795753474063
+    },
+    {
+      "id": "67d27cec-673c-481c-8ee1-243ddd537fc9",
+      "title": "关于猫咪为什么不打第五人格的思考",
+      "body": "关于这个问题，我其实想了很久……",
+      "excerpt": "猫咪有五根手指，为什么不能打第五",
+      "tags": [
+        "胡思乱想"
+      ],
+      "publishedAt": "2026-11-27",
+      "cover": null,
+      "status": "published",
+      "createdAt": 1795774487029,
+      "updatedAt": 1795774487029
+    },
+    {
+      "id": "fec2ebd8-d3c2-4d47-95de-ae635baec19d",
+      "title": "hi",
+      "body": "Everyday people want to learn something useful.",
+      "excerpt": "我就是要乱写点东西",
+      "tags": [],
+      "publishedAt": "2026-11-27",
+      "cover": null,
+      "status": "published",
+      "createdAt": 1795775319611,
+      "updatedAt": 1795775319611
+    }
+  ],
+  "canEdit": false
+}

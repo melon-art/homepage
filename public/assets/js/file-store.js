@@ -143,6 +143,25 @@
       return value;
     },
     async saveProfile(value, expected) { await mutate('profile', { value, expected }); return this.profile(); },
+    async blogAppearance() {
+      const current = await refresh();
+      return current.blogAppearance || { revision: 0, avatar: null, background: null };
+    },
+    async saveBlogAppearance(value, expected) {
+      const [avatar, background] = await Promise.all(['avatar', 'background'].map(async key => {
+        const picture = value[key];
+        return picture ? { ...await wireAsset(picture), crop: picture.crop } : null;
+      }));
+      const current = await mutate('blog-appearance', { value: { nickname: value.nickname, avatar, background }, expected });
+      return current.blogAppearance;
+    },
+    async blogArticles() {
+      return (await refresh()).blogArticles || [];
+    },
+    async saveBlogArticle(value, expected = null) {
+      const current = await mutate('blog-articles', { value: { ...value, cover: await wireAsset(value.cover) }, expected });
+      return current.blogArticles.find(article => article.id === current.savedBlogArticleId);
+    },
     async explore() { await refresh(); return state.explore || []; },
     async all(collection) {
       await refresh();

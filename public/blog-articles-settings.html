@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>文章编辑 · 设置</title>
+  <link rel="stylesheet" href="assets/css/explore-editor.css?v=1">
+  <link rel="stylesheet" href="assets/css/typography.css?v=423a50b84a1b">
+  <link rel="stylesheet" href="assets/css/blog-settings-nav.css?v=d6082bcf99df">
+  <style>
+    .blog-article-tools { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    .blog-article-list { list-style:none; margin:24px 0 0; padding:0; }
+    .blog-article-list li { border-block-start:1px solid var(--line); }
+    .blog-article-list a { display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:16px 0; color:var(--ink); text-decoration:none; overflow-wrap:anywhere; }
+    .blog-article-list a:hover { color:var(--gold); }
+    .blog-article-list span:last-child { flex:none; color:var(--muted); font-size:.875rem; }
+    #article-form { max-width:760px; margin-top:24px; }
+    #article-form textarea[name="body"] { min-height:240px; }
+    .blog-cover-preview { display:block; width:min(100%,290px); aspect-ratio:290 / 114; object-fit:cover; border-radius:var(--radius-control); margin-top:12px; }
+  </style>
+  <script src="assets/js/file-store.js?v=260b73f1e3fa" defer></script>
+  <script src="assets/js/blog-articles-settings.js?v=d1c3937ce40f" defer></script>
+</head>
+<body><div class="up-editor-page">
+  <header class="up-editor-header">
+    <a class="back-link" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 5-7 7 7 7M3 12h18"/></svg>返回主页</a>
+    <a class="up-text-link" href="blog.html">查看博客</a>
+  </header>
+  <main class="ex-settings-layout">
+    <aside><nav class="ex-settings-nav" aria-label="设置导航">
+      <a href="settings.html">基本信息</a>
+      <a href="explore-manage.html">探索广场</a>
+      <details class="blog-settings-menu" open>
+        <summary>博客</summary>
+        <div><a href="blog-settings.html">个人信息</a><a href="blog-articles-settings.html" aria-current="page">文章编辑</a></div>
+      </details>
+    </nav></aside>
+    <section class="ex-main" aria-labelledby="article-settings-title">
+      <div class="blog-article-tools">
+        <h1 id="article-settings-title">文章编辑</h1>
+        <a class="up-primary" id="article-new" href="blog-articles-settings.html?new=1" hidden>新建文章</a>
+        <a class="up-text-link" id="article-list-back" href="blog-articles-settings.html" hidden>返回文章列表</a>
+      </div>
+      <p class="up-status ex-message" id="article-status" role="status">正在读取文章…</p>
+      <ul class="blog-article-list" id="article-edit-list" hidden></ul>
+      <form id="article-form" hidden>
+        <fieldset disabled>
+          <div class="up-field"><label for="article-title">标题</label><input id="article-title" name="title" required maxlength="120"></div>
+          <div class="up-field-row">
+            <div class="up-field"><label for="article-date">发表日期</label><input id="article-date" name="publishedAt" type="date" min="1900-01-01" max="2100-12-31"></div>
+            <div class="up-field"><label for="article-tags">标签</label><input id="article-tags" name="tags" maxlength="310" aria-describedby="article-tags-help"><p id="article-tags-help" class="up-help">用逗号分隔，最多 10 个。</p></div>
+          </div>
+          <div class="up-field"><label for="article-excerpt">摘要<span class="up-optional">选填</span></label><textarea id="article-excerpt" name="excerpt" maxlength="300" rows="2"></textarea></div>
+          <div class="up-field"><label for="article-body">正文</label><textarea id="article-body" name="body" maxlength="50000" aria-describedby="article-body-help"></textarea><p class="up-help" id="article-body-help">空行分段。展示文章前需要填写正文和发表日期。</p></div>
+          <div class="up-field">
+            <label for="article-cover">封面<span class="up-optional">选填</span></label>
+            <input id="article-cover" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="article-cover-help">
+            <p class="up-help" id="article-cover-help">JPG、PNG 或 WebP，最大 5 MB。</p>
+            <img class="blog-cover-preview" id="article-cover-preview" alt="文章封面预览" hidden>
+            <button class="up-link-button" id="article-cover-remove" type="button" hidden>移除封面</button>
+          </div>
+          <div class="up-actions">
+            <a class="up-secondary" id="article-view" hidden>查看文章</a>
+            <button class="up-secondary" type="submit" value="draft">保存草稿</button>
+            <button class="up-primary" type="submit" value="published">保存并展示</button>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+  </main>
+</div></body>
+</html>

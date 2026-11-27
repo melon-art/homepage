@@ -1,4 +1,4 @@
-import {build,transform} from 'esbuild';
+import {build} from 'esbuild';
 import {readFile,writeFile,copyFile,mkdir} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {dirname,join,resolve} from 'node:path';
@@ -15,22 +15,13 @@ await Promise.all([
     .then(styles=>writeFile(join(output,'style.css'),styles.join('\n')))
 ]);
 async function version(file){return createHash('sha256').update(await readFile(file)).digest('hex').slice(0,12)}
-const [app,style,header,directory,storage]=await Promise.all([
+const [app,style,header,directory,storage,navigation,navigationScript,typography]=await Promise.all([
   ...['app.js','style.css','header.css'].map(file=>version(join(output,file))),
-  version(join(publicFolder,'assets/js/site-pages.js')),version(join(publicFolder,'assets/js/file-store.js'))
+  version(join(publicFolder,'assets/js/site-pages.js')),version(join(publicFolder,'assets/js/file-store.js')),
+  version(join(publicFolder,'assets/css/navigation.css')),version(join(publicFolder,'assets/js/navigation.js')),
+  version(join(publicFolder,'assets/css/typography.css'))
 ]);
-// Keep the map and current recommendation glyphs in every shared entry document.
-// Additional Chinese glyphs retain file-backed faces instead of embedding full fonts.
-let fontCss=await readFile(join(folder,'food-map/fonts.css'),'utf8');
-for(const file of ['starlove-pencil/starlove-pencil-food-map.woff2.bin','genryumin2-tc-el/genryumin2-tc-el-common.woff2.bin']){
-  const source=`url(./assets/fonts/${file})`;
-  if(!fontCss.includes(source))throw new Error(`Missing inline font source: ${file}`);
-  const encoded=(await readFile(join(output,'assets/fonts',file))).toString('base64');
-  fontCss=fontCss.replace(source,`url("data:font/woff2;base64,${encoded}")`);
-}
-// Styles now live in HTML, so remaining relative URLs resolve from the site root.
-fontCss=fontCss.replaceAll('url(./assets/fonts/','url(explore/assets/fonts/');
-const {code:inlineFonts}=await transform(fontCss,{loader:'css',minify:true});
+// All routes share the approved site face, including in-document navigation.
 const pages={'explore.html':'探索广场','food-map.html':'美食地图 · 探索广场','food-map-darongcheng.html':'大融城推荐 · 美食地图','food-map-wudaokou.html':'五道口推荐 · 美食地图','guaban-read.html':'瓜瓣READ · 探索广场','concepts.html':'概念集 · 探索广场'};
 for(const [file,title] of Object.entries(pages)){
   const html=`<!doctype html>
@@ -43,9 +34,11 @@ for(const [file,title] of Object.entries(pages)){
   <title>${title}</title>
   <link rel="stylesheet" href="explore/style.css?v=${style}">
   <link rel="stylesheet" href="explore/header.css?v=${header}">
-  <style data-food-fonts>${inlineFonts}</style>
+  <link rel="stylesheet" href="assets/css/navigation.css?v=${navigation}">
+  <link rel="stylesheet" href="assets/css/typography.css?v=${typography}">
   <script src="assets/js/file-store.js?v=${storage}" defer></script>
   <script src="assets/js/site-pages.js?v=${directory}" defer></script>
+  <script src="assets/js/navigation.js?v=${navigationScript}" defer></script>
   <script src="explore/app.js?v=${app}" defer></script>
 </head>
 <body><div id="root"></div><noscript>请启用 JavaScript 浏览探索广场。<a href="index.html">返回主页</a></noscript></body>

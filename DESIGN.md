@@ -1,6 +1,6 @@
 ---
 name: "个人学术主页"
-description: "依据用户提供的学术主页参考图，记录已实现的白底、衬线标题与克制暖金色系统。"
+description: "依据用户提供的学术主页参考图，记录已实现的白底、汉仪唐美人55W与克制暖金色系统。"
 colors:
   paper: "#ffffff"
   ink: "#242b34"
@@ -18,45 +18,44 @@ colors:
   error: "#a13c30"
 typography:
   food-map:
-    fontFamily: 'StarLovePencil, "GenRyuMin2 TC EL", "Noto Serif SC", "Songti SC", SimSun, serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: "clamp(28px, 2.6vw, 40px)"
     fontWeight: 400
     lineHeight: 1.25
     letterSpacing: ".08em"
   food-recommendation:
-    fontFamily: '"GenRyuMin2 TC EL", Newsreader, "Noto Serif SC", Georgia, "Songti SC", SimSun, serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontWeight: 400
-    fontSynthesis: "none"
   explore-display:
-    fontFamily: 'Bahnschrift, "Arial Narrow", sans-serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: "21.5vw"
     fontWeight: 600
     letterSpacing: ".025em"
   identity:
-    fontFamily: 'Georgia, "Songti SC", SimSun, serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: "2.25rem"
     fontWeight: 700
     lineHeight: 1.3
   section:
-    fontFamily: 'Georgia, "Songti SC", SimSun, serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: "2rem"
     fontWeight: 700
     lineHeight: 1.25
     letterSpacing: "-.015em"
   body:
-    fontFamily: '"Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: "1.125rem"
     fontWeight: 400
     lineHeight: 1.65
   label:
-    fontFamily: '"Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: "1rem"
     lineHeight: 1.5
   meta:
-    fontFamily: '"Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: ".9375rem"
   hint:
-    fontFamily: '"Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: ".8125rem"
 rounded:
   photo: "18px"
@@ -97,12 +96,22 @@ components:
     typography: "{typography.explore-display}"
     width: "95vw"
     heightScale: "previous approved height * .75"
+  blog-profile:
+    directorySidebar: "sticky above 820px, 16px below navigation, independently scrolls when taller than the available viewport"
+    layout: "114px background band, 96px circular avatar with soft shadow, adjustable cover crop"
+    backgroundColor: "{colors.gold-soft}"
+  navigation-shell:
+    backgroundColor: "rgba(248,249,250,.76)"
+    backdropFilter: "blur(20px) saturate(140%)"
+    layout: "fixed full-width surface with reserved flow height; desktop 69px; mobile about previous height * .75; dropdown overflow visible"
+    motion: "hide on downward scroll, reveal upward; 440ms cubic-bezier(.22,.61,.36,1); static with reduced motion"
   navigation-current:
     backgroundColor: "transparent"
     textColor: "{colors.gold}"
     typography: "{typography.label}"
     rounded: "{rounded.control}"
     padding: "7px 13px"
+    fontWeight: 600
   home-dropdown:
     backgroundColor: "rgba(248, 245, 237, 0.98)"
     textColor: "{colors.body-ink}"

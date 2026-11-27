@@ -1,6 +1,6 @@
 ---
 name: "个人学术主页"
-description: "依据用户提供的学术主页参考图，记录已实现的白底、衬线标题与克制暖金色系统。"
+description: "依据用户提供的学术主页参考图，记录已实现的白底、汉仪唐美人55W与克制暖金色系统。"
 colors:
   paper: "#ffffff"
   ink: "#242b34"
@@ -18,45 +18,44 @@ colors:
   error: "#a13c30"
 typography:
   food-map:
-    fontFamily: 'StarLovePencil, "GenRyuMin2 TC EL", "Noto Serif SC", "Songti SC", SimSun, serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: "clamp(28px, 2.6vw, 40px)"
     fontWeight: 400
     lineHeight: 1.25
     letterSpacing: ".08em"
   food-recommendation:
-    fontFamily: '"GenRyuMin2 TC EL", Newsreader, "Noto Serif SC", Georgia, "Songti SC", SimSun, serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontWeight: 400
-    fontSynthesis: "none"
   explore-display:
-    fontFamily: 'Bahnschrift, "Arial Narrow", sans-serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: "21.5vw"
     fontWeight: 600
     letterSpacing: ".025em"
   identity:
-    fontFamily: 'Georgia, "Songti SC", SimSun, serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: "2.25rem"
     fontWeight: 700
     lineHeight: 1.3
   section:
-    fontFamily: 'Georgia, "Songti SC", SimSun, serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: "2rem"
     fontWeight: 700
     lineHeight: 1.25
     letterSpacing: "-.015em"
   body:
-    fontFamily: '"Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: "1.125rem"
     fontWeight: 400
     lineHeight: 1.65
   label:
-    fontFamily: '"Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: "1rem"
     lineHeight: 1.5
   meta:
-    fontFamily: '"Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: ".9375rem"
   hint:
-    fontFamily: '"Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
+    fontFamily: 'HYTangMeiRen55W, "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif'
     fontSize: ".8125rem"
 rounded:
   photo: "18px"
@@ -97,12 +96,22 @@ components:
     typography: "{typography.explore-display}"
     width: "95vw"
     heightScale: "previous approved height * .75"
+  blog-profile:
+    directorySidebar: "sticky above 820px, 16px below navigation, independently scrolls when taller than the available viewport"
+    layout: "114px background band, 96px circular avatar with soft shadow, adjustable cover crop"
+    backgroundColor: "{colors.gold-soft}"
+  navigation-shell:
+    backgroundColor: "rgba(248,249,250,.76)"
+    backdropFilter: "blur(20px) saturate(140%)"
+    layout: "fixed full-width surface with reserved flow height; desktop 69px; mobile about previous height * .75; dropdown overflow visible"
+    motion: "hide on downward scroll, reveal upward; 440ms cubic-bezier(.22,.61,.36,1); static with reduced motion"
   navigation-current:
     backgroundColor: "transparent"
     textColor: "{colors.gold}"
     typography: "{typography.label}"
     rounded: "{rounded.control}"
     padding: "7px 13px"
+    fontWeight: 600
   home-dropdown:
     backgroundColor: "rgba(248, 245, 237, 0.98)"
     textColor: "{colors.body-ink}"
@@ -243,23 +252,27 @@ components:
 
 ## Typography
 
-身份及章节使用 frontmatter 中的衬线字体栈；正文与辅助信息使用本地无衬线字体栈。英文标题的古典字形与中文正文的清晰笔画共同建立层级，不依赖网络字体。
+2026-11-27，FONT-001：全站可排版文字统一采用用户确认的汉仪唐美人55W（HYTangMeiRen-55W），覆盖首页、设置、News／Updates、探索卡牌、背景EXPLORE、地图地名和推荐页。标题与正文以既有字号、400／600／700字重、行高和颜色区分；不改布局或动效。
 
 ### Hierarchy
-- **Identity**：个人姓名，粗衬线，居中；长姓名允许换行。
-- **Section**：About、News 等章节标题，粗衬线。
+- **Identity**：个人姓名，汉仪唐美人粗体，居中；长姓名允许换行。
+- **Section**：About、News 等章节标题，汉仪唐美人粗体。
 - **Body**：桌面介绍、学历及动态标题的基础字号；动态标题另用字重（600）与行高（1.6）。
 - **Label**：导航、院系信息。
 - **Meta**：日期、简历入口、动态补充文字和状态反馈；各组件分别确定行高。
 - **Hint**：照片占位说明、图标名称提示及待更新提示。
 
-页眉身份入口另用粗衬线（2rem、行高 1.2、字距 -.02em）。日期采用等宽排列数字。About 正文不再施加 73ch 行宽限制，铺满右侧内容栏，与 News 左右边缘对齐；字号、行高和栏间距沿用原值。长名称、链接和无空格文本均允许在容器内换行。
+页眉身份入口沿用粗体（2rem、行高 1.2、字距 -.02em）。日期采用等宽排列数字。About 正文不再施加 73ch 行宽限制，铺满右侧内容栏，与 News 左右边缘对齐；字号、行高和栏间距沿用原值。长名称、链接和无空格文本均允许在容器内换行。
 
-**The Local Font Rule.** 主页、所有顶部导航及姓名继承当前本地字体栈；身份与章节保持衬线，正文保持无衬线。美食地图内与推荐正文的专属字库见下文，不覆盖页眉。
+**The Local Font Rule.** 全站共用 `public/assets/css/typography.css` 的 `--font-site`，正文／标题／拉丁／地图令牌指向同一字体；表单控件继承字体。优先使用本机已安装的同名55W；未安装时读取本地完整WOFF2（3,619,992字节、9893码点），`font-display:swap`，无远程字体请求。固定400字面沿用浏览器合成加粗，与确认的预览一致。资源采用`.woff2.bin`以兼容既有服务，不改服务白名单；字体来自用户，未声称开放许可。旧地图字库及许可保留为历史资源，当前入口不再内嵌或加载这些旧字体。图片中已栅格化的文字保持原样；独立历史预览保留原试样。下文较早字体决定均由本规则替代。
 
 ## Layout
 
-首页与设置页的宽屏内容壳最大宽度均为（1480px），两侧总留白至少（96px），即每侧至少（48px）。首页与设置页复用左栏宽度（320px）和栏间距；左栏居中展示个人信息，右栏用于介绍与动态。页眉最小高度（92px），主内容顶部留白（34px），底部留白（48px）。照片保持宽高比（1:1）。导航栏目依次为 Home、研究方向、课程作业、个人生活、获奖、探索广场，设置继续位于其后。导航七项（含设置）在同一 Flex 容器内以 space-between 分配空间，项目边缘间距相同；不把设置单独放在导航外。
+NAV-009（2026-11-27）：主页及探索六个入口的顶部主导航共用assets/css/navigation.css。姓名与导航所在整条页眉使用card浅灰#f8f9fa，延伸到页面两侧，原内容宽度、间距、高度和手机换行不变；通过仅裁切背景伪元素保留下拉溢出，背景不接收指针、不随悬停改变。文字、72px金色扫线、Home下拉及其金色选中反馈继续沿用原规范。不为独立编辑页新增主导航，不修改仓库外草稿。
+
+NAV-010（同日，当前规则）取代以上不透明背景及原92px高度：姓名／导航整条材质为rgba(248,249,250,.76)磨砂玻璃，blur20px、saturate140%，下边两角16px、轻微下投影。独立navigation-shell按ResizeObserver实测高度占位，内层固定顶端，不挤动内容；desktop为69px（92px的3/4），820px以下通过顶部10px、导航上距7px、按钮最小32px／纵向内距2px压至约原高度3/4；字体大小、字形、水平间距不变，顶栏栏目字重600。下滑累计18px隐藏，上滑累计10px显示，靠近页首（高度+16px）始终显示；双向滑动均440ms cubic-bezier(.22,.61,.36,1)，替代首版180／240ms。菜单展开、键盘焦点或精细指针操作时保持显示，Tab恢复隐藏导航；隐藏时inert／aria-hidden防止焦点落入屏幕外。背景保持溢出，Home下拉不裁切。减少动态取消滑动，不支持backdrop-filter时使用不透明浅灰；图片／内容仍由原文件服务提供，不改变数据。共享navigation.js只监听页面滚动，探索转盘及Updates内部滚轮不触发显隐。真实内容较短时没有页面滚动，导航自然常显。当前局部验证见TASKS E65。
+
+首页与设置页的宽屏内容壳最大宽度均为（1480px），两侧总留白至少（96px），即每侧至少（48px）。首页与设置页复用左栏宽度（320px）和栏间距；左栏居中展示个人信息，右栏用于介绍与动态。页眉最小高度（92px），主内容顶部留白（34px），底部留白（48px）。照片保持宽高比（1:1）。导航栏目依次为 Home、研究方向、课程作业、个人博客、获奖、探索广场，设置继续位于其后。导航七项（含设置）在同一 Flex 容器内以 space-between 分配空间，项目边缘间距相同；不把设置单独放在导航外。
 
 响应式规则直接来自现有媒体查询：
 - **1100px 及以下**：两侧总留白（56px），左栏（29%）、栏间距（36px）；导航改用元信息字号并压缩水平内边距，图标间距收紧。
@@ -385,6 +398,8 @@ news.html 沿用白底、页面宽度／边距、衬线 News 标题、返回主�
 
 ## Design change record
 
+- 2026-11-27：FONT-001 采纳汉仪唐美人55W为全站字体，统一14个正式入口与探索构建；既有字号、布局、加粗和交互保持，验证见TASKS E68。
+
 - 2026-11-03：UPDATES-001 将已确认的日期胶片与悬停抬高集成到主页；字体／配色延用原规范，新增 6:4 内容分区与 Updates 专属动效。
 
 - 2026-11-03：按用户选择清空示例数据，正式 Updates 显示“暂无更新”，等待真实内容；保留组件样式和交互。
@@ -429,6 +444,8 @@ Operate设置表面，继承克制、清晰、学术的白底／暖金系统、�
 
 ## 美食地图：正式局部设计系统（2026-11-06，FOOD-001）
 
+**FONT-001后续决定（2026-11-27）：本节早期StarLovePencil／GenRyu字库及内嵌规则已由全站汉仪唐美人55W替代，地图与推荐页当前均遵循上方Typography。**
+
 以模块用户确认的日落城市海报为主视觉，定位为个人探索站点中的地理浏览入口；关键词为日落、纸刊、手写、清晰，标志性动作是地理锚点上的白色呼吸光点。此为地图／推荐正文的局部系统，不改变主页或卡组结构。
 
 - 地图4830×2730 PNG与页面等宽、自然比例完整展示，保留城市文字及OSM署名。标题左上32px／26px（540px下20px／20px），字号clamp(28px,2.6vw,40px)、手机28px；不新增外部说明栏、底栏或装饰卡片。六地名按UTM50N定位，17px、字距2px，540px下26px／0字距（SVG视图单位）；区域文字描边使用map-paper，保证与底图区分。
@@ -439,3 +456,13 @@ Operate设置表面，继承克制、清晰、学术的白底／暖金系统、�
 - 字体随仓库提供；六个共享探索HTML直接内嵌字体声明、地图手写子集及推荐常用分片，以支持站内切换并省去当前内容的单独字体请求，字库随HTML读取解析。额外汉字分片仍按Unicode请求，导航不使用专属字库。GenRyuMin2 TC EL源自ButTaiwan v2.100，附OFL；StarLovePencil由用户提供，内部声明免费使用且fsType0，未附独立许可条文，不能描述为OFL。当前手写子集130码点／23468字节，新文案需检查覆盖；来源与授权说明位于public/explore/assets/fonts。Newsreader／Noto Serif SC保留为字形加载后备。
 
 实际截图与字形检查见TASKS E54：1440／390／320px无横向溢出、光点44px可点，导航及姓名与主页font样式相同。延续既定海报结构，无通用SaaS布局、重复说明或新增装饰；本次仅做受影响范围检查，保留手机地图文字随整图缩放的用户确认方案，实体手机阅读体验与最终发布验收待QA-001。
+
+## 个人博客文章区（2026-11-27）
+
+头像上方背景区高 114px，默认浅金色，可在博客设置上传图片并调整裁切。两张图分别支持横向／纵向定位、100–300% 缩放及实时预览。默认居中、100%，可单独重置。96px 圆头像位于背景与资料区交界处，使用柔和环绕阴影，未设置时显示头像占位。博客昵称显示于头像下方，可在设置中编辑。博客两张图单独配置，设置沿用现有暖金按钮及移动端单栏布局。
+
+目录与正文共用左侧资料／标签栏、汉仪唐美人55W及磨砂顶栏。1440 CSS px 侧栏卡片与首页290px照片对齐，目录和正文右边距扣除滚动条后为桌面96px、390 CSS px 窄屏36px。目录在大于 820px 的双栏布局中将左侧栏吸附在顶部导航下方 16px，右栏使用页面滚动。标签较多或视口较矮时，超出可视高度的侧栏内容可在栏内滚动。窄屏按侧栏、文章的顺序流式排列。
+
+卡片本身是正文链接。悬停卡片时封面放大1.045倍，悬停标题时标题以文字块中心放大1.04倍，减少动态时关闭两种变换。正文从顶部「个人博客」回到目录。已展示文章底部显示评论。评论输入栏位于列表前方，默认单行，聚焦或有草稿时展开。每条主评论以可展开的回复框承载一级回复。
+
+博客设置左栏使用「博客」下拉，包含「个人信息」和「文章编辑」。子设置页默认展开，标记当前项。文章列表显示标题和状态，编辑表单沿用主站输入框、文章正文长输入区与暖金保存按钮。手机布局将导航放在正文上方。

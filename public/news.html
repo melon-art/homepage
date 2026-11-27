@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>News · 个人学术主页</title>
   <link rel="stylesheet" href="assets/css/news.css?v=016d5d863111">
-  <script src="assets/js/file-store.js?v=85fea61f45fd" defer></script>
+  <script src="assets/js/file-store.js?v=260b73f1e3fa" defer></script>
   <script src="assets/js/news.js?v=file-1" defer></script>
   <style>
-    :root { color-scheme: light; --paper: #fff; --ink: #242b34; --body-ink: #414a54; --gold: #866b35; --gold-soft: #f8f5ed; --card: #f8f9fa; --type-body: 1.125rem; --type-meta: .9375rem; --radius-card: 10px; --radius-control: 6px; --shadow-card: 0 1px 3px rgba(30,39,48,.08); --font-body: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif; --font-heading: Georgia, "Songti SC", SimSun, serif; }
+    :root { color-scheme: light; --paper: #fff; --ink: #242b34; --body-ink: #414a54; --gold: #866b35; --gold-soft: #f8f5ed; --card: #f8f9fa; --type-body: 1.125rem; --type-meta: .9375rem; --radius-card: 10px; --radius-control: 6px; --shadow-card: 0 1px 3px rgba(30,39,48,.08); --font-body:var(--font-site); --font-heading:var(--font-site); }
     * { box-sizing: border-box; }
     html { scrollbar-color: #c5c7cc var(--paper); scrollbar-width: thin; scrollbar-gutter: stable; }
     @supports not (scrollbar-gutter: stable) { html { overflow-y: scroll; } }
@@ -29,6 +29,7 @@
     @media (max-width: 820px) { .news-page { width: calc(100% - 40px); } }
     @media (max-width: 620px) { .news-page { width: calc(100% - 36px); } .news-page-header { min-height: 80px; } main { padding-top: 12px; } h1 { font-size: 1.875rem; } }
   </style>
+  <link rel="stylesheet" href="assets/css/typography.css?v=423a50b84a1b">
 </head>
 <body>
   <div class="news-page">

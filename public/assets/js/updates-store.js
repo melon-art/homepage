@@ -20,7 +20,7 @@
   }
   function target(entry) {
     const page = SitePages.page(entry.pageId);
-    return page?.sectionId === entry.sectionId ? SitePages.resolve(entry.pageId, entry.anchorId) : '';
+    return page?.sectionId === entry.sectionId ? SitePages.resolveUpdate(entry.pageId, entry.anchorId) : '';
   }
   function validate(entry) {
     if (!validDate(entry.date)) throw new Error('请选择有效日期（1900—2100年）。');

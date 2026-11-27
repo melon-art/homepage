@@ -1,0 +1,17 @@
+/* FONT-001: approved site typography; preserve existing sizes and weights. */
+@font-face {
+  font-family: "HYTangMeiRen55W";
+  src: local("HYTangMeiRen-55W"), local("HYTangMeiRen 55W"), url("../fonts/hy-tangmeiren-55w/HYTangMeiRen55W-b2a30cb09778.woff2.bin") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+:root {
+  --font-site: "HYTangMeiRen55W", "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  --font-body: var(--font-site);
+  --font-heading: var(--font-site);
+  --font-latin: var(--font-site);
+  --font-map: var(--font-site);
+}
+html, body { font-family: var(--font-site); }
+button, input, textarea, select { font-family: inherit; }

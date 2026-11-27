@@ -4,9 +4,9 @@
 
 ## 定位与当前阶段
 
-这是个人学术主页，面向希望了解站点主人基本情况、研究兴趣、课程与个人活动的访问者。当前阶段为**静态首页草稿，基础界面与交互已实现，真实内容尚未补齐；线上发布状态待确认**。
+这是个人学术主页，面向希望了解站点主人基本情况、研究兴趣、课程与个人活动的访问者。当前阶段为**静态首页草稿，基础界面与交互已实现，真实内容尚未补齐；已通过 GitHub Pages 发布，域名为 https://melatius.love/；最新工作区同步见 DEPLOY-002**。
 
-首页包含个人资料栏、About、News 和 Updates；顶部栏目顺序为 Home、研究方向、课程作业、个人生活、获奖、探索广场，其后保留设置入口。探索广场门户与美食地图首期已接入，其余四个栏目仍待建立；餐馆推荐与另两个探索子板块内容待补齐。个人生活／探索广场沿用 hobbies／activities 内部 ID，保留已有 Updates 草稿关联。提供电脑本机使用的文件编辑服务，尚无账号系统或公网管理后台。页面语言当前为中文资料与少量英文栏目名，最终语言待确认。
+首页包含个人资料栏、About、News 和 Updates；顶部栏目顺序为 Home、研究方向、课程作业、个人博客、获奖、探索广场，其后保留设置入口。个人博客目录、阅读页与探索广场门户、美食地图首期已接入。研究方向、课程作业和获奖仍待建立；餐馆推荐与另两个探索子板块内容待补齐。个人博客／探索广场沿用 hobbies／activities 内部 ID，保留已有 Updates 草稿关联。提供电脑本机使用的文件编辑服务，尚无账号系统或公网管理后台。页面语言当前为中文资料与少量英文栏目名，最终语言待确认。
 
 探索广场已正式接入[explore.html](../public/explore.html)：美食地图、瓜瓣READ、概念集重复排列为18张卡，覆盖完整圆周；支持连续旋转、悬停抽出与两侧让位、选中描述。美食卡进入正式地图，其余两类仍进入内容待添加页。EXPLORE背景字调浅为oklch(91% .006 88)，保持最终确认的宽度、位置及3/4字高。门户与美食地图均在site-pages.js的Updates目录登记，顶栏探索广场仍进入门户。React／Framer Motion仅用于此局部模块，首页与编辑功能保持原实现；源码与构建见src/explore/，验证见TASKS E41／E54／E57。仓库外预览保留为历史稿。
 
@@ -19,14 +19,16 @@
 | 项目 | 当前真实实现 |
 | --- | --- |
 | 页面 | `public/explore-manage.html` 设置内探索广场管理、`public/explore-edit.html` 卡牌编辑；`public/index.html` 首页、`public/settings.html` 设置页、`public/news-edit.html` 独立 News 新增／编辑页、`public/news.html` 全部新闻页、`public/updates-edit.html` 更新编辑页、`public/updates-manage.html` 更新管理页，原生 HTML |
+| 个人博客 | `public/blog.html` 和 `public/blog-article.html` 共用资料及标签侧栏。博客昵称、头像及背景在设置的「博客」中单独编辑，裁切位置与缩放随各图片保存，存入 `data/site.json` 的 `blogAppearance` 并纳入完整备份。设置侧栏「博客」下设个人信息与文章编辑。文章展示内容在 `data/site.json` 的 `blogArticles`，草稿与草稿封面在 `.local`，均纳入完整备份。已展示文章的评论和一级回复按文章 ID 保存在当前浏览器，演示使用独立记录。导航已开通，Updates 可链接文章目录。 |
 | 样式 | 页面内嵌 CSS 与共享 news.css、首页与编辑预览共享 updates.css、更新编辑／管理共享 updates-editor.css、自定义属性、Grid／Flex 和媒体查询 |
+| 顶部导航 | 主页和探索六个入口共用assets/css/navigation.css与assets/js/navigation.js；半透明浅灰磨砂、固定顶端、下滑隐藏／上滑显示，440ms平滑收放，桌面69px／手机约原3/4高度、栏目字重600；实测高度占位，下拉／扫线保留，探索由build.mjs生成版本化引用 |
 | 交互 | 首页保留原内联交互；共享 `public/assets/js/profile.js` 管理资料、联系信息及本地附件的读取、保存和同步；`public/assets/js/about.js` 处理 About 格式编辑、安全渲染与首页收起／展开 |
-| 图标、字体 | 内联描边SVG；主页及顶部导航沿用本地字体栈；美食地图／推荐正文使用随仓库保存的WOFF2，无运行时远程字体请求 |
+| 图标、字体 | 内联描边SVG；16个正式入口共用本地汉仪唐美人55W，涵盖导航、编辑器、卡牌与地图；已安装时直接使用本机字库，否则读取完整WOFF2；无远程字体请求，旧地图字库保留作历史资源 |
 | 数据 | `data/site.json` 保存资料、News、展示中的 Updates 和 `explore` 卡牌集合；附件独立保存至 `assets/uploads/`；草稿和自动备份在 Git 忽略的 `.local/`；旧 localStorage／IndexedDB 只用于用户主动迁移，不再写入内容；实际site.json、上传附件和.local被Git忽略，仓库只提供空白public/data/site.example.json |
 | 构建和依赖 | 首页／编辑页无需构建；探索模块独立使用src/explore/package.json（React19.2.0、Framer Motion12.23.24、esbuild0.25.12），构建产物已保存，浏览时无需安装依赖 |
 | 服务端 | Python 标准库 `server/server.py` 提供文件读写 API 和静态页面；仅电脑回环地址可写，局域网手机只读；无数据库、登录或 GitHub 上传 |
 | 版本管理 | Git，分支 `main`，已配置 GitHub 远程 `melon-art/homepage` |
-| 部署 | 仓库内未发现部署配置、工作流或线上地址记录；是否已有站外托管待确认 |
+| 部署 | GitHub Pages 工作流 .github/workflows/pages.yml 发布 public/，域名 https://melatius.love/；本机编辑后用 server/export_public.py 生成公开快照，再提交推送，详见 STORAGE |
 
 双击根目录 `start-local.cmd`，或在仓库根目录运行（网页文件现位于 public/，网址不变）：
 
@@ -127,7 +129,7 @@ News 保持文档流，随 About 高度自然上下移动，不预留展开高�
 
 ## Updates 数据与边界
 
-site-pages.js 是顶部导航和更新跳转的共用页面目录，登记板块、真实页面与可选锚点。当前 Home 的 About／News 与探索广场门户、美食地图有有效目标，其余四个栏目明确待建立。UPDATES-009允许所属板块为探索广场（activities）时选择门户（activities）或美食地图（food-map），旧记录ID保持不变，顶栏仍使用门户；两个空推荐页与瓜瓣READ／概念集不启用。新页面须同时登记前端目录与server.py的SECTION_PAGES／ANCHORS白名单，防止界面可选但保存失败。Updates 保存 pageId／anchorId，不允许直接填写任意 URL；首页点击中心图在当前标签页进入同一页面，编辑页测试跳转使用新标签页。选择地图不等于餐馆内容已完成。
+site-pages.js 是顶部导航和更新跳转的共用页面目录，登记板块、真实页面与可选锚点。当前 Home 的 About／News、个人博客文章目录、探索广场门户及美食地图有有效目标，其余三个栏目待建立。UPDATES-009允许所属板块为探索广场（activities）时选择门户（activities）或美食地图（food-map），旧记录ID保持不变，顶栏仍使用门户；两个空推荐页与瓜瓣READ／概念集不启用。新页面须同时登记前端目录与server.py的SECTION_PAGES／ANCHORS白名单，防止界面可选但保存失败。Updates 保存 pageId／anchorId，不允许直接填写任意 URL；首页点击中心图在当前标签页进入同一页面，编辑页测试跳转使用新标签页。选择地图不等于餐馆内容已完成。
 
 updates-store.js 通过 file-store.js 使用本地文件，每条为 {id,date,sectionId,pageId,anchorId,body,imageAlt,image,status,createdAt,updatedAt}；文件中的图片为 {name,path,type,size} 引用，前端转换为 {name,blob}，保留现有组件接口。独立 id 支持同日多条，日期降序、同日创建时间降序；日期轴每个日期一个位置，当天多条在日期轴下方显示1、2、3小编号，点击或滚轮切换，默认最新一条为1。日期轴及编号滚轮先遍历当天条目，再平滑进入相邻自然日，空日保留原占位；预览区域滚轮不带动外页，包括节流中与内容边界。draft 不出现在主页；published 仅表示本机主页展示，需有效目标与正文，不表示公网发布。
 

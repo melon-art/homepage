@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="个人学术主页视觉预览，个人资料待补充。">
   <title>个人学术主页 · 视觉预览</title>
-  <script src="assets/js/file-store.js?v=85fea61f45fd" defer></script>
+  <script src="assets/js/file-store.js?v=260b73f1e3fa" defer></script>
   <script src="assets/js/about.js?v=4efae92768a9" defer></script>
   <script src="assets/js/profile.js?v=cafe688900f9" defer></script>
+  <script src="assets/js/navigation.js?v=e437732c029e" defer></script>
   <link rel="stylesheet" href="assets/css/news.css?v=016d5d863111">
+  <link rel="stylesheet" href="assets/css/navigation.css?v=c7763b9e1b4e">
   <script src="assets/js/news.js?v=file-1" defer></script>
   <link rel="stylesheet" href="assets/css/updates.css?v=7">
-  <script src="assets/js/site-pages.js?v=d31cb47e1da0" defer></script>
-  <script src="assets/js/updates-store.js?v=file-1" defer></script>
+  <script src="assets/js/site-pages.js?v=1d39172c633c" defer></script>
+  <script src="assets/js/updates-store.js?v=2c781e24e3fd" defer></script>
   <script src="assets/js/updates-view.js?v=5" defer></script>
   <script src="assets/js/updates.js?v=3" defer></script>
   <style>
@@ -28,8 +30,8 @@
       --card: #f8f9fa;
       --line: #e4e6e8;
       --portrait-ground: #40564a;
-      --font-body: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
-      --font-heading: Georgia, "Songti SC", SimSun, serif;
+      --font-body:var(--font-site);
+      --font-heading:var(--font-site);
       --type-identity: 2.25rem;
       --type-section: 2rem;
       --type-body: 1.125rem;
@@ -159,10 +161,11 @@
     @media (max-width: 360px) { nav { gap: 2px; } .nav-current, .nav-item, .settings-link { padding-inline: 8px; } .contacts { gap: 7px; } }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .toast, .nav-label::after { transition: none; } }
   </style>
+  <link rel="stylesheet" href="assets/css/typography.css?v=423a50b84a1b">
 </head>
 <body>
   <div class="page">
-    <header>
+    <div class="navigation-shell" data-site-navigation><div class="navigation-surface"><header class="site-header">
       <a class="wordmark" href="#about-title" data-profile-field="englishName" aria-label="Your Name，英文名待提供">Your Name</a>
       <div class="navigation-wrap">
         <nav aria-label="主导航">
@@ -177,14 +180,14 @@
           </div>
           <button class="nav-item" data-section-id="research" type="button" aria-disabled="true" aria-label="研究方向，待更新"><span class="nav-label">研究方向</span></button>
           <button class="nav-item" data-section-id="coursework" type="button" aria-disabled="true" aria-label="课程作业，待更新"><span class="nav-label">课程作业</span></button>
-          <button class="nav-item" data-section-id="hobbies" type="button" aria-disabled="true" aria-label="个人生活，待更新"><span class="nav-label">个人生活</span></button>
+          <button class="nav-item" data-section-id="hobbies" type="button" aria-disabled="true" aria-label="个人博客，待更新"><span class="nav-label">个人博客</span></button>
           <button class="nav-item" data-section-id="awards" type="button" aria-disabled="true" aria-label="获奖，待更新"><span class="nav-label">获奖</span></button>
           <button class="nav-item" data-section-id="activities" type="button" aria-disabled="true" aria-label="探索广场，待更新"><span class="nav-label">探索广场</span></button>
           <a class="settings-link" href="settings.html" data-settings-link><span class="nav-label">设置</span></a>
         </nav>
         <p class="navigation-note" role="status" hidden></p>
       </div>
-    </header>
+    </header></div></div>
     <main>
       <aside class="profile" aria-label="个人信息">
         <div class="portrait" role="img" aria-label="个人照片待提供">

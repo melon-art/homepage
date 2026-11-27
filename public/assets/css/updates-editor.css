@@ -1,4 +1,4 @@
-:root { color-scheme:light; --paper:#fff; --ink:#242b34; --body-ink:#414a54; --muted:#626b75; --gold:#866b35; --gold-soft:#f8f5ed; --line:#e4e6e8; --error:#a13c30; --radius-control:6px; --radius-input:12px; --font-body:"Microsoft YaHei","PingFang SC","Segoe UI",sans-serif; --font-heading:Georgia,"Songti SC",SimSun,serif; --type-section:2rem; }
+:root { color-scheme:light; --paper:#fff; --ink:#242b34; --body-ink:#414a54; --muted:#626b75; --gold:#866b35; --gold-soft:#f8f5ed; --line:#e4e6e8; --error:#a13c30; --radius-control:6px; --radius-input:12px; --font-body:var(--font-site); --font-heading:var(--font-site); --type-section:2rem; }
 * { box-sizing:border-box; }
 html { scrollbar-gutter:stable; scrollbar-width:thin; scrollbar-color:#c5c7cc var(--paper); }
 @supports not (scrollbar-gutter:stable) { html { overflow-y:scroll; } }

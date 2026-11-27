@@ -1,8 +1,31 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-03T11:00:00.380Z",
+  "generatedAt": "2026-11-27",
   "title": "Design System: 个人学术主页",
   "extensions": {
+    "blogProfile": {
+      "backgroundHeight": "114px",
+      "avatarSize": "96px",
+      "avatarShadow": "0 2px 12px rgb(30 39 48 / .24)",
+      "crop": "Saved horizontal and vertical position and 100–300% zoom. Default center at 100%.",
+      "editor": "public/blog-settings.html",
+      "scope": "blog directory and article sidebars",
+      "directorySidebar": "sticky above 820px with 16px clearance below navigation and overflow scrolling"
+    },
+    "navigationShell": {
+      "updated": "2026-11-27",
+      "backgroundColor": "rgba(248,249,250,.76)",
+      "backdropFilter": "blur(20px) saturate(140%)",
+      "fontWeight": 600,
+      "desktopHeight": 69,
+      "mobileHeight": "approximately 75% of original; 32px minimum navigation targets",
+      "motion": "down hides / up reveals; 440ms cubic-bezier(.22,.61,.36,1); static reduced motion",
+      "source": "public/assets/css/navigation.css",
+      "scope": "homepage and six shared Explore entries; wordmark and primary navigation",
+      "layout": "full-width fixed glass surface; measured shell reserves flow space; dropdown overflow visible",
+      "behaviorSource": "public/assets/js/navigation.js",
+      "verification": "TASKS E65; 61 targeted desktop/mobile scroll, size, input and reduced-motion checks"
+    },
     "colorMeta": {
       "paper": {
         "role": "neutral",
@@ -50,11 +73,11 @@
     "typographyMeta": {
       "identity": {
         "displayName": "个人姓名",
-        "purpose": "左栏居中的衬线身份标题。"
+        "purpose": "左栏居中的汉仪唐美人55W身份标题。"
       },
       "section": {
         "displayName": "章节标题",
-        "purpose": "About、News 的衬线标题；不用于兴趣面板的小标题。"
+        "purpose": "About、News 的汉仪唐美人55W标题；不用于兴趣面板的小标题。"
       },
       "body": {
         "displayName": "正文",
@@ -212,7 +235,7 @@
       "build": "npm run build --prefix explore",
       "display": {
         "color": "oklch(91% .006 88)",
-        "fontFamily": "Bahnschrift, Arial Narrow, sans-serif",
+        "fontFamily": "HYTangMeiRen55W, \"Microsoft YaHei\", \"PingFang SC\", \"Segoe UI\", sans-serif",
         "weight": 600,
         "letterSpacing": ".025em",
         "baseFontSize": "21.5vw",
@@ -293,11 +316,11 @@
       }
     },
     "foodMap": {
-      "updated": "2026-11-06",
+      "updated": "2026-11-27",
       "scope": "food-map-page and food-recommendations only; header uses homepage fonts",
-      "mapFont": "StarLovePencil",
-      "recommendationFont": "GenRyuMin2 TC EL",
-      "fontSynthesis": "none",
+      "mapFont": "HYTangMeiRen55W",
+      "recommendationFont": "HYTangMeiRen55W",
+      "fontSynthesis": "weight style (browser default)",
       "mapRatio": "4830 / 2730",
       "mapPaper": "#fdf5f0",
       "labelColor": "oklch(47% .025 90)",
@@ -339,10 +362,32 @@
       },
       "failure": "base image hides markers until retry succeeds; failed illustration hides only itself",
       "license": "See public/explore/assets/fonts sources and licenses; StarLovePencil is not OFL",
-      "verification": "TASKS E54 and E59, targeted Edge integration and marker hover checks; not full release validation"
+      "verification": "TASKS E68 for typography; geometry and interactions retain previous decisions",
+      "fontDelivery": "shared site typography; legacy map faces not loaded"
+    },
+    "siteTypography": {
+      "updated": "2026-11-27",
+      "family": "HYTangMeiRen55W",
+      "postScriptName": "HYTangMeiRen-55W",
+      "source": "public/assets/css/typography.css",
+      "asset": "public/assets/fonts/hy-tangmeiren-55w/HYTangMeiRen55W-b2a30cb09778.woff2.bin",
+      "bytes": 3619992,
+      "codepoints": 9893,
+      "delivery": "installed local face first, full local WOFF2 fallback; swap; no remote font requests",
+      "scope": "14 live entries including editors, cards, EXPLORE, map and recommendations; rasterized image lettering and independent previews unchanged",
+      "weights": "single 400 face; existing 400/600/700 CSS and browser synthetic bold retained",
+      "verification": "TASKS E68; 28 desktop/mobile route checks plus in-document routes; self-hosted fallback exercised with installed fonts disabled"
     }
   },
   "components": [
+    {
+      "name": "顶部磨砂导航",
+      "kind": "custom",
+      "refersTo": "navigation-shell",
+      "description": "姓名与顶部主导航共用磨砂玻璃，69px桌面高度、600栏目字重；固定顶部，下滑隐藏、上滑显示。",
+      "html": "<header class=\"ds-navigation-shell\">姓名 · 主导航</header>",
+      "css": ".ds-navigation-shell{background:rgba(248,249,250,.76);backdrop-filter:blur(20px) saturate(140%);color:#414a54;min-height:69px;padding:16px 24px;font-family:var(--font-body);font-weight:600;border-radius:0 0 16px 16px}"
+    },
     {
       "name": "顶部七项导航",
       "kind": "nav",
@@ -490,10 +535,10 @@
   ],
   "narrative": {
     "northStar": "用户提供的学术主页参考图",
-    "overview": "页面以白色画布承载个人信息与学术阅读内容。大幅方形照片区域和居中的身份信息形成左侧锚点，右侧使用衬线章节标题、简短正文和浅色动态卡片。暖金色只承担文字强调、当前导航与交互反馈；页面没有页脚。\n\n本规范记录 `index.html` 中已经使用的设计，不生成新的视觉方向。个人照片和资料仍待提供，因此照片区域保留明确的占位说明；占位底色不构成照片内容或新增品牌色承诺。字体全部来自本地字体栈，不下载外部字体。",
+    "overview": "页面以白色画布承载个人信息与学术阅读内容。大幅方形照片区域和居中的身份信息形成左侧锚点，右侧使用汉仪唐美人55W章节标题、简短正文和浅色动态卡片。暖金色只承担文字强调、当前导航与交互反馈；页面没有页脚。\n\n本规范记录 `index.html` 中已经使用的设计，不生成新的视觉方向。个人照片和资料仍待提供，因此照片区域保留明确的占位说明；占位底色不构成照片内容或新增品牌色承诺。2026-11-27全站统一为汉仪唐美人55W，优先本机安装字体并提供完整本地WOFF2后备，无远程字库请求。",
     "keyCharacteristics": [
       "白色阅读背景、深灰文字与克制的暖金色强调。",
-      "衬线身份及章节标题，搭配本地无衬线正文。",
+      "全站汉仪唐美人55W，使用既有字号、字重与空间区分层级。",
       "大幅方形照片、双栏桌面布局与单栏手机布局。",
       "浅灰动态卡片与轻阴影，简历使用浅金底按钮。",
       "六个联系图标支持键盘提示和明确的复制反馈。"
@@ -506,7 +551,7 @@
       },
       {
         "name": "The Local Font Rule",
-        "body": "继承当前本地字体栈；身份与章节保持衬线，正文保持无衬线。",
+        "body": "全站14个正式入口通过typography.css及--font-site使用本地汉仪唐美人55W，所有角色同一字面，保留字号、字重和布局；地图旧字体仅历史保留。",
         "section": "typography"
       },
       {

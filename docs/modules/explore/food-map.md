@@ -6,6 +6,8 @@
 
 本文件是美食地图唯一任务单，维护当前需求、源码边界与验收标准；交付清单、检查证据及总控下一步见持续更新的 [food-map-feedback.md](food-map-feedback.md)。全局规则见 [协作约定](../../COLLABORATION.md) 与 [AGENTS](../../../AGENTS.md)，模块入口见 [探索广场索引](README.md)。
 
+**字体最新决定（2026-11-27，FONT-001）：用户确认全站采用汉仪唐美人55W，包括地图内文字、推荐正文和顶部导航。当前共用typography.css／--font-site，不再内嵌旧地图字体；保留旧字体与许可作历史资源，字号、地图几何和交互不变。下表／历史交付中的StarLovePencil及GenRyu说明以此为准，验证见TASKS E68。**
+
 ## 当前需求与用户决定
 
 | 项目 | 当前要求 |

@@ -43,10 +43,18 @@
   function getValue(state = 'draft') { return { id: saved?.id || 'preview-current', date: date.value, sectionId: section.value, body: body.value, pageId: page.value, anchorId: anchor.value, imageAlt: alt.value, image, status: state, createdAt: saved?.createdAt || Date.now() }; }
   function fillPages(selected = '') {
     page.replaceChildren(); const available = SitePages.pages.filter(item => item.sectionId === section.value);
-    const blank = node('option', '', available.some(item => item.href) ? '请选择目标页面' : section.value ? '该板块页面待建立' : '请先选择所属板块'); blank.value = ''; page.append(blank);
-    available.forEach(item => { const option = node('option', '', item.label + (item.href ? '' : '（待建立）')); option.value = item.id; option.disabled = !SitePages.resolve(item.id); page.append(option); });
-    page.disabled = !available.some(item => SitePages.resolve(item.id)); page.value = available.some(item => item.id === selected && item.href) ? selected : '';
-    document.querySelector('#up-page-help').textContent = page.disabled && section.value ? '这个板块尚未建立页面，可以先保存草稿；页面建立后再关联展示。' : '这里与顶部导航使用同一份站内页面目录。';
+    const hasTarget = available.some(item => SitePages.resolveUpdate(item.id));
+    const blank = node('option', '', hasTarget ? '请选择目标页面' : section.value ? '该板块暂无可选目标' : '请先选择所属板块'); blank.value = ''; page.append(blank);
+    available.forEach(item => {
+      const suffix = item.updates === false ? '（暂不可关联）' : item.href ? '' : '（待建立）';
+      const option = node('option', '', item.label + suffix);
+      option.value = item.id;
+      option.disabled = !SitePages.resolveUpdate(item.id);
+      page.append(option);
+    });
+    page.disabled = !hasTarget;
+    page.value = available.some(item => item.id === selected && SitePages.resolveUpdate(item.id)) ? selected : '';
+    document.querySelector('#up-page-help').textContent = page.disabled && section.value ? '这个板块暂无可关联的页面，可以先保存草稿。' : '这里与顶部导航使用同一份站内页面目录。';
     fillAnchors();
   }
   function fillAnchors(selected = '') {

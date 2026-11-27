@@ -21,12 +21,14 @@ function CoverArt({kind}){return kind==='food'?<MapArt/>:kind==='read'?<ReadArt/
 function readEnglishName(){return SiteStorage.englishName||'Your Name'}
 
 function Header({navigate}){
+  const navigationShell=useRef();
+  useEffect(()=>window.SiteNavigation?.attach(navigationShell.current),[]);
   const [notice,setNotice]=useState(''),[open,setOpen]=useState(false),[englishName,setEnglishName]=useState(readEnglishName),menu=useRef(),trigger=useRef();
   useEffect(()=>{const refresh=()=>SiteStorage.refresh().then(()=>setEnglishName(readEnglishName())).catch(()=>{});SiteStorage.ready.then(()=>setEnglishName(readEnglishName()));addEventListener('pageshow',refresh);addEventListener('site-content-changed',refresh);return()=>{removeEventListener('pageshow',refresh);removeEventListener('site-content-changed',refresh)}},[]);
   useEffect(()=>{if(!notice)return;const timer=setTimeout(()=>setNotice(''),2200);return()=>clearTimeout(timer)},[notice]);
   useEffect(()=>{if(!open)return;const outside=event=>{if(!menu.current?.contains(event.target))setOpen(false)};document.addEventListener('pointerdown',outside);return()=>document.removeEventListener('pointerdown',outside)},[open]);
   const close=()=>{setOpen(false);trigger.current?.focus()};
-  return <header className="site-header">
+  return <div className="navigation-shell" data-site-navigation ref={navigationShell}><div className="navigation-surface"><header className="site-header">
     <a className="wordmark" href={SitePages.resolve('about')} aria-label={englishName}>{englishName}</a>
     <div className="navigation-wrap">
       <nav aria-label="主导航">
@@ -39,7 +41,7 @@ function Header({navigate}){
       </nav>
       <p className="navigation-note" role="status" hidden={!notice}>{notice}</p>
     </div>
-  </header>
+  </header></div></div>
 }
 
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));

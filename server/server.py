@@ -26,8 +26,8 @@ LIMITS = dict(name=80, degree=120, englishName=80, school=120, department=120,
               major=120, introduction=10000, phone=80, email=254, wechat=300,
               instagram=500, xiaohongshu=500, bilibili=500)
 IMAGE_TYPES = {'image/png': '.png', 'image/jpeg': '.jpg', 'image/webp': '.webp'}
-SECTION_PAGES = {'about': 'home', 'news': 'home', 'activities': 'activities', 'food-map': 'activities'}
-ANCHORS = {'about': {'', 'about-title', 'news-title', 'updates-title'}, 'news': {''}, 'activities': {''}, 'food-map': {''}}
+SECTION_PAGES = {'about': 'home', 'news': 'home', 'hobbies': 'hobbies', 'activities': 'activities', 'food-map': 'activities'}
+ANCHORS = {'about': {'', 'about-title', 'news-title', 'updates-title'}, 'news': {''}, 'hobbies': {''}, 'activities': {''}, 'food-map': {''}}
 
 
 class Problem(Exception):
@@ -115,6 +115,13 @@ class Store:
             site['explore'] = copy.deepcopy(DEFAULT_EXPLORE)
         if not isinstance(site['explore'], list) or any(not isinstance(e, dict) for e in site['explore']):
             raise Problem('探索卡牌数据格式不正确，原文件未被修改。', 500)
+        blog = site.setdefault('blogAppearance', {'revision': 0, 'avatar': None, 'background': None})
+        if not isinstance(blog, dict) or type(blog.get('revision')) is not int:
+            raise Problem('博客外观数据格式不正确，原文件未被修改。', 500)
+        for content in (site, drafts):
+            articles = content.setdefault('blogArticles', [])
+            if not isinstance(articles, list) or any(not isinstance(article, dict) for article in articles):
+                raise Problem('博客文章数据格式不正确，原文件未被修改。', 500)
         return site, drafts
 
     def backup(self, site, drafts, prefix='save'):
@@ -209,6 +216,21 @@ class Store:
                     os.unlink(temporary)
         return dict(name=name, path=url, type=mime, size=len(content))
 
+    def blog_picture(self, value):
+        if value is None:
+            return None
+        crop = value.get('crop', {}) if isinstance(value, dict) else None
+        if not isinstance(crop, dict):
+            raise Problem('博客图片裁切参数无效。')
+        bounds = {'x': (50, 0, 100), 'y': (50, 0, 100), 'zoom': (100, 100, 300)}
+        framing = {}
+        for key, (default, minimum, maximum) in bounds.items():
+            position = crop.get(key, default)
+            if type(position) is not int or not minimum <= position <= maximum:
+                raise Problem('博客图片裁切参数超出范围。')
+            framing[key] = position
+        return {**self.asset(value, 'image'), 'crop': framing}
+
     def profile(self, value):
         if not isinstance(value, dict):
             raise Problem('个人资料格式无效。')
@@ -278,7 +300,49 @@ class Store:
             result = copy.deepcopy(site)
             if editor:
                 result['updates'] += drafts['updates']
+                result['blogArticles'] += drafts['blogArticles']
             return result
+
+    def save_blog_article(self, site, drafts, payload):
+        value = payload.get('value')
+        if not isinstance(value, dict):
+            raise Problem('文章格式无效。')
+        identifier = value.get('id')
+        entries = site['blogArticles'] + drafts['blogArticles']
+        previous = next((article for article in entries if article['id'] == identifier), None)
+        expected = payload.get('expected')
+        if (identifier is not None and (previous is None or previous['updatedAt'] != expected)
+                or identifier is None and expected is not None):
+            raise Problem('文章已被修改或不存在，请保留输入并重新打开。', 409)
+        title = text(value.get('title'), 120, '文章标题')
+        body = text(value.get('body'), 50000, '文章正文')
+        excerpt = text(value.get('excerpt'), 300, '文章摘要')
+        status = value.get('status')
+        if not title or status not in ('draft', 'published'):
+            raise Problem('请填写标题并选择有效的文章状态。')
+        day = text(value.get('publishedAt'), 10, '发表日期')
+        if day:
+            try:
+                if date.fromisoformat(day).isoformat() != day or not '1900-01-01' <= day <= '2100-12-31':
+                    raise ValueError()
+            except ValueError as error:
+                raise Problem('请选择有效的发表日期（1900—2100年）。') from error
+        if status == 'published' and (not body or not day):
+            raise Problem('展示文章前请填写正文和发表日期。')
+        tags = value.get('tags', [])
+        if not isinstance(tags, list) or len(tags) > 10:
+            raise Problem('最多可添加 10 个标签。')
+        tags = list(dict.fromkeys(text(tag, 30, '标签') for tag in tags))
+        cover = self.asset(value.get('cover'), 'image', private=status == 'draft')
+        now = max(stamp(), (previous or {}).get('updatedAt', 0) + 1)
+        article = dict(id=identifier if previous else str(uuid.uuid4()), title=title, body=body,
+                       excerpt=excerpt, tags=[tag for tag in tags if tag], publishedAt=day,
+                       cover=cover, status=status, createdAt=previous['createdAt'] if previous else now,
+                       updatedAt=now)
+        for storage in (site, drafts):
+            storage['blogArticles'] = [item for item in storage['blogArticles'] if item['id'] != identifier]
+        (drafts if status == 'draft' else site)['blogArticles'].append(article)
+        return article['id']
 
     def explore_entry(self, value, previous):
         name = text(value.get('name'), 24, '标题')
@@ -292,6 +356,7 @@ class Store:
     def mutate(self, action, payload):
         with self.lock:
             site, drafts = self.read()
+            saved_article = None
             if action in ('migrate', 'initialize'):
                 if site['initialized'] or payload.get('expectedRevision') != site['revision']:
                     raise Problem('文件已初始化或已被修改，请刷新；不会覆盖已有文件。', 409)
@@ -323,6 +388,22 @@ class Store:
                         raise Problem('资料已在其他页面修改，请保留输入并重新打开设置。', 409)
                     site['profile'] = self.profile(payload.get('value'))
                     site['profileRevision'] = max(stamp(), site['profileRevision'] + 1)
+                elif action == 'blog-appearance':
+                    revision = site['blogAppearance']['revision']
+                    if payload.get('expected') != revision:
+                        raise Problem('博客外观已在其他页面修改，请保留输入并重新打开设置。', 409)
+                    value = payload.get('value')
+                    if not isinstance(value, dict) or not {'avatar', 'background'} <= value.keys():
+                        raise Problem('博客外观格式无效。')
+                    nickname = text(value.get('nickname', site['blogAppearance'].get('nickname')), 80, '博客昵称')
+                    site['blogAppearance'] = {
+                        'revision': revision + 1,
+                        'nickname': nickname,
+                        'avatar': self.blog_picture(value['avatar']),
+                        'background': self.blog_picture(value['background']),
+                    }
+                elif action == 'blog-articles':
+                    saved_article = self.save_blog_article(site, drafts, payload)
                 elif action in ('news', 'updates', 'explore'):
                     entries = site[action] + (drafts['updates'] if action == 'updates' else [])
                     identifier = payload.get('id') or (payload.get('value') or {}).get('id')
@@ -354,7 +435,10 @@ class Store:
                 else:
                     raise Problem('未知操作。', 404)
             self.commit(site, drafts)
-            return self.state(True)
+            state = self.state(True)
+            if saved_article:
+                state['savedBlogArticleId'] = saved_article
+            return state
 
     def export(self):
         with self.lock:
@@ -364,8 +448,9 @@ class Store:
                 output.writestr('data/site.json', json.dumps(site, ensure_ascii=False, indent=2))
                 output.writestr('.local/drafts.json', json.dumps(drafts, ensure_ascii=False, indent=2))
                 assets = set()
-                for value in [site['profile'], *site['news'], *site['updates'], *site['explore'], *drafts['updates']]:
-                    for key in ('photo', 'cv', 'image', 'file'):
+                for value in [site['profile'], site['blogAppearance'], *site['news'], *site['updates'], *site['explore'],
+                              *site['blogArticles'], *drafts['updates'], *drafts['blogArticles']]:
+                    for key in ('photo', 'cv', 'avatar', 'background', 'image', 'file', 'cover'):
                         asset = value.get(key)
                         if isinstance(asset, dict) and asset['path'] not in assets:
                             assets.add(asset['path'])
@@ -487,7 +572,7 @@ class Handler(SimpleHTTPRequestHandler):
             if not isinstance(payload, dict):
                 raise Problem('请求格式无效。')
             route = urlsplit(self.path).path
-            if not re.fullmatch(r'/api/(profile|news|updates|explore|migrate|initialize)', route):
+            if not re.fullmatch(r'/api/(profile|news|updates|explore|blog-appearance|blog-articles|migrate|initialize)', route):
                 raise Problem('接口不存在。', 404)
             state = self.server.store.mutate(route.rsplit('/', 1)[-1], payload)
             self.json(dict(state, canEdit=True, token=self.server.token))

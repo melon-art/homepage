@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>设置 · 个人学术主页</title>
-  <script src="assets/js/file-store.js?v=85fea61f45fd" defer></script>
+  <script src="assets/js/file-store.js?v=260b73f1e3fa" defer></script>
   <script src="assets/js/about.js?v=4efae92768a9" defer></script>
   <script src="assets/js/profile.js?v=cafe688900f9" defer></script>
   <style>
-    :root { color-scheme: light; --paper: #fff; --ink: #242b34; --body-ink: #414a54; --muted: #626b75; --gold: #866b35; --gold-soft: #f8f5ed; --line: #e4e6e8; --error: #a13c30; --font-body: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif; --font-heading: Georgia, "Songti SC", SimSun, serif; --radius-control: 6px; --radius-input: 12px; }
+    :root { color-scheme: light; --paper: #fff; --ink: #242b34; --body-ink: #414a54; --muted: #626b75; --gold: #866b35; --gold-soft: #f8f5ed; --line: #e4e6e8; --error: #a13c30; --font-body:var(--font-site); --font-heading:var(--font-site); --radius-control: 6px; --radius-input: 12px; }
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1rem/1.65 var(--font-body); -webkit-font-smoothing: antialiased; }
     button, input, textarea { font: inherit; }
@@ -76,8 +76,10 @@
     .save-button:hover { box-shadow: inset 0 0 0 1px var(--gold); }
     @media (max-width: 1100px) { .settings-page { width: calc(100% - 56px); } .settings-layout { grid-template-columns: 29% minmax(0, 1fr); gap: 36px; } }
     @media (max-width: 820px) { .settings-page { width: calc(100% - 40px); } .settings-layout { grid-template-columns: 160px minmax(0, 1fr); gap: 28px; } .settings-sidebar { padding: 0; } .fields { grid-template-columns: 1fr; } }
-    @media (max-width: 620px) { .settings-page { width: calc(100% - 36px); } .settings-header { min-height: 80px; } .settings-layout { grid-template-columns: 1fr; gap: 30px; padding-top: 12px; } .settings-nav { flex-direction: row; } .settings-nav a { padding: 9px 18px; } h1 { font-size: 1.875rem; } form { margin-top: 27px; } .form-actions { margin-top: 32px; align-items: flex-start; } }
+    @media (max-width: 620px) { .settings-page { width: calc(100% - 36px); } .settings-header { min-height: 80px; } .settings-layout { grid-template-columns: 1fr; gap: 30px; padding-top: 12px; } .settings-nav { flex-direction: row; flex-wrap:wrap; } .settings-nav a { padding: 9px 18px; } h1 { font-size: 1.875rem; } form { margin-top: 27px; } .form-actions { margin-top: 32px; align-items: flex-start; } }
   </style>
+  <link rel="stylesheet" href="assets/css/typography.css?v=423a50b84a1b">
+  <link rel="stylesheet" href="assets/css/blog-settings-nav.css?v=d6082bcf99df">
 </head>
 <body>
   <div class="settings-page">
@@ -86,7 +88,7 @@
     </header>
     <main class="settings-layout">
       <aside class="settings-sidebar">
-        <nav class="settings-nav" aria-label="设置导航"><a href="#basic-info" aria-current="page">基本信息</a><a href="explore-manage.html">探索广场</a></nav>
+        <nav class="settings-nav" aria-label="设置导航"><a href="#basic-info" aria-current="page">基本信息</a><a href="explore-manage.html">探索广场</a><details class="blog-settings-menu"><summary>博客</summary><div><a href="blog-settings.html">个人信息</a><a href="blog-articles-settings.html">文章编辑</a></div></details></nav>
       </aside>
       <section class="settings-main" id="basic-info" aria-labelledby="settings-title">
         <h1 id="settings-title">基本信息</h1>
