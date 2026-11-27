@@ -1,6 +1,9 @@
 /* Navigation and Updates resolve destinations from this one directory. */
 (() => {
   'use strict';
+  // Root and index.html can retain different cached documents on static hosts.
+  const publishedHost = ['melatius.love', 'www.melatius.love'].includes(location.hostname) || location.hostname.endsWith('.github.io');
+  const homeVersion = '20261127-home-2';
   const sections = [
     { id: 'home', label: 'Home', primary: 'about' },
     { id: 'research', label: '研究方向', primary: 'research' },
@@ -25,6 +28,7 @@
     if (!page?.href || (anchorId && !page.anchors.some(anchor => anchor.id === anchorId))) return '';
     try {
       const root = new URL('.', document.baseURI), url = new URL(page.href, root);
+      if (publishedHost && pageId === 'about') url.searchParams.set('v', homeVersion);
       if (url.protocol !== root.protocol || url.host !== root.host || !url.pathname.startsWith(root.pathname)) return '';
       if (anchorId) url.hash = anchorId;
       return url.href;
@@ -34,6 +38,11 @@
     return pages.find(item => item.id === pageId)?.updates === false ? '' : resolve(pageId, anchorId);
   }
   window.SitePages = { sections, pages, resolve, resolveUpdate, section: id => sections.find(item => item.id === id), page: id => pages.find(item => item.id === id) };
+  document.querySelectorAll('a[href="index.html"], a[href^="index.html#"]').forEach(link => {
+    const anchor = new URL(link.getAttribute('href'), document.baseURI).hash.slice(1);
+    const href = resolve('about', anchor);
+    if (href) link.href = href;
+  });
   document.querySelectorAll('[data-page-id]').forEach(link => { const href = resolve(link.dataset.pageId); if (href) link.href = href; });
   document.querySelectorAll('[data-section-id]').forEach(button => {
     const section = sections.find(item => item.id === button.dataset.sectionId), href = resolve(section?.primary);
