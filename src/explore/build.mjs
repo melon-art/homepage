@@ -32,6 +32,9 @@ for(const [file,title] of Object.entries(pages)){
   <meta name="color-scheme" content="light">
   <meta name="description" content="探索广场：美食地图、瓜瓣READ、概念集。">
   <title>${title}</title>
+  <link rel="icon" href="favicon.ico?v=melon-1" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png?v=melon-1">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=melon-1">
   <link rel="stylesheet" href="explore/style.css?v=${style}">
   <link rel="stylesheet" href="explore/header.css?v=${header}">
   <link rel="stylesheet" href="assets/css/navigation.css?v=${navigation}">
